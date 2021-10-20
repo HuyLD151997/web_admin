@@ -1,15 +1,16 @@
 import React, { Component, useEffect } from "react";
 import { useLocation, withRouter } from "react-router";
 import { useDispatch, connect } from "react-redux";
-import * as getEmployeesActions from "../../actions/Employees/GetEmployees";
+import * as getServiceGroupsActions from "../../actions/ServicesGroup/GetServiceGroups";
 import { Link } from "react-router-dom";
 import Swal from "sweetalert2";
-import { deleteEmployeeApi } from "../../apis/Employees/DeleteEmployee";
+import { deleteServiceGroupApi } from "../../apis/ServiceGroup/DeleteServiceGroup";
 import { updateEmployeeStatusApi } from "../../apis/Employees/UpdateEmployeeStatus";
-const AccountPage = (props) => {
+
+const ServiceGroupsPage = (props) => {
   const dispatchAction = useDispatch();
   useEffect(() => {
-    dispatchAction(getEmployeesActions.getEmployees());
+    dispatchAction(getServiceGroupsActions.getServiceGroups());
   }, []);
   const { data } = props;
 
@@ -19,7 +20,7 @@ const AccountPage = (props) => {
 
   const handleDelete = async (id) => {
     try {
-      await deleteEmployeeApi(id);
+      await deleteServiceGroupApi(id);
       Swal.fire({
         icon: "success",
         text: "delete status success",
@@ -62,18 +63,16 @@ const AccountPage = (props) => {
   };
   return (
     <div className="container ml-2 table-responsive-xl">
-      <Link type="button" to="/add-account" className="btn btn-warning btn-lg ">
-        Create Employee Account
+      <Link type="button" to="/add-service" className="btn btn-warning btn-lg ">
+        Create Services
       </Link>
-
       <table className="table">
         <thead className="table-light">
           <tr>
-            <th scope="col">Tên tài khoản</th>
-            <th scope="col">Họ và tên</th>
-            <th scope="col">Địa chỉ</th>
+            <th scope="col">Dịch vụ</th>
             <th scope="col">Trạng thái</th>
             <th scope="col">Hành động</th>
+            <th scope="col">Thông tin chi tiết</th>
           </tr>
         </thead>
         {data ? (
@@ -86,16 +85,8 @@ const AccountPage = (props) => {
                   }
                   key={index}
                 >
-                  <td className="col-2">{item.userName}</td>
-                  <td className="col-2">{item.fullname}</td>
-
-                  <td>
-                    {item.address}, &nbsp;
-                    {item.province.description}, &nbsp;
-                    {item.district.description}, &nbsp;
-                    {item.ward.description}.
-                  </td>
-                  <td className="col-2">
+                  <td className="col-3">{item.description}</td>
+                  <td className="col-3">
                     <span
                       className={
                         item.isDisable
@@ -107,7 +98,7 @@ const AccountPage = (props) => {
                       {item.isDisable === true ? "Inactive" : "Active"}
                     </span>
                   </td>
-                  <td className="col-2">
+                  <td className="col-3">
                     {item.isDisable === false ? (
                       ""
                     ) : (
@@ -131,6 +122,15 @@ const AccountPage = (props) => {
                       </button>
                     )}
                   </td>
+                  <td className="col-3">
+                    <button
+                      className="btn btn-success btn-sm"
+                      type="button"
+                      onClick={() => handleOnClickDelete(item.id)}
+                    >
+                      Chi tiết
+                    </button>
+                  </td>
                 </tr>
               </tbody>
             ))
@@ -144,7 +144,7 @@ const AccountPage = (props) => {
 };
 
 const mapStateToProps = (state) => ({
-  data: state.getEmployees.table,
+  data: state.getServiceGroups.table,
 });
 const withConnect = connect(mapStateToProps);
-export default withRouter(withConnect(AccountPage));
+export default withRouter(withConnect(ServiceGroupsPage));

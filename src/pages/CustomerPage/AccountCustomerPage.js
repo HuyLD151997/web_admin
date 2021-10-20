@@ -1,15 +1,15 @@
 import React, { Component, useEffect } from "react";
 import { useLocation, withRouter } from "react-router";
 import { useDispatch, connect } from "react-redux";
-import * as getEmployeesActions from "../../actions/Employees/GetEmployees";
+import * as getCustomersActions from "../../actions/Customer/GetCustomers";
 import { Link } from "react-router-dom";
 import Swal from "sweetalert2";
 import { deleteEmployeeApi } from "../../apis/Employees/DeleteEmployee";
 import { updateEmployeeStatusApi } from "../../apis/Employees/UpdateEmployeeStatus";
-const AccountPage = (props) => {
+const AccountCustomerPage = (props) => {
   const dispatchAction = useDispatch();
   useEffect(() => {
-    dispatchAction(getEmployeesActions.getEmployees());
+    dispatchAction(getCustomersActions.getCustomers());
   }, []);
   const { data } = props;
 
@@ -62,10 +62,7 @@ const AccountPage = (props) => {
   };
   return (
     <div className="container ml-2 table-responsive-xl">
-      <Link type="button" to="/add-account" className="btn btn-warning btn-lg ">
-        Create Employee Account
-      </Link>
-
+      <h2>Thông tin khách hàng</h2>
       <table className="table">
         <thead className="table-light">
           <tr>
@@ -144,7 +141,7 @@ const AccountPage = (props) => {
 };
 
 const mapStateToProps = (state) => ({
-  data: state.getEmployees.table,
+  data: state.getCustomers.table,
 });
 const withConnect = connect(mapStateToProps);
-export default withRouter(withConnect(AccountPage));
+export default withRouter(withConnect(AccountCustomerPage));

@@ -3,13 +3,18 @@ import { NavLink } from "react-router-dom";
 
 const menus = [
   {
-    name: "Tài khoản",
+    name: "Employee",
     to: "/home",
     exact: true,
   },
   {
-    name: "Dịch vụ",
-    to: "/service-list",
+    name: "Customer",
+    to: "/customer",
+    exact: false,
+  },
+  {
+    name: "Service",
+    to: "/service-group",
     exact: false,
   },
 ];

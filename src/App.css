@@ -153,3 +153,11 @@ span.psw {
 a {
   color: #1e1e1f;
 }
+
+#logoLogin {
+  width: 150px;
+  height: 150px;
+  border-radius: 50%;
+  margin-left: 135px;
+  margin-top: 30px;
+}

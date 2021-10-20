@@ -36,12 +36,6 @@ class Header extends Component {
                   className="dropdown-menu dropdown-menu-right"
                   aria-labelledby="dropdownId"
                 >
-                  <a className="dropdown-item" href>
-                    Thông tin cá nhân
-                  </a>
-                  <a className="dropdown-item" href="#">
-                    Cài đặt
-                  </a>
                   <a className="dropdown-item" href="/">
                     Thoát
                   </a>
