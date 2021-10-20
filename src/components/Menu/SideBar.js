@@ -3,12 +3,12 @@ import { NavLink } from "react-router-dom";
 
 const menus = [
   {
-    name: "Account",
+    name: "Tài khoản",
     to: "/home",
     exact: true,
   },
   {
-    name: "Service",
+    name: "Dịch vụ",
     to: "/service-list",
     exact: false,
   },
@@ -19,7 +19,7 @@ class SideBar extends Component {
     return (
       <div id="side-bar h-100">
         <div
-          className="logo text-secondary font-weight-bold"
+          className="logo text-secondary font-weight-bold border-bottom"
           style={{
             background: "#fdcb08",
             paddingBottom: "13px",

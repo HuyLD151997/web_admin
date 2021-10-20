@@ -63,18 +63,17 @@ const AccountPage = (props) => {
   return (
     <div className="container ml-2 table-responsive-xl">
       <Link type="button" to="/add-account" className="btn btn-warning btn-lg ">
-        Add New Account
+        Create Employee Account
       </Link>
 
       <table className="table">
         <thead className="table-light">
           <tr>
-            <th scope="col">Username</th>
-            <th scope="col">Full Name</th>
-            <th scope="col">Status</th>
-            <th scope="col">Address</th>
-            <th scope="col">Create Date</th>
-            <th scope="col">Action</th>
+            <th scope="col">Tên tài khoản</th>
+            <th scope="col">Họ và tên</th>
+            <th scope="col">Địa chỉ</th>
+            <th scope="col">Trạng thái</th>
+            <th scope="col">Hành động</th>
           </tr>
         </thead>
         {data ? (
@@ -83,8 +82,15 @@ const AccountPage = (props) => {
               <tbody>
                 <tr className="table-primary" key={index}>
                   <td>{item.userName}</td>
-                  <td>{item.fullname}</td>
+                  <td className="col-2">{item.fullname}</td>
+
                   <td>
+                    {item.address}, &nbsp;
+                    {item.province.description}, &nbsp;
+                    {item.district.description}, &nbsp;
+                    {item.ward.description}.
+                  </td>
+                  <td className="col-2">
                     <span
                       className={
                         item.isDisable
@@ -96,14 +102,7 @@ const AccountPage = (props) => {
                       {item.isDisable === true ? "Inactive" : "Active"}
                     </span>
                   </td>
-                  <td>
-                    {item.address}
-                    {item.province.description}
-                    {item.district.description}
-                    {item.ward.description}
-                  </td>
-                  <td>{item.dateCreated}</td>
-                  <td>
+                  <td className="col-2">
                     {item.isDisable === false ? (
                       ""
                     ) : (

@@ -2,6 +2,7 @@ import React, { Component } from "react";
 
 class Header extends Component {
   render() {
+    var fullname = localStorage.getItem("fullname");
     return (
       <div>
         {/* HEADER */}
@@ -29,7 +30,7 @@ class Header extends Component {
                   aria-haspopup="true"
                   aria-expanded="false"
                 >
-                  Tôm
+                  {fullname}
                 </a>
                 <div
                   className="dropdown-menu dropdown-menu-right"
@@ -41,7 +42,7 @@ class Header extends Component {
                   <a className="dropdown-item" href="#">
                     Cài đặt
                   </a>
-                  <a className="dropdown-item" href="#">
+                  <a className="dropdown-item" href="/">
                     Thoát
                   </a>
                 </div>

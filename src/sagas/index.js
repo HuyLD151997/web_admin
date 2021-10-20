@@ -4,7 +4,6 @@ import { sagas as getEmployeesSagas } from "./EmployeesSagas/GetEmployeesSaga";
 import { sagas as getProvincesSagas } from "./EmployeesSagas/GetProvincesSagas";
 import { sagas as getWardsAndDistricsSaga } from "./EmployeesSagas/GetWardAndDistricSagas";
 import { sagas as getEmployByIdSaga } from "./EmployeesSagas/GetEmployByIdSaga";
-import { sagas as createEmployeeSaga } from "./EmployeesSagas/CreateEmployeeSagas";
 
 const allSaga = [
   ...authenticateSagas,
@@ -12,7 +11,6 @@ const allSaga = [
   ...getProvincesSagas,
   ...getWardsAndDistricsSaga,
   ...getEmployByIdSaga,
-  ...createEmployeeSaga,
 ];
 
 export default function* rootSaga() {

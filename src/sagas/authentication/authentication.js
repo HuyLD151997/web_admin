@@ -28,6 +28,7 @@ function* loginAction({ payload }) {
       yield put(loginSuccess(data));
 
       yield localStorage.setItem("token", data.token);
+      yield localStorage.setItem("fullname", data.fullname);
       history.push("/home");
     }
   } catch (error) {

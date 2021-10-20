@@ -9,7 +9,6 @@ import { useForm } from "react-hook-form";
 import Swal from "sweetalert2";
 import { createAccountApi } from "../../apis/Employees/createAccountEmployeeApi";
 import { NavLink, Link, useParams } from "react-router-dom";
-import * as createEmployeeAccountActions from "../../actions/Employees/CreateEmployee";
 
 const CreateAccount = (props) => {
   const [city, setCity] = useState("");
@@ -28,11 +27,27 @@ const CreateAccount = (props) => {
     setCity(city);
     setIDCity(id);
     dispatchAction(getWardsAndDistrics.getWardsAndDistrics(id));
+    setWard("");
+    setDistrict("");
   };
-  const handleGetWardAndDistric2 = (id, ward) => {
+  const handleGetWardAndDistric2 = (id, ward, idC, idW) => {
+    console.log(ward);
+    console.log(idC);
     setWard(ward);
-    setIDWard(id);
-    dispatchAction(getWardsAndDistrics.getWardsAndDistrics(id));
+
+    // if (ward && id === idWard) {
+
+    if (ward) {
+      dispatchAction(getWardsAndDistrics.getWardsAndDistrics(id));
+
+      setIDWard(id);
+    } else if (ward && id !== idW) {
+      dispatchAction(getWardsAndDistrics.getWardsAndDistrics(idC));
+    }
+    // }
+    // setIDWard(id);
+
+    setDistrict("");
   };
   const handleGetWardAndDistric3 = (id, district) => {
     setDistrict(district);
@@ -112,11 +127,13 @@ const CreateAccount = (props) => {
         timer: 3000,
         showConfirmButton: false,
       });
-      // window.location.replace("/home");
-    } catch (error) {
+      // console.log("hello");
+      window.location.replace("/home");
+    } catch (er) {
+      console.log(er);
       Swal.fire({
         icon: "error",
-        text: error.response.data,
+        text: er.response.data,
         timer: 2000,
         showConfirmButton: false,
       });
@@ -317,7 +334,9 @@ const CreateAccount = (props) => {
                             onClick={() =>
                               handleGetWardAndDistric2(
                                 item.id,
-                                item.description
+                                item.description,
+                                idCity,
+                                idWard
                               )
                             }
                           >
@@ -328,7 +347,7 @@ const CreateAccount = (props) => {
                         <div>Vui lòng chọn Thành Phố</div>
                       )
                     ) : (
-                      <div>Không có dữ liệu</div>
+                      <div>Vui lòng chọn Thành Phố</div>
                     )}
                   </div>
                 </div>
@@ -348,7 +367,7 @@ const CreateAccount = (props) => {
                     className="dropdown-menu"
                     aria-labelledby="dropdownMenuLink"
                   >
-                    {dataWardAndDistrict ? (
+                    {dataWardAndDistrict && ward ? (
                       dataWardAndDistrict.length > 0 ? (
                         dataWardAndDistrict.map((item, index) => (
                           <a
@@ -367,7 +386,7 @@ const CreateAccount = (props) => {
                         <div>Vui lòng chọn Quận</div>
                       )
                     ) : (
-                      <div>Không có dữ liệu</div>
+                      <div>Vui lòng chọn Quận</div>
                     )}
                   </div>
                 </div>

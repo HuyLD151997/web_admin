@@ -23,6 +23,9 @@ class AxiosService {
       // window.location.href = "/";
       return Promise.reject(error);
     }
+    if (error.response.status === 400) {
+      return Promise.reject(error);
+    }
   }
 
   get(url, token) {

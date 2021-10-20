@@ -5,7 +5,6 @@ import getEmployeesReducer from "./EmployeesReducer/GetEmployeesReducer";
 import getProvincesReducer from "./EmployeesReducer/GetProvinceReducers";
 import getWardsAndDistricsReducer from "./EmployeesReducer/GetWardAndDistricReducer";
 import getEmployeeByIdReducer from "./EmployeesReducer/GetEmployeeById";
-import createEmployeeReducer from "./EmployeesReducer/CreateEmployeeReducers";
 
 const rootReducers = combineReducers({
   services,
@@ -14,7 +13,6 @@ const rootReducers = combineReducers({
   getProvince: getProvincesReducer,
   getWardsAndDistrics: getWardsAndDistricsReducer,
   getEmployeeById: getEmployeeByIdReducer,
-  createEmployee: createEmployeeReducer,
 });
 
 export default rootReducers;

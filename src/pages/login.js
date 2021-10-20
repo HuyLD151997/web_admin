@@ -24,9 +24,9 @@ const Login = () => {
     }
   };
 
-  // useEffect(() => {
-  //   dispatch(authenticateActions.logout());
-  // });
+  useEffect(() => {
+    localStorage.clear();
+  });
   return (
     <div className="container">
       <h3>Admin</h3>
