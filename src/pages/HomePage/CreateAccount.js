@@ -23,6 +23,7 @@ const CreateAccount = (props) => {
     dispatchAction(getProvinceActions.getProvinces());
   }, []);
   const { data, dataWardAndDistrict } = props;
+
   const handleGetWardAndDistric = (id, city) => {
     setCity(city);
     setIDCity(id);
@@ -31,8 +32,10 @@ const CreateAccount = (props) => {
     setDistrict("");
   };
   const handleGetWardAndDistric2 = (id, ward, idC, idW) => {
+    console.log(id);
     console.log(ward);
     console.log(idC);
+    console.log(idW);
     setWard(ward);
 
     // if (ward && id === idWard) {
@@ -41,7 +44,7 @@ const CreateAccount = (props) => {
       dispatchAction(getWardsAndDistrics.getWardsAndDistrics(id));
 
       setIDWard(id);
-    } else if (ward && id !== idW) {
+    } else if (ward && id === idW) {
       dispatchAction(getWardsAndDistrics.getWardsAndDistrics(idC));
     }
     // }
@@ -73,7 +76,7 @@ const CreateAccount = (props) => {
         )
         .required("Password xác nhận không được để trống"),
       fullname: yup.string().required("Fullname không được để trống"),
-      birthday: yup.string().required("Ngày sinh không được để trống"),
+      //birthday: yup.string().required("Ngày sinh không được để trống"),
       gender: yup
         .string()
         .required("Giới tính không được để trống")
@@ -233,15 +236,7 @@ const CreateAccount = (props) => {
                 />
                 <p>{errors.fullname?.message}</p>
               </div>
-              <div className="form-group">
-                <label>Birthday</label>
-                <input
-                  type="text"
-                  className="form-control"
-                  {...register("birthday")}
-                />
-                <p>{errors.birthday?.message}</p>
-              </div>
+
               <div className="form-group">
                 <label>Gender</label>
                 <input
@@ -260,8 +255,17 @@ const CreateAccount = (props) => {
                 />
                 <p>{errors.email?.message}</p>
               </div>
+              {/* <div className="form-group">
+                <label>Sinh nhật</label>
+                <input
+                  type="text"
+                  className="form-control"
+                  {...register("birthday")}
+                />
+                <p>{errors.birthday?.message}</p>
+              </div> */}
             </div>
-            <div className="">
+            <div className="form-group">
               <div className="col">
                 <div className="form-group">
                   <label>Address</label>
@@ -272,7 +276,7 @@ const CreateAccount = (props) => {
                   />
                   <p>{errors.address?.message}</p>
                 </div>
-                <div className="dropdown show mt-5 mr-5">
+                <div className="dropdown show" style={{ marginTop: "55px" }}>
                   <a
                     className="btn btn-secondary dropdown-toggle"
                     href="#"
@@ -281,6 +285,7 @@ const CreateAccount = (props) => {
                     data-toggle="dropdown"
                     aria-haspopup="true"
                     aria-expanded="false"
+                    style={{ paddingLeft: "95px", paddingRight: "95px" }}
                   >
                     {city === "" ? "Thành Phố" : city}
                   </a>
@@ -307,10 +312,7 @@ const CreateAccount = (props) => {
                     )}
                   </div>
                 </div>
-                <div
-                  className="dropdown show  mr-5"
-                  style={{ marginTop: "55px" }}
-                >
+                <div className="dropdown show " style={{ marginTop: "65px" }}>
                   <a
                     className="btn btn-secondary dropdown-toggle"
                     href="#"
@@ -319,6 +321,7 @@ const CreateAccount = (props) => {
                     data-toggle="dropdown"
                     aria-haspopup="true"
                     aria-expanded="false"
+                    style={{ paddingLeft: "115px", paddingRight: "115px" }}
                   >
                     {ward === "" ? "Quận" : ward}
                   </a>
@@ -360,6 +363,7 @@ const CreateAccount = (props) => {
                     data-toggle="dropdown"
                     aria-haspopup="true"
                     aria-expanded="false"
+                    style={{ paddingLeft: "115px", paddingRight: "115px" }}
                   >
                     {district === "" ? "Huyện" : district}
                   </a>
@@ -392,6 +396,7 @@ const CreateAccount = (props) => {
                 </div>
               </div>
             </div>
+
             <div className="d-grid gap-2 col-5 mt-3 ml-5">
               <button
                 type="submit"

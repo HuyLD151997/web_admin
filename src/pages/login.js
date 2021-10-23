@@ -29,7 +29,6 @@ const Login = () => {
   });
   return (
     <div className="container">
-      <h3 className="text-center mt-3">ĐĂNG NHẬP HỆ THỐNG</h3>
       <div className="row mt-5">
         <div className="col-md-5 m-auto mt-5">
           <form onSubmit={handleSubmit} style={{ borderColor: "#fdcb08" }}>

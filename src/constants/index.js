@@ -5,6 +5,7 @@ import AccountCustomerPage from "./../pages/CustomerPage/AccountCustomerPage";
 import ServiceGroupsPage from "./../pages/ServiceGroupsPage/ServiceGroupsPage";
 import CreateGroupPage from "./../pages/ServiceGroupsPage/CreateGroupPage";
 import NotFoundPage from "./../pages/NotFoundPage/NotFoundPage";
+import DetailAccountPage from "./../pages/HomePage/DetailAccount";
 
 export const ROUTES = [
   {
@@ -29,10 +30,10 @@ export const ADMIN_ROUTES = [
     component: CreateAccount,
   },
   {
-    path: "/add-account/:id",
-    name: "UpdateAccount",
+    path: "/detail-account/:id",
+    name: "DetailAccount",
     exact: true,
-    component: CreateAccount,
+    component: DetailAccountPage,
   },
   {
     path: "/customer",

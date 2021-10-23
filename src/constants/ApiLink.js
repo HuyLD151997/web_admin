@@ -29,3 +29,5 @@ export const DELETE_SERVICE_GROUPS =
 
 export const CREATE_SERVICE_GROUPS =
   "http://api.beclean.store/api/ServiceGroup";
+
+export const UPDATE_SERVICE_GROUP = "http://api.beclean.store/api/ServiceGroup";

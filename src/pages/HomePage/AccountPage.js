@@ -72,8 +72,8 @@ const AccountPage = (props) => {
             <th scope="col">Tên tài khoản</th>
             <th scope="col">Họ và tên</th>
             <th scope="col">Địa chỉ</th>
-            <th scope="col">Trạng thái</th>
             <th scope="col">Hành động</th>
+            <th scope="col">Thông tin</th>
           </tr>
         </thead>
         {data ? (
@@ -95,18 +95,7 @@ const AccountPage = (props) => {
                     {item.district.description}, &nbsp;
                     {item.ward.description}.
                   </td>
-                  <td className="col-2">
-                    <span
-                      className={
-                        item.isDisable
-                          ? "label label-danger"
-                          : "label label-info"
-                      }
-                      //onClick={this.onUpdateStatus}
-                    >
-                      {item.isDisable === true ? "Inactive" : "Active"}
-                    </span>
-                  </td>
+
                   <td className="col-2">
                     {item.isDisable === false ? (
                       ""
@@ -127,9 +116,19 @@ const AccountPage = (props) => {
                         type="button"
                         onClick={() => handleOnClickDelete(item.id)}
                       >
-                        Xóa
+                        Khóa
                       </button>
                     )}
+                  </td>
+                  <td className="col-2" style={{ paddingTop: "20px" }}>
+                    <Link
+                      className="btn btn-success btn-sm "
+                      type="button"
+                      to={`/detail-account/${item.id}`}
+                      style={{ paddingLeft: "55px", paddingRight: "55px" }}
+                    >
+                      Chi tiết
+                    </Link>
                   </td>
                 </tr>
               </tbody>

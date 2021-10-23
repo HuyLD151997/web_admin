@@ -6,8 +6,19 @@ import { useForm } from "react-hook-form";
 import Swal from "sweetalert2";
 import { createServiceGroupApi } from "../../apis/ServiceGroup/CreateServiceGroup";
 import { NavLink, Link, useParams } from "react-router-dom";
+import * as getServiceGroups from "../../actions/ServicesGroup/GetServiceGroups";
 
 const CreateService = (props) => {
+  const [serGroup, setSerGroup] = useState("");
+  const [idSerGroup, setIdSerGroup] = useState(-1);
+  const dispatchAction = useDispatch();
+  useEffect(() => {
+    dispatchAction(getServiceGroups.getServiceGroups());
+  }, []);
+  const handleGetWardAndDistric = (id, description) => {
+    setIdSerGroup(id);
+    setSerGroup(description);
+  };
   const validationSchema = yup
     .object({
       serviceGroup: yup.string().required("Vui lòng nhập tên loại dịch vụ"),
@@ -22,10 +33,18 @@ const CreateService = (props) => {
     resolver: yupResolver(validationSchema),
   });
 
-  const handleCreateService = async (description) => {
+  const handleCreateService = async (
+    description,
+    unitPrice,
+    canInputQuantity,
+    serviceGroupId
+  ) => {
     try {
       await createServiceGroupApi({
         description,
+        unitPrice,
+        canInputQuantity,
+        serviceGroupId,
       });
       Swal.fire({
         icon: "success",
