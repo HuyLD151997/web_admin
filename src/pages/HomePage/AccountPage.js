@@ -91,9 +91,9 @@ const AccountPage = (props) => {
 
                   <td>
                     {item.address}, &nbsp;
-                    {item.province.description}, &nbsp;
+                    {item.ward.description}, &nbsp;
                     {item.district.description}, &nbsp;
-                    {item.ward.description}.
+                    {item.province.description}.
                   </td>
 
                   <td className="col-2">

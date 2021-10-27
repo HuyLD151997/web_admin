@@ -17,6 +17,11 @@ const menus = [
     to: "/service-group",
     exact: false,
   },
+  {
+    name: "Transaction",
+    to: "/transaction",
+    exact: false,
+  },
 ];
 
 class SideBar extends Component {

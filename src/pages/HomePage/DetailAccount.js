@@ -1,17 +1,45 @@
 import { useDispatch, connect } from "react-redux";
 import React, { Component, useEffect, useState } from "react";
 import * as getAccountByIdAction from "../../actions/Employees/GetEmployById";
+import * as putAvatarAction from "../../actions/Employees/PutAvatar";
 import { NavLink, Link, useParams } from "react-router-dom";
 import * as moment from "moment";
 
 const DetailAccount = (props) => {
   const { id } = useParams();
   const dispatchAction = useDispatch();
+  const [picture, setPicture] = useState();
+
   useEffect(() => {
     dispatchAction(getAccountByIdAction.getEmployeeById(id));
   }, []);
-  const { data } = props;
+  const { data, avatarCode } = props;
   console.log(data);
+
+  const readFileDataAsBase64 = (e) => {
+    const file = e.target.files[0];
+
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader();
+
+      reader.onload = (event) => {
+        resolve(event.target.result);
+      };
+
+      reader.onerror = (err) => {
+        reject(err);
+      };
+
+      reader.readAsBinaryString(file);
+    });
+  };
+
+  const onChangePicture = (e) => {
+    console.log("picture: ", e.target.files[0]);
+    console.log(readFileDataAsBase64(e));
+    // dispatchAction(putAvatarAction.putAvatar();
+  };
+
   return (
     <div>
       {data ? (
@@ -19,7 +47,7 @@ const DetailAccount = (props) => {
           data.map((item, index) => (
             <div className="container">
               <div className="row">
-                <div className="col-3">
+                <div className="col-4">
                   <ul
                     className="list-group list-group-flush"
                     style={{ width: "270px" }}
@@ -28,6 +56,7 @@ const DetailAccount = (props) => {
                       <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSgnq9pVEA16U0vH0nT0UeFY9vrTn99Za2a7QWub_dBpXSYTCZtBQULWaaRJ4ENFreEmPc&usqp=CAU" />
                     </li>
                     <li className="list-group-item">
+                      {/* <input type="file" name="img-upload" /> */}
                       <span
                         className={
                           item.isDisable ? "btn btn-danger" : "btn btn-success"
@@ -99,6 +128,7 @@ const DetailAccount = (props) => {
 
 const mapStateToProps = (state) => ({
   data: state.getEmployeeById.table,
+  avatarCode: state.avatarStringCode.table,
 });
 const withConnect = connect(mapStateToProps);
 export default withConnect(DetailAccount);

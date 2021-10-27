@@ -6,6 +6,10 @@ import ServiceGroupsPage from "./../pages/ServiceGroupsPage/ServiceGroupsPage";
 import CreateGroupPage from "./../pages/ServiceGroupsPage/CreateGroupPage";
 import NotFoundPage from "./../pages/NotFoundPage/NotFoundPage";
 import DetailAccountPage from "./../pages/HomePage/DetailAccount";
+import GetServiceById from "./../pages/ServicePage/GetServiceById";
+import CreateServiceItem from "./../pages/ServicePage/CreateServicePage";
+import Transaction from "./../pages/Transaction/TransactionPage";
+import Booking from "./../pages/Booking/BookingPage";
 
 export const ROUTES = [
   {
@@ -52,6 +56,30 @@ export const ADMIN_ROUTES = [
     name: "CreateService",
     exact: true,
     component: CreateGroupPage,
+  },
+  {
+    path: "/detail-service-group/:id",
+    name: "DetailService",
+    exact: true,
+    component: GetServiceById,
+  },
+  {
+    path: "/add-service-item/:id",
+    name: "CreateServiceItem",
+    exact: true,
+    component: CreateServiceItem,
+  },
+  {
+    path: "/transaction",
+    name: "Transaction",
+    exact: true,
+    component: Transaction,
+  },
+  {
+    path: "/booking/:id",
+    name: "Booking",
+    exact: true,
+    component: Booking,
   },
   {
     path: "",

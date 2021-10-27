@@ -1,22 +1,22 @@
 import { call, put, take, delay } from "redux-saga/effects";
 import {
-  getWardsAndDistricsSuccess,
-  getWardsAndDistricsFailed,
-} from "../../actions/Employees/GetWardAndDistric.js";
+  getWardsAndDistricsSuccess2,
+  getWardsAndDistricsFailed2,
+} from "../../actions/Employees/GetWardAndDistric2.js";
 
 import { getGetWardsAndDistricsApi } from "../../apis/Employees/GetWardAndDistric";
-import * as getGetWardsAndDistrics from "../../constants/Employee/GetWardAndDistric";
-function* getWardsAndDistricsSaga() {
+import * as getGetWardsAndDistrics2 from "../../constants/Employee/GetWardAndDistric2";
+function* getWardsAndDistricsSaga2() {
   while (true) {
-    const action = yield take(getGetWardsAndDistrics.GET_WARDS_AND_DISTRICS);
+    const action = yield take(getGetWardsAndDistrics2.GET_WARDS_AND_DISTRICS2);
 
     const res = yield call(getGetWardsAndDistricsApi, action.payload);
     const { data, status } = res;
     if (status === 200 || status === 201) {
-      yield put(getWardsAndDistricsSuccess(data));
+      yield put(getWardsAndDistricsSuccess2(data));
     } else {
-      yield put(getWardsAndDistricsFailed(data));
+      yield put(getWardsAndDistricsFailed2(data));
     }
   }
 }
-export const sagas = [getWardsAndDistricsSaga];
+export const sagas = [getWardsAndDistricsSaga2];

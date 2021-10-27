@@ -3,18 +3,28 @@ import { sagas as authenticateSagas } from "./authentication/authentication";
 import { sagas as getEmployeesSagas } from "./EmployeesSagas/GetEmployeesSaga";
 import { sagas as getProvincesSagas } from "./EmployeesSagas/GetProvincesSagas";
 import { sagas as getWardsAndDistricsSaga } from "./EmployeesSagas/GetWardAndDistricSagas";
+import { sagas as getWardsAndDistricsSaga2 } from "./EmployeesSagas/GetWardAndDistricSagas2";
 import { sagas as getEmployByIdSaga } from "./EmployeesSagas/GetEmployByIdSaga";
 import { sagas as getCustomersSaga } from "./CustomerSagas/GetCustomersSaga";
 import { sagas as getServiceGroupsSaga } from "./ServiceGroupsSagas/GetServiceGroupsSaga";
+import { sagas as getServiceByIdSaga } from "./ServiceGroupsSagas/GetServiceByIdSaga";
+import { sagas as getTransactionSaga } from "./TransactionSagas/GetTransactionSaga";
+import { sagas as getBookingSaga } from "./BookingSagas/GetBookingSaga";
+import { sagas as putAvatarSaga } from "./EmployeesSagas/PutAvatarSaga";
 
 const allSaga = [
   ...authenticateSagas,
   ...getEmployeesSagas,
   ...getProvincesSagas,
   ...getWardsAndDistricsSaga,
+  ...getWardsAndDistricsSaga2,
   ...getEmployByIdSaga,
   ...getCustomersSaga,
   ...getServiceGroupsSaga,
+  ...getServiceByIdSaga,
+  ...putAvatarSaga,
+  ...getTransactionSaga,
+  ...getBookingSaga,
 ];
 
 export default function* rootSaga() {

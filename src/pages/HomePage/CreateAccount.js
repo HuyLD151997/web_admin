@@ -9,7 +9,9 @@ import { useForm } from "react-hook-form";
 import Swal from "sweetalert2";
 import { createAccountApi } from "../../apis/Employees/createAccountEmployeeApi";
 import { NavLink, Link, useParams } from "react-router-dom";
-
+import * as getWardsAndDistrics2 from "../../actions/Employees/GetWardAndDistric2";
+import { parse, isDate } from "date-fns";
+import Geocode from "react-geocode";
 const CreateAccount = (props) => {
   const [city, setCity] = useState("");
   const [ward, setWard] = useState("");
@@ -17,12 +19,19 @@ const CreateAccount = (props) => {
   const [idCity, setIDCity] = useState(-1);
   const [idWard, setIDWard] = useState(-1);
   const [idDistrict, setIDDistrict] = useState(-1);
+  Geocode.setApiKey("AIzaSyBKquzKk7vHXUuS04MEW8PXHEzixXEKtL0"); //Insert your Google Maps API here
+  Geocode.enableDebug();
 
+  var address =
+    "199 Đường số 7, Bình Trị Đông B, Bình Tân, Thành phố Hồ Chí Minh, Việt Nam";
+
+  const [lat, setLat] = useState(0);
+  const [long, setLong] = useState(0);
   const dispatchAction = useDispatch();
   useEffect(() => {
     dispatchAction(getProvinceActions.getProvinces());
   }, []);
-  const { data, dataWardAndDistrict } = props;
+  const { data, dataWardAndDistrict, dataWardAndDistrict2 } = props;
 
   const handleGetWardAndDistric = (id, city) => {
     setCity(city);
@@ -31,24 +40,10 @@ const CreateAccount = (props) => {
     setWard("");
     setDistrict("");
   };
-  const handleGetWardAndDistric2 = (id, ward, idC, idW) => {
-    console.log(id);
-    console.log(ward);
-    console.log(idC);
-    console.log(idW);
+  const handleGetWardAndDistric2 = (id, ward) => {
     setWard(ward);
-
-    // if (ward && id === idWard) {
-
-    if (ward) {
-      dispatchAction(getWardsAndDistrics.getWardsAndDistrics(id));
-
-      setIDWard(id);
-    } else if (ward && id === idW) {
-      dispatchAction(getWardsAndDistrics.getWardsAndDistrics(idC));
-    }
-    // }
-    // setIDWard(id);
+    setIDWard(id);
+    dispatchAction(getWardsAndDistrics2.getWardsAndDistrics2(id));
 
     setDistrict("");
   };
@@ -57,6 +52,13 @@ const CreateAccount = (props) => {
     setIDDistrict(id);
   };
 
+  const parseDateString = (value, originalValue) => {
+    const parsedDate = isDate(originalValue)
+      ? originalValue
+      : parse(originalValue, "dd-MM-yyyy", new Date());
+
+    return parsedDate;
+  };
   const validationSchema = yup
     .object({
       username: yup.string().required("Tên người dùng không được để trống"),
@@ -76,7 +78,11 @@ const CreateAccount = (props) => {
         )
         .required("Password xác nhận không được để trống"),
       fullname: yup.string().required("Fullname không được để trống"),
-      //birthday: yup.string().required("Ngày sinh không được để trống"),
+      // birthday: yup
+      //   .date()
+      //   .transform(parseDateString)
+      //   .max(today)
+      //   .required("Ngày sinh không được để trống"),
       gender: yup
         .string()
         .required("Giới tính không được để trống")
@@ -86,6 +92,7 @@ const CreateAccount = (props) => {
         .email("email không hợp lệ")
         .required("Email không được để trống"),
       address: yup.string().required("địa chỉ không được để trống"),
+      //file: yup.mixed().required("File is required"),
     })
     .required();
 
@@ -98,31 +105,35 @@ const CreateAccount = (props) => {
   });
 
   const handleCreateAccount = async (
-    userName,
-    password,
-    fullname,
-    gender,
-    provinceId,
-    districtId,
-    wardId,
-    address,
-    phoneNumber,
-    email
+    UserName,
+    Password,
+    Fullname,
+    Gender,
+    // Birthday,
+    ProvinceId,
+    DistrictId,
+    WardId,
+    Address,
+    PhoneNumber,
+    Email
+    //File
   ) => {
     try {
       await createAccountApi({
-        userName,
-        password,
-        fullname,
-        gender,
-        provinceId,
-        districtId,
-        wardId,
-        address,
-        latitude: 0,
-        longitude: 0,
-        phoneNumber,
-        email,
+        UserName,
+        Password,
+        Fullname,
+        Gender,
+        // Birthday,
+        ProvinceId,
+        DistrictId,
+        WardId,
+        Address,
+        // Latitude: 0,
+        // Longitude: 0,
+        PhoneNumber,
+        Email,
+        //File,
       });
       Swal.fire({
         icon: "success",
@@ -144,20 +155,28 @@ const CreateAccount = (props) => {
   };
 
   const submitForm = (data) => {
-    // console.log(typeof data.phoneNumber.toString());
+    console.log(data.file);
+    Geocode.fromAddress(address).then((response) => {
+      setLat(response.results[0].geometry.location.lat);
+      setLong(response.results[0].geometry.location.lng);
+    });
+    console.log(lat);
+    console.log(long);
 
-    handleCreateAccount(
-      data.username,
-      data.password,
-      data.fullname,
-      data.gender,
-      idCity,
-      idDistrict,
-      idWard,
-      data.address,
-      data.phoneNumber.toString(),
-      data.email
-    );
+    // handleCreateAccount(
+    //   data.username,
+    //   data.password,
+    //   data.fullname,
+    //   data.gender,
+    //   // data.birthday,
+    //   idCity,
+    //   idDistrict,
+    //   idWard,
+    //   data.address,
+    //   data.phoneNumber.toString(),
+    //   data.email
+    //   //data.file
+    // );
 
     // var latitude: 0;
     // var longitude: 0;
@@ -224,6 +243,14 @@ const CreateAccount = (props) => {
                   />
                   <p>{errors.cpassword?.message}</p>
                 </div>
+                {/* <div className="form-group">
+                  <input
+                    type="file"
+                    // className="form-control"
+                    {...register("file")}
+                  />
+                  <p>{errors.file?.message}</p>
+                </div> */}
               </div>
             </div>
             <div className="col">
@@ -238,12 +265,23 @@ const CreateAccount = (props) => {
               </div>
 
               <div className="form-group">
-                <label>Gender</label>
+                {/* <label>Gender</label>
                 <input
                   type="text"
                   className="form-control"
                   {...register("gender")}
-                />
+                /> */}
+                <div class="input-group mt-5">
+                  <select
+                    class="custom-select"
+                    id="inputGroupSelect01"
+                    {...register("gender")}
+                  >
+                    <option selected>Giới tính</option>
+                    <option value="nam">Nam</option>
+                    <option value="nữ">Nữ</option>
+                  </select>
+                </div>
                 <p>{errors.gender?.message}</p>
               </div>
               <div className="form-group">
@@ -337,9 +375,7 @@ const CreateAccount = (props) => {
                             onClick={() =>
                               handleGetWardAndDistric2(
                                 item.id,
-                                item.description,
-                                idCity,
-                                idWard
+                                item.description
                               )
                             }
                           >
@@ -371,9 +407,9 @@ const CreateAccount = (props) => {
                     className="dropdown-menu"
                     aria-labelledby="dropdownMenuLink"
                   >
-                    {dataWardAndDistrict && ward ? (
-                      dataWardAndDistrict.length > 0 ? (
-                        dataWardAndDistrict.map((item, index) => (
+                    {dataWardAndDistrict2 && ward ? (
+                      dataWardAndDistrict2.length > 0 ? (
+                        dataWardAndDistrict2.map((item, index) => (
                           <a
                             className="dropdown-item"
                             onClick={() =>
@@ -415,6 +451,7 @@ const CreateAccount = (props) => {
 const mapStateToProps = (state) => ({
   data: state.getProvince.table,
   dataWardAndDistrict: state.getWardsAndDistrics.table,
+  dataWardAndDistrict2: state.getWardsAndDistrics2.table,
 });
 const withConnect = connect(mapStateToProps);
 export default withConnect(CreateAccount);
