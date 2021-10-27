@@ -19,11 +19,8 @@ const CreateAccount = (props) => {
   const [idCity, setIDCity] = useState(-1);
   const [idWard, setIDWard] = useState(-1);
   const [idDistrict, setIDDistrict] = useState(-1);
-  Geocode.setApiKey("AIzaSyBKquzKk7vHXUuS04MEW8PXHEzixXEKtL0"); //Insert your Google Maps API here
+  Geocode.setApiKey("AIzaSyCU3bQqWU1d28T35Ngk3y_FaOero8_HDbI"); //Insert your Google Maps API here
   Geocode.enableDebug();
-
-  var address =
-    "199 Đường số 7, Bình Trị Đông B, Bình Tân, Thành phố Hồ Chí Minh, Việt Nam";
 
   const [lat, setLat] = useState(0);
   const [long, setLong] = useState(0);
@@ -32,7 +29,6 @@ const CreateAccount = (props) => {
     dispatchAction(getProvinceActions.getProvinces());
   }, []);
   const { data, dataWardAndDistrict, dataWardAndDistrict2 } = props;
-
   const handleGetWardAndDistric = (id, city) => {
     setCity(city);
     setIDCity(id);
@@ -50,6 +46,11 @@ const CreateAccount = (props) => {
   const handleGetWardAndDistric3 = (id, district) => {
     setDistrict(district);
     setIDDistrict(id);
+    // setLong(3);
+    // setLat(2);
+    console.log(city);
+    console.log(ward);
+    console.log(district);
   };
 
   const parseDateString = (value, originalValue) => {
@@ -109,11 +110,12 @@ const CreateAccount = (props) => {
     Password,
     Fullname,
     Gender,
-    // Birthday,
     ProvinceId,
     DistrictId,
     WardId,
     Address,
+    Latitude,
+    Longitude,
     PhoneNumber,
     Email
     //File
@@ -124,15 +126,16 @@ const CreateAccount = (props) => {
         Password,
         Fullname,
         Gender,
-        // Birthday,
+        // Birthday: "",
         ProvinceId,
         DistrictId,
         WardId,
         Address,
-        // Latitude: 0,
-        // Longitude: 0,
+        Latitude,
+        Longitude,
         PhoneNumber,
         Email,
+        // AvatarFile: "",
         //File,
       });
       Swal.fire({
@@ -155,28 +158,31 @@ const CreateAccount = (props) => {
   };
 
   const submitForm = (data) => {
-    console.log(data.file);
-    Geocode.fromAddress(address).then((response) => {
-      setLat(response.results[0].geometry.location.lat);
-      setLong(response.results[0].geometry.location.lng);
-    });
-    console.log(lat);
-    console.log(long);
+    var x = 0;
+    var y = 0;
+    var address = `${data.address}, ${district}, ${ward}, ${city}, Việt Nam`;
 
-    // handleCreateAccount(
-    //   data.username,
-    //   data.password,
-    //   data.fullname,
-    //   data.gender,
-    //   // data.birthday,
-    //   idCity,
-    //   idDistrict,
-    //   idWard,
-    //   data.address,
-    //   data.phoneNumber.toString(),
-    //   data.email
-    //   //data.file
-    // );
+    Geocode.fromAddress(address).then((response) => {
+      x = response.results[0].geometry.location.lat;
+      y = response.results[0].geometry.location.lng;
+      handleCreateAccount(
+        data.username,
+        data.password,
+        data.fullname,
+        data.gender,
+        idCity,
+        idWard,
+        idDistrict,
+        data.address,
+        x,
+        y,
+        data.phoneNumber.toString(),
+        data.email
+        //data.file
+      );
+    });
+
+    console.log(idWard);
 
     // var latitude: 0;
     // var longitude: 0;

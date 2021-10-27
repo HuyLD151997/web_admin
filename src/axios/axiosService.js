@@ -40,6 +40,29 @@ class AxiosService {
       headers: { Authorization: `Bearer ${token}` },
     });
   }
+  post2(url, body, token) {
+    console.log(body);
+    const formData = new FormData();
+    formData.append("UserName", body.UserName);
+    formData.append("Password", body.Password);
+    formData.append("Fullname", body.Fullname);
+    formData.append("Gender", body.Gender);
+    formData.append("ProvinceId", body.ProvinceId);
+    formData.append("DistrictId", body.DistrictId);
+    formData.append("WardId", body.WardId);
+    formData.append("Address", body.Address);
+    formData.append("Latitude", body.Latitude);
+    formData.append("Longitude", body.Longitude);
+    formData.append("PhoneNumber", body.PhoneNumber);
+    formData.append("Email", body.Email);
+
+    return this.intance.post(url, formData, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+        "content-type": "multipart/form-data",
+      },
+    });
+  }
 
   put(url, body, token) {
     return this.intance.put(url, body, {
