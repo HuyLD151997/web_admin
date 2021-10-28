@@ -93,7 +93,7 @@ const CreateAccount = (props) => {
         .email("email không hợp lệ")
         .required("Email không được để trống"),
       address: yup.string().required("địa chỉ không được để trống"),
-      //file: yup.mixed().required("File is required"),
+      AvatarFile: yup.mixed().required("File is required"),
     })
     .required();
 
@@ -117,8 +117,8 @@ const CreateAccount = (props) => {
     Latitude,
     Longitude,
     PhoneNumber,
-    Email
-    //File
+    Email,
+    AvatarFile
   ) => {
     try {
       await createAccountApi({
@@ -135,7 +135,7 @@ const CreateAccount = (props) => {
         Longitude,
         PhoneNumber,
         Email,
-        // AvatarFile: "",
+        AvatarFile,
         //File,
       });
       Swal.fire({
@@ -177,8 +177,9 @@ const CreateAccount = (props) => {
         x,
         y,
         data.phoneNumber.toString(),
-        data.email
+        data.email,
         //data.file
+        data.AvatarFile
       );
     });
 
@@ -249,14 +250,14 @@ const CreateAccount = (props) => {
                   />
                   <p>{errors.cpassword?.message}</p>
                 </div>
-                {/* <div className="form-group">
+                <div className="form-group">
                   <input
                     type="file"
                     // className="form-control"
-                    {...register("file")}
+                    {...register("AvatarFile")}
                   />
-                  <p>{errors.file?.message}</p>
-                </div> */}
+                  <p>{errors.AvatarFile?.message}</p>
+                </div>
               </div>
             </div>
             <div className="col">

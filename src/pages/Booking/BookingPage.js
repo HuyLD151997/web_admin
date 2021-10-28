@@ -5,7 +5,7 @@ import { NavLink, Link, useParams } from "react-router-dom";
 import * as moment from "moment";
 import Swal from "sweetalert2";
 import * as yup from "yup";
-import { deleteServiceApi } from "../../apis/Service/DeleteService";
+import { deleteBookingApi } from "../../apis/Booking/DeleteBooking";
 import { updateServiceApi } from "../../apis/Service/UpdateServiceGroup";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useForm } from "react-hook-form";
@@ -37,14 +37,14 @@ const GetBooking = (props) => {
 
   const handleDelete = async (id) => {
     try {
-      await deleteServiceApi(id);
+      await deleteBookingApi(id);
       Swal.fire({
         icon: "success",
         text: "delete status success",
         timer: 2000,
         showConfirmButton: false,
       });
-      window.location.reload();
+      // window.location.reload();
     } catch (error) {
       Swal.fire({
         icon: "error",
@@ -137,25 +137,66 @@ const GetBooking = (props) => {
                     <li className="list-group-item">
                       Dịch vụ: {item.description}
                     </li>
-                    <li className="list-group-item">
-                      Trạng thái đặt lịch: {item.bookingStatusId}
-                    </li>
+
                     <li className="list-group-item">
                       Diện tích dọn dẹp: {item.totalCleaningArea}
                     </li>
                     <li className="list-group-item">
                       Tổng chi phí: {item.totalPrice} VND
                     </li>
+                    <li className="list-group-item p-0 pl-3">
+                      Trạng thái đặt lịch: {item.bookingStatusId}
+                      <button
+                        className="btn btn-warning btn-sm ml-1"
+                        type="button"
+                        onClick={() =>
+                          handleGetDescription(item.description, item.id)
+                        }
+                        data-toggle="modal"
+                        data-target="#exampleModal"
+                        data-whatever="yah"
+                        style={{ width: "100px" }}
+                      >
+                        Cập nhật
+                      </button>
+                    </li>
                     <li className="list-group-item">
                       {/* <input type="file" name="img-upload" /> */}
                       <span
                         className={
-                          item.isDisable ? "btn btn-danger" : "btn btn-success"
+                          item.isDisable === true
+                            ? "btn btn-danger"
+                            : "btn btn-success"
                         }
                         //onClick={this.onUpdateStatus}
                       >
                         Trạng thái đang{" "}
                         {item.isDisable === true ? "bị khóa" : "hoạt động"}
+                      </span>
+                      <span>
+                        {item.isDisable === false ? (
+                          ""
+                        ) : (
+                          <button
+                            className="btn btn-info btn-sm"
+                            type="button"
+                            // onClick={() => handleActive(item.id)}
+                          >
+                            Kích hoạt
+                          </button>
+                        )}
+                        {item.isDisable === true ? (
+                          ""
+                        ) : (
+                          <button
+                            className="btn btn-danger btn-sm ml-1"
+                            type="button"
+                            style={{ width: "100px", height: "38px" }}
+                            onClick={() => handleOnClickDelete(item.id)}
+                          >
+                            Khóa
+                          </button>
+                        )}
                       </span>
                     </li>
                   </ul>
@@ -204,6 +245,62 @@ const GetBooking = (props) => {
       ) : (
         <div>Progress .....</div>
       )}
+      <div
+        className="modal fade"
+        id="exampleModal"
+        tabIndex={-1}
+        role="dialog"
+        aria-labelledby="exampleModalLabel"
+        aria-hidden="true"
+      >
+        <div className="modal-dialog" role="document">
+          <div className="modal-content">
+            <div className="modal-header">
+              <h5 className="modal-title w-100" id="exampleModalLabel">
+                Cập nhật dịch vụ tên {description}
+              </h5>
+              <button
+                type="button"
+                className="close"
+                data-dismiss="modal"
+                aria-label="Close"
+              >
+                <span aria-hidden="true" style={{ float: "right" }}>
+                  ×
+                </span>
+              </button>
+            </div>
+            <form onSubmit={handleSubmit(submitForm)}>
+              <div className="modal-body">
+                <div className="form-group">
+                  <label htmlFor="recipient-name" className="col-form-label">
+                    Trạng thái đặt lịch
+                  </label>
+                  <input
+                    type="text"
+                    class="form-control"
+                    id="recipient-name"
+                    {...register("description")}
+                  />
+                  <p>{errors.description?.message}</p>
+                </div>
+              </div>
+              <div className="modal-footer">
+                <button
+                  type="button"
+                  className="btn btn-secondary"
+                  data-dismiss="modal"
+                >
+                  Đóng
+                </button>
+                <button type="submit" className="btn btn-primary">
+                  Cập nhật
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
     </div>
   );
 };

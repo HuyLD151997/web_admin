@@ -42,9 +42,11 @@ export const UPDATE_SERVICE = "http://api.beclean.store/api/Service";
 
 export const GET_TRANSACTION = "http://api.beclean.store/api/Transaction";
 
-export const GET_BOOKING = "http://api.beclean.store/api/Booking";
+export const GET_BOOKING = `${BASE_URL}/Booking`;
 
 export const DELETE_BOOKING = `${BASE_URL}/Booking`;
+
+export const GET_BOOKING_STATUS = `${BASE_URL}/BookingStatus`;
 
 export const PUT_AVATAR = `${BASE_URL}/Account/Avatar`;
 

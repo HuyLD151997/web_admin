@@ -55,6 +55,7 @@ class AxiosService {
     formData.append("Longitude", body.Longitude);
     formData.append("PhoneNumber", body.PhoneNumber);
     formData.append("Email", body.Email);
+    formData.append("AvatarFile", body.AvatarFile);
 
     return this.intance.post(url, formData, {
       headers: {
