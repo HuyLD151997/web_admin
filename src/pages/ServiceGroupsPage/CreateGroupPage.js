@@ -15,13 +15,17 @@ const CreateService = (props) => {
   useEffect(() => {
     dispatchAction(getServiceGroups.getServiceGroups());
   }, []);
-  const handleGetWardAndDistric = (id, description) => {
-    setIdSerGroup(id);
-    setSerGroup(description);
-  };
   const validationSchema = yup
     .object({
-      serviceGroup: yup.string().required("Vui lòng nhập tên loại dịch vụ"),
+      Description: yup.string().required("Vui lòng nhập tên loại dịch vụ"),
+      Type: yup
+        .string()
+        .required("Loại không được để trống")
+        .matches(
+          /(NORMAL|OVERALL|OPTIONAL)/,
+          "Chỉ được chọn một trong ba cái có sẵn"
+        ),
+      ImageFile: yup.mixed().required("File is required"),
     })
     .required();
 
@@ -34,17 +38,21 @@ const CreateService = (props) => {
   });
 
   const handleCreateService = async (
-    description,
-    unitPrice,
-    canInputQuantity,
-    serviceGroupId
+    Description,
+    // unitPrice,
+    // canInputQuantity,
+    // serviceGroupId,
+    ImageFile,
+    Type
   ) => {
     try {
       await createServiceGroupApi({
-        description,
-        unitPrice,
-        canInputQuantity,
-        serviceGroupId,
+        Description,
+        // unitPrice,
+        // canInputQuantity,
+        // serviceGroupId,
+        ImageFile,
+        Type,
       });
       Swal.fire({
         icon: "success",
@@ -58,7 +66,7 @@ const CreateService = (props) => {
       console.log(er);
       Swal.fire({
         icon: "error",
-        text: er.response.data,
+        text: "tạo thất bại",
         timer: 2000,
         showConfirmButton: false,
       });
@@ -68,7 +76,7 @@ const CreateService = (props) => {
   const submitForm = (data) => {
     // console.log(typeof data.phoneNumber.toString());
 
-    handleCreateService(data.serviceGroup);
+    handleCreateService(data.Description, data.ImageFile, data.Type);
   };
 
   return (
@@ -77,31 +85,50 @@ const CreateService = (props) => {
         <h3 className="">Thêm loại dịch vụ</h3>
         <div className=" border border-warning p-4">
           <form className="border-0 row" onSubmit={handleSubmit(submitForm)}>
-            <div className="">
-              <div className="col">
+            <div className="col-12">
+              <div className="col-12">
                 <div className="form-group">
                   <label>Loại dịch vụ</label>
                   <input
                     type="text"
                     className="form-control"
-                    {...register("serviceGroup")}
+                    {...register("Description")}
                   />
-                  <p>{errors.serviceGroup?.message}</p>
+                  <p>{errors.Description?.message}</p>
+                </div>
+                <div className="form-group">
+                  <label>Thuộc loại</label>
+                  <select
+                    class="custom-select"
+                    id="inputGroupSelect01"
+                    {...register("Type")}
+                  >
+                    <option selected>Loại</option>
+                    <option value="NORMAL">NORMAL</option>
+                    <option value="OVERALL">OVERALL</option>
+                    <option value="OPTIONAL">OPTIONAL</option>
+                  </select>
+                  <p>{errors.Type?.message}</p>
+                </div>
+                <div className="form-group">
+                  <label>Hình ảnh</label>
+                  <input type="file" {...register("ImageFile")} />
+                  <p>{errors.ImageFile?.message}</p>
+                </div>
+                <div className="col-12">
+                  <button
+                    type="submit"
+                    className="btn btn-warning "
+                    style={{
+                      width: "100%",
+                      // marginLeft: "600px",
+                      marginTop: "35px",
+                    }}
+                  >
+                    Thêm
+                  </button>
                 </div>
               </div>
-            </div>
-            <div className="">
-              <button
-                type="submit"
-                className="btn btn-warning "
-                style={{
-                  width: "100px",
-                  marginLeft: "600px",
-                  marginTop: "35px",
-                }}
-              >
-                Thêm
-              </button>
             </div>
           </form>
         </div>
@@ -110,8 +137,7 @@ const CreateService = (props) => {
   );
 };
 const mapStateToProps = (state) => ({
-  data: state.getProvince.table,
-  dataWardAndDistrict: state.getWardsAndDistrics.table,
+  data: state.getServiceGroups.table,
 });
 const withConnect = connect(mapStateToProps);
 export default withConnect(CreateService);

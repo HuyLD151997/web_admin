@@ -1,25 +1,47 @@
 import React, { Component } from "react";
 import { NavLink } from "react-router-dom";
 
-const menus = [
+const account = [
   {
-    name: "Employee",
+    name: "Nhân viên",
     to: "/home",
     exact: true,
   },
   {
-    name: "Customer",
+    name: "Khách hàng",
     to: "/customer",
     exact: false,
   },
+];
+
+const transaction = [
   {
-    name: "Service",
-    to: "/service-group",
+    name: "Đặt lịch",
+    to: "/transaction",
     exact: false,
   },
   {
-    name: "Transaction",
-    to: "/transaction",
+    name: "Khách hàng",
+    to: "/transactionCus",
+    exact: false,
+  },
+];
+
+const menus = [
+  {
+    name: "Dịch vụ",
+    to: "/service-group",
+    exact: false,
+  },
+
+  {
+    name: "Đặt lịch",
+    to: "/booking",
+    exact: false,
+  },
+  {
+    name: "Dụng cụ",
+    to: "/cleaning-tool",
     exact: false,
   },
 ];
@@ -29,48 +51,52 @@ class SideBar extends Component {
     return (
       <div id="side-bar h-100">
         <div
-          className="logo text-secondary font-weight-bold border-bottom"
+          className="logo text-secondary font-weight-bold "
           style={{
             background: "#fdcb08",
             paddingBottom: "13px",
-            paddingTop: "19px",
+            paddingTop: "29px",
             paddingLeft: "50px",
           }}
         >
           Be Clean
         </div>
-        <ul className="list-group rounded-0 logo font-weight-bold ">
-          {this.showMenus(menus)}
-          {/* <li>
-            <a href="service_list.html">
-              <i className="fa fa-home" /> Service
-            </a>
+
+        <ul className="navbar-nav rounded-0 logo font-weight-bold">
+          <li className="nav-item dropdown mb-1">
+            <span
+              data-toggle="collapse"
+              href="#collapseExample"
+              role="button"
+              aria-expanded="false"
+              aria-controls="collapseExample"
+            >
+              Tài khoản<i class="fa fa-caret-down"></i>
+            </span>
+            <div class="collapse " id="collapseExample">
+              <span className="dropdown-item" style={{ background: "#fdcb08" }}>
+                {this.showAccount(account)}
+              </span>
+            </div>
           </li>
-          <li>
-            <a href="booking.html">
-              <i className="fa fa-list-alt" /> Booking
-            </a>
+          <li className="nav-item dropdown mb-1">
+            <span
+              data-toggle="collapse"
+              href="#collapseExample2"
+              role="button"
+              aria-expanded="false"
+              aria-controls="collapseExample"
+            >
+              Giao dịch<i class="fa fa-caret-down"></i>
+            </span>
+            <div class="collapse " id="collapseExample2">
+              <span className="dropdown-item" style={{ background: "#fdcb08" }}>
+                {this.showTransaction(transaction)}
+              </span>
+            </div>
           </li>
-          <li>
-            <a href="customer.html">
-              <i className="fa fa-user" /> Customer
-            </a>
-          </li>
-          <li>
-            <a href="employee.html">
-              <i className="fa fa-user" /> Employee
-            </a>
-          </li>
-          <li>
-            <a href="feelback.html">
-              <i className="fa fa-envelope" /> Feedback
-            </a>
-          </li>
-          <li>
-            <a href="transaction.html">
-              <i className="fa fa-shopping-cart" /> Transaction
-            </a>
-          </li> */}
+
+          <li className="nav-item">{this.showMenus(menus)}</li>
         </ul>
       </div>
     );
@@ -83,7 +109,7 @@ class SideBar extends Component {
         return (
           <NavLink
             activeStyle={{
-              backgroundColor: "#fdcb08",
+              backgroundColor: "#FF9900",
               color: "white",
             }}
             className="nav-link"
@@ -92,6 +118,54 @@ class SideBar extends Component {
             key={index}
           >
             {menu.name}
+            <span className="sr-only">(current)</span>
+          </NavLink>
+        );
+      });
+    }
+    return result;
+  };
+
+  showAccount = (account) => {
+    var result = null;
+    if (account.length > 0) {
+      result = account.map((account, index) => {
+        return (
+          <NavLink
+            activeStyle={{
+              backgroundColor: "#FF9900",
+              color: "white",
+            }}
+            className="nav-link"
+            exact={account.exact}
+            to={account.to}
+            key={index}
+          >
+            {account.name}
+            <span className="sr-only">(current)</span>
+          </NavLink>
+        );
+      });
+    }
+    return result;
+  };
+
+  showTransaction = (transaction) => {
+    var result = null;
+    if (transaction.length > 0) {
+      result = transaction.map((transaction, index) => {
+        return (
+          <NavLink
+            activeStyle={{
+              backgroundColor: "#FF9900",
+              color: "white",
+            }}
+            className="nav-link"
+            exact={transaction.exact}
+            to={transaction.to}
+            key={index}
+          >
+            {transaction.name}
             <span className="sr-only">(current)</span>
           </NavLink>
         );

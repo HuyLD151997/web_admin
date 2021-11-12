@@ -40,6 +40,9 @@ export const CREATE_SERVICE = "http://api.beclean.store/api/Service";
 
 export const UPDATE_SERVICE = "http://api.beclean.store/api/Service";
 
+export const UPDATE_SERVICE_IMG =
+  "http://api.beclean.store/api/ServiceGroup/Image";
+
 export const GET_TRANSACTION = "http://api.beclean.store/api/Transaction";
 
 export const GET_BOOKING = `${BASE_URL}/Booking`;
@@ -51,3 +54,7 @@ export const GET_BOOKING_STATUS = `${BASE_URL}/BookingStatus`;
 export const PUT_AVATAR = `${BASE_URL}/Account/Avatar`;
 
 export const GET_AVATAR = "http://api.beclean.store/api/Account/Avatar";
+
+export const GET_CLEANING_TOOL = "http://api.beclean.store/api/CleaningTool";
+
+export const DELETE_CLEANING_TOOL = `${BASE_URL}/Booking`;

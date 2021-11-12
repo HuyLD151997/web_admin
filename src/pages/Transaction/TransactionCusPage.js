@@ -11,7 +11,7 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import { useForm } from "react-hook-form";
 import * as moment from "moment";
 
-const TransactionPage = (props) => {
+const TransactionCusPage = (props) => {
   const [description, setDescription] = useState("");
   const [idService, setIdService] = useState("");
 
@@ -91,12 +91,12 @@ const TransactionPage = (props) => {
 
   return (
     <div className="container ml-2 table-responsive-xl">
-      <h3>Giao dịch đặt lịch</h3>
+      <h3>Giao dịch khách hàng</h3>
       <table className="table">
         <thead className="table-light">
           <tr>
-            <th scope="col">#</th>
-            <th scope="col">Ghi chú</th>
+            <th scope="col">Khách hàng</th>
+            <th scope="col">Đặt cọc</th>
             <th scope="col">Ngày/Giờ tạo</th>
             <th scope="col">Ngày/Giờ cập nhật</th>
             {/* <th scope="col">Trạng thái</th> */}
@@ -107,15 +107,8 @@ const TransactionPage = (props) => {
             data.map((item, index) => (
               <tbody>
                 <tr className="" key={index}>
-                  <td className="">
-                    <i
-                      class="fa fa-check-circle text-success"
-                      style={{
-                        fontSize: "30px",
-                      }}
-                    ></i>
-                  </td>
-                  <td className="">{item.description}</td>
+                  <td className="">Tên khách hàng</td>
+                  <td className="">{item.deposit} VND</td>
                   <td className="">
                     {moment(item.dateCreated).format("DD/MM/YYYY")}
                     &nbsp;/ {item.dateCreated.substring(11, 16)}
@@ -140,4 +133,4 @@ const mapStateToProps = (state) => ({
   data: state.getTransaction.table,
 });
 const withConnect = connect(mapStateToProps);
-export default withRouter(withConnect(TransactionPage));
+export default withRouter(withConnect(TransactionCusPage));

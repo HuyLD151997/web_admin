@@ -12,6 +12,8 @@ import getServiceByIdReducer from "./ServiceGroupReducer/GetServiceByIdReducer";
 import putAvatarReducer from "./EmployeesReducer/PutAvatarReducer";
 import transactionsReducer from "./TransactionsReducer/GetTransactionReducer";
 import bookingsReducer from "./BookingsReducer/GetBookingReducer";
+import bookingDetailReducer from "./BookingsReducer/GetBookingDetailReducer";
+import cleaningToolsReducer from "./CleaningTool/GetCleaningToolReducer";
 
 const rootReducers = combineReducers({
   services,
@@ -26,7 +28,9 @@ const rootReducers = combineReducers({
   getServiceById: getServiceByIdReducer,
   getTransaction: transactionsReducer,
   getBooking: bookingsReducer,
+  getBookingDetail: bookingDetailReducer,
   avatarStringCode: putAvatarReducer,
+  cleaningTool: cleaningToolsReducer,
 });
 
 export default rootReducers;

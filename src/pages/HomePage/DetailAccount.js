@@ -78,10 +78,28 @@ const DetailAccount = (props) => {
                       Họ và tên: {item.fullname}
                     </li>
                     <li className="list-group-item">
-                      Địa chỉ: {item.address}, &nbsp;
-                      {item.ward.description}, &nbsp;
-                      {item.district.description}, &nbsp;
-                      {item.province.description}.
+                      Địa chỉ:{" "}
+                      {item.address !== null ? (
+                        <span>{item.address}</span>
+                      ) : (
+                        <span>Chưa có dữ liệu</span>
+                      )}
+                      {item.ward !== null ? (
+                        <span>, &nbsp;{item.ward.description}</span>
+                      ) : (
+                        <span></span>
+                      )}
+                      {item.district !== null ? (
+                        <span>, &nbsp;{item.district.description}</span>
+                      ) : (
+                        <span></span>
+                      )}
+                      {item.province !== null ? (
+                        <span>, &nbsp;{item.province.description}</span>
+                      ) : (
+                        <span></span>
+                      )}
+                      .
                     </li>
                     <li className="list-group-item">
                       Giới tính: {item.gender}

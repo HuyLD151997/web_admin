@@ -9,7 +9,11 @@ import DetailAccountPage from "./../pages/HomePage/DetailAccount";
 import GetServiceById from "./../pages/ServicePage/GetServiceById";
 import CreateServiceItem from "./../pages/ServicePage/CreateServicePage";
 import Transaction from "./../pages/Transaction/TransactionPage";
+import TransactionCus from "./../pages/Transaction/TransactionCusPage";
 import Booking from "./../pages/Booking/BookingPage";
+import ListBooking from "./../pages/Booking/ListBookingPage";
+import BookingLog from "./../pages/Booking/BookingLogPage";
+import CleaningTool from "./../pages/CleaningTool/CleaningToolPage";
 
 export const ROUTES = [
   {
@@ -76,7 +80,31 @@ export const ADMIN_ROUTES = [
     component: Transaction,
   },
   {
-    path: "/booking/:id",
+    path: "/transactionCus",
+    name: "TransactionCus",
+    exact: true,
+    component: TransactionCus,
+  },
+  {
+    path: "/cleaning-tool",
+    name: "CleaningTool",
+    exact: true,
+    component: CleaningTool,
+  },
+  {
+    path: "/booking",
+    name: "Đặt lịch",
+    exact: true,
+    component: ListBooking,
+  },
+  {
+    path: "/booking-log",
+    name: "Nhật ký",
+    exact: true,
+    component: BookingLog,
+  },
+  {
+    path: "/booking-detail/:id",
     name: "Booking",
     exact: true,
     component: Booking,

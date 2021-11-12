@@ -10,7 +10,9 @@ import { sagas as getServiceGroupsSaga } from "./ServiceGroupsSagas/GetServiceGr
 import { sagas as getServiceByIdSaga } from "./ServiceGroupsSagas/GetServiceByIdSaga";
 import { sagas as getTransactionSaga } from "./TransactionSagas/GetTransactionSaga";
 import { sagas as getBookingSaga } from "./BookingSagas/GetBookingSaga";
+import { sagas as getBookingDetailSaga } from "./BookingSagas/GetBookingDetailSaga";
 import { sagas as putAvatarSaga } from "./EmployeesSagas/PutAvatarSaga";
+import { sagas as getCleaningToolSaga } from "./CleaningTool/GetCleaningToolSaga";
 
 const allSaga = [
   ...authenticateSagas,
@@ -25,6 +27,8 @@ const allSaga = [
   ...putAvatarSaga,
   ...getTransactionSaga,
   ...getBookingSaga,
+  ...getBookingDetailSaga,
+  ...getCleaningToolSaga,
 ];
 
 export default function* rootSaga() {

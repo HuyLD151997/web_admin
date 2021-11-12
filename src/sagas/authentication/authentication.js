@@ -26,9 +26,10 @@ function* loginAction({ payload }) {
     console.log(data.token);
     if (status === 200) {
       yield put(loginSuccess(data));
-
+      console.log(data);
       yield localStorage.setItem("token", data.token);
       yield localStorage.setItem("fullname", data.fullname);
+      yield localStorage.setItem("hasAvatar", data.hasAvatar);
       history.push("/home");
     }
   } catch (error) {

@@ -6,14 +6,18 @@ import { Link } from "react-router-dom";
 import Swal from "sweetalert2";
 import { deleteServiceGroupApi } from "../../apis/ServiceGroup/DeleteServiceGroup";
 import { updateServiceGroupApi } from "../../apis/ServiceGroup/UpdateServiceGroup";
+import { updateImgServiceGroupApi } from "../../apis/ServiceGroup/UpdateImgServiceGroup";
 import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useForm } from "react-hook-form";
 import * as moment from "moment";
+import FileReaderInput from "react-file-reader-input";
+import { render } from "react-dom";
 
 const ServiceGroupsPage = (props) => {
   const [description, setDescription] = useState("");
   const [idService, setIdService] = useState("");
+  const [selectedImages, setSelectedImage] = useState([]);
 
   const dispatchAction = useDispatch();
   useEffect(() => {
@@ -45,10 +49,31 @@ const ServiceGroupsPage = (props) => {
     }
   };
 
-  const handleUpdateServiceName = async (id, description) => {
+  const handleUpdateServiceName = async (id, description, type) => {
     try {
       console.log(data);
-      await updateServiceGroupApi(id, { description });
+      await updateServiceGroupApi(id, { description, type });
+      Swal.fire({
+        icon: "success",
+        text: "active status success",
+        timer: 2000,
+        showConfirmButton: false,
+      });
+      window.location.reload();
+    } catch (error) {
+      Swal.fire({
+        icon: "error",
+        text: "active failed ",
+        timer: 1000,
+        showConfirmButton: false,
+      });
+    }
+  };
+
+  const handleUpdateServiceImg = async (id, file) => {
+    try {
+      console.log(data);
+      await updateImgServiceGroupApi(id, { file });
       Swal.fire({
         icon: "success",
         text: "active status success",
@@ -69,12 +94,20 @@ const ServiceGroupsPage = (props) => {
   const validationSchema = yup
     .object({
       description: yup.string().required("Tên dịch vụ không được để trống"),
+      type: yup
+        .string()
+        .required("Loại không được để trống")
+        .matches(
+          /(NORMAL|OVERALL|OPTIONAL)/,
+          "Chỉ được chọn một trong ba cái có sẵn"
+        ),
     })
     .required();
 
   const {
     register,
     handleSubmit,
+    handleSubmitImg,
     formState: { errors },
   } = useForm({
     resolver: yupResolver(validationSchema),
@@ -86,77 +119,157 @@ const ServiceGroupsPage = (props) => {
   };
 
   const submitForm = (data) => {
-    handleUpdateServiceName(idService, data.description);
+    handleUpdateServiceName(idService, data.description, data.type);
+  };
+
+  const updateImg = (data) => {
+    handleUpdateServiceImg(idService, data.file);
+  };
+
+  const handleFile = (e) => {
+    const content = e.target.result;
+    console.log("file content", content);
+    // You can set content in state and show it in render.
+  };
+
+  const handleChangeFile = (e) => {
+    if (e.target.files) {
+      const fileArray = Array.from(e.target.files).map((file) =>
+        URL.createObjectURL(file)
+      );
+      setSelectedImage((prevImages) => prevImages.concat(fileArray));
+      Array.from(e.target.files).map((file) => URL.revokeObjectURL(file));
+    }
+  };
+
+  const renderPhotos = (src) => {
+    return src.map((photo) => {
+      return (
+        <img
+          style={{
+            width: "50px",
+            height: "50px",
+            // borderRadius: "50%",
+            marginRight: "5px",
+            marginBottom: "5px",
+          }}
+          src={photo}
+          key={photo}
+        />
+      );
+    });
   };
 
   return (
     <div className="container ml-2 table-responsive-xl">
       <Link type="button" to="/add-service" className="btn btn-warning btn-lg ">
-        Create Services
+        Tạo loại dịch vụ
       </Link>
       <table className="table">
         <thead className="table-light">
           <tr>
+            <th scope="col">Hình</th>
             <th scope="col">Dịch vụ</th>
+            <th scope="col">Loại</th>
             <th scope="col">Ngày/Giờ tạo</th>
             <th scope="col">Ngày/Giờ cập nhật</th>
             <th scope="col">Trạng thái</th>
-            <th scope="col">Hành động</th>
-            <th scope="col">Thông tin</th>
+            <th scope="col"></th>
           </tr>
         </thead>
         {data ? (
           data.length > 0 ? (
             data.map((item, index) => (
               <tbody>
-                <tr
-                  className={
-                    item.isDisable === true ? "table-danger" : "table-primary"
-                  }
-                  key={index}
-                >
-                  <td className="col-2">{item.description}</td>
-                  <td className="col-2">
+                <tr className="" key={index}>
+                  <td className="col-1">
+                    {item.hasImage ? (
+                      <img
+                        src={`http://api.beclean.store/api/ServiceGroup/Image/${item.hasImage}`}
+                        style={{
+                          width: "50px",
+                          height: "50px",
+                          // borderRadius: "50%",
+                          marginRight: "5px",
+                          marginBottom: "5px",
+                        }}
+                      />
+                    ) : (
+                      <span>Chưa có</span>
+                    )}
+
+                    <i
+                      class="fa fa-edit"
+                      type="button"
+                      // onClick={() =>
+                      //   handleGetDescription(item.description, item.id)
+                      // }
+                      data-toggle="modal"
+                      data-target="#exampleModal2"
+                      data-whatever="yah"
+                      style={{
+                        fontSize: "20px",
+                        margin: "auto",
+                        marginTop: "8px",
+                        position: "absolute",
+                        bottom: "7px",
+                        right: "15px",
+                      }}
+                    ></i>
+                    {/* </form> */}
+                  </td>
+                  <td className="col-2 align-middle">{item.description}</td>
+                  <td className="col-1 align-middle">{item.type}</td>
+                  <td className="col-2 align-middle">
                     {moment(item.dateCreated).format("DD/MM/YYYY")}
                     &nbsp;/ {item.dateCreated.substring(11, 16)}
                   </td>
-                  <td className="col-2">
+                  <td className="col-2 align-middle">
                     {moment(item.dateUpdated).format("DD/MM/YYYY")}
                     &nbsp;/ {item.dateUpdated.substring(11, 16)}
                   </td>
 
-                  <td className="col-2">
+                  <td className="col-2 align-middle">
                     {item.isDisable === false ? (
                       ""
                     ) : (
-                      <button
-                        className="btn btn-info btn-sm"
-                        // type="button"
-                        // // onClick={() =>
-                        // //   handleGetDescription(item.description, item.id)
-                        // // }
-                        // data-toggle="modal"
-                        // data-target="#exampleModal"
-                        // data-whatever="yah"
-                      >
-                        Kích hoạt
-                      </button>
+                      <span className="text-danger">Tạm dừng</span>
                     )}
                     {item.isDisable === true ? (
                       ""
                     ) : (
-                      <button
-                        className="btn btn-danger btn-sm"
-                        type="button"
-                        onClick={() => handleOnClickDelete(item.id)}
-                      >
-                        Khóa
-                      </button>
+                      <span className="text-success border border-success rounded p-1">
+                        Hoạt động
+                      </span>
                     )}
                   </td>
-                  <td className="col-2">
-                    <button
-                      className="btn btn-light btn-sm"
+
+                  <td className="col-2 align-middle">
+                    {item.isDisable === false ? (
+                      ""
+                    ) : (
+                      <i
+                        class="fa fa-unlock-alt text-success"
+                        type="button"
+                        style={{ fontSize: "30px", marginTop: "15px" }}
+                        // onClick={() => handleActive(item.id)}
+                      ></i>
+                    )}
+                    {item.isDisable === true ? (
+                      ""
+                    ) : (
+                      <i
+                        class="fa fa-lock text-danger"
+                        type="button"
+                        style={{
+                          fontSize: "30px",
+                          marginTop: "15px",
+                        }}
+                        onClick={() => handleOnClickDelete(item.id)}
+                      ></i>
+                    )}
+                    <i
+                      class="fa fa-edit"
                       type="button"
                       onClick={() =>
                         handleGetDescription(item.description, item.id)
@@ -164,19 +277,24 @@ const ServiceGroupsPage = (props) => {
                       data-toggle="modal"
                       data-target="#exampleModal"
                       data-whatever="yah"
-                    >
-                      Cập nhật
-                    </button>
-                  </td>
-                  <td className="col-2">
+                      style={{
+                        fontSize: "30px",
+                        margin: "auto",
+                        marginTop: "8px",
+                        marginLeft: "20px",
+                      }}
+                    ></i>
                     <Link
-                      className="btn btn-success btn-sm "
-                      style={{ width: "170px", marginTop: "9px" }}
+                      style={{
+                        fontSize: "30px",
+                        margin: "auto",
+                        marginLeft: "20px",
+                      }}
                       type="button"
                       to={`detail-service-group/${item.id}`}
                       //style={{ paddingLeft: "55px", paddingRight: "55px" }}
                     >
-                      Chi tiết
+                      <i class="fa fa-ellipsis-v text-muted"></i>
                     </Link>
                   </td>
                 </tr>
@@ -226,6 +344,20 @@ const ServiceGroupsPage = (props) => {
                   />
                   <p>{errors.description?.message}</p>
                 </div>
+                <div className="form-group">
+                  <label>Thuộc loại</label>
+                  <select
+                    class="custom-select"
+                    id="inputGroupSelect01"
+                    {...register("type")}
+                  >
+                    <option selected>Loại</option>
+                    <option value="NORMAL">NORMAL</option>
+                    <option value="OVERALL">OVERALL</option>
+                    <option value="OPTIONAL">OPTIONAL</option>
+                  </select>
+                  <p>{errors.type?.message}</p>
+                </div>
               </div>
               <div className="modal-footer">
                 <button
@@ -238,6 +370,64 @@ const ServiceGroupsPage = (props) => {
                 <button type="submit" className="btn btn-primary">
                   Cập nhật
                 </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+      <div
+        className="modal fade"
+        id="exampleModal2"
+        tabIndex={-1}
+        role="dialog"
+        aria-labelledby="exampleModalLabel2"
+        aria-hidden="true"
+      >
+        <div className="modal-dialog" role="document">
+          <div className="modal-content">
+            <div className="modal-header">
+              <h5 className="modal-title w-100" id="exampleModalLabel2">
+                Cập nhật hình
+              </h5>
+              <button
+                type="button"
+                className="close"
+                data-dismiss="modal"
+                aria-label="Close"
+              >
+                <span aria-hidden="true" style={{ float: "right" }}>
+                  ×
+                </span>
+              </button>
+            </div>
+            <form onSubmit={handleSubmit(submitForm)}>
+              <div className="modal-body">
+                <div className="form-group">
+                  <input
+                    type="file"
+                    id="file"
+                    name="img-upload"
+                    onChange={handleChangeFile}
+                  />
+                  <div className="label-holder">
+                    <label htmlFor="file" className="img-upload">
+                      Chọn hình
+                    </label>
+                  </div>
+                  <div className="result">{renderPhotos(selectedImages)}</div>
+                </div>
+              </div>
+              <div className="modal-footer">
+                <button
+                  type="button"
+                  className="btn btn-secondary"
+                  data-dismiss="modal"
+                >
+                  Đóng
+                </button>
+                {/* <button type="submit" className="btn btn-primary">
+                  Cập nhật
+                </button> */}
               </div>
             </form>
           </div>

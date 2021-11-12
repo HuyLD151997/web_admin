@@ -20,7 +20,7 @@ const AdminLayoutRouter = (props) => {
         return (
           <div>
             <div className="row">
-              <div className="col-2 pr-0">
+              <div className="col-2 pr-0" style={{ background: "#fdcb08" }}>
                 <Sidebar />
               </div>
 
