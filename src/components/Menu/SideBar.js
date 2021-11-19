@@ -27,6 +27,24 @@ const transaction = [
   },
 ];
 
+const capPhat = [
+  {
+    name: "Yêu câu cấp phát",
+    to: "/allocation-cleaning-tool-not-accept",
+    exact: false,
+  },
+  {
+    name: "Đã cấp phát",
+    to: "/allocation-cleaning-tool-accept",
+    exact: false,
+  },
+  {
+    name: "Lịch sử cấp phát",
+    to: "/history-allocation-cleaning-tool-accept",
+    exact: false,
+  },
+];
+
 const menus = [
   {
     name: "Dịch vụ",
@@ -62,8 +80,8 @@ class SideBar extends Component {
           Be Clean
         </div>
 
-        <ul className="navbar-nav rounded-0 logo font-weight-bold">
-          <li className="nav-item dropdown mb-1">
+        <ul className="navbar-nav rounded-0 logo font-weight-bold pl-3">
+          <li className="nav-item dropdown mb-2 ">
             <span
               data-toggle="collapse"
               href="#collapseExample"
@@ -79,13 +97,13 @@ class SideBar extends Component {
               </span>
             </div>
           </li>
-          <li className="nav-item dropdown mb-1">
+          <li className="nav-item dropdown mb-2 ">
             <span
               data-toggle="collapse"
               href="#collapseExample2"
               role="button"
               aria-expanded="false"
-              aria-controls="collapseExample"
+              aria-controls="collapseExample2"
             >
               Giao dịch<i class="fa fa-caret-down"></i>
             </span>
@@ -95,8 +113,23 @@ class SideBar extends Component {
               </span>
             </div>
           </li>
-
-          <li className="nav-item">{this.showMenus(menus)}</li>
+          <li className="nav-item dropdown mb-2 ">
+            <span
+              data-toggle="collapse"
+              href="#collapseExample3"
+              role="button"
+              aria-expanded="false"
+              aria-controls="collapseExample3"
+            >
+              Cấp phát dụng cụ<i class="fa fa-caret-down"></i>
+            </span>
+            <div class="collapse " id="collapseExample3">
+              <span className="dropdown-item" style={{ background: "#fdcb08" }}>
+                {this.showCapPhat(capPhat)}
+              </span>
+            </div>
+          </li>
+          <li className="nav-item ">{this.showMenus(menus)}</li>
         </ul>
       </div>
     );
@@ -111,6 +144,7 @@ class SideBar extends Component {
             activeStyle={{
               backgroundColor: "#FF9900",
               color: "white",
+              paddingLeft: "20px",
             }}
             className="nav-link"
             exact={menu.exact}
@@ -135,6 +169,7 @@ class SideBar extends Component {
             activeStyle={{
               backgroundColor: "#FF9900",
               color: "white",
+              paddingLeft: "20px",
             }}
             className="nav-link"
             exact={account.exact}
@@ -142,6 +177,31 @@ class SideBar extends Component {
             key={index}
           >
             {account.name}
+            <span className="sr-only">(current)</span>
+          </NavLink>
+        );
+      });
+    }
+    return result;
+  };
+
+  showCapPhat = (capPhat) => {
+    var result = null;
+    if (account.length > 0) {
+      result = capPhat.map((capPhat, index) => {
+        return (
+          <NavLink
+            activeStyle={{
+              backgroundColor: "#FF9900",
+              color: "white",
+              paddingLeft: "20px",
+            }}
+            className="nav-link"
+            exact={capPhat.exact}
+            to={capPhat.to}
+            key={index}
+          >
+            {capPhat.name}
             <span className="sr-only">(current)</span>
           </NavLink>
         );
@@ -159,6 +219,7 @@ class SideBar extends Component {
             activeStyle={{
               backgroundColor: "#FF9900",
               color: "white",
+              paddingLeft: "20px",
             }}
             className="nav-link"
             exact={transaction.exact}

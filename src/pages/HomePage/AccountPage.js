@@ -73,7 +73,7 @@ const AccountPage = (props) => {
         </Link>
       </div>
       <table className="table align-middle mt-2">
-        <thead className="table-dark">
+        <thead className="table-light">
           <tr>
             <th scope="col">Hình</th>
             <th scope="col">Tài khoản</th>

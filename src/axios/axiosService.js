@@ -78,6 +78,21 @@ class AxiosService {
     });
   }
 
+  post4(url, body, token) {
+    const formData = new FormData();
+
+    formData.append("Description", body.Description);
+    formData.append("ImageFile", body.ImageFile[0]);
+    formData.append("Quantity", body.Quantity);
+
+    return this.intance.post(url, formData, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+        "content-type": "multipart/form-data",
+      },
+    });
+  }
+
   put(url, body, token) {
     return this.intance.put(url, body, {
       headers: { Authorization: `Bearer ${token}` },
@@ -87,6 +102,18 @@ class AxiosService {
   put2(url, body, token) {
     const formData = new FormData();
     formData.append("ImageFile", body.File[0]);
+    return this.intance.put(url, formData, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+        "content-type": "multipart/form-data",
+      },
+    });
+  }
+
+  put3(url, body, token) {
+    console.log(body);
+    const formData = new FormData();
+    formData.append("File", body.File);
     return this.intance.put(url, formData, {
       headers: {
         Authorization: `Bearer ${token}`,

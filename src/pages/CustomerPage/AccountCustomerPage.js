@@ -64,7 +64,7 @@ const AccountCustomerPage = (props) => {
     <div className="container ml-2 table-responsive-xl p-0 mt-2">
       <h2>Thông tin khách hàng</h2>
       <table className="table align-middle mt-2">
-        <thead className="table-dark">
+        <thead className="table-light">
           <tr>
             <th scope="col">Hình</th>
             <th scope="col">Tên tài khoản</th>

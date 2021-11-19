@@ -14,6 +14,10 @@ import Booking from "./../pages/Booking/BookingPage";
 import ListBooking from "./../pages/Booking/ListBookingPage";
 import BookingLog from "./../pages/Booking/BookingLogPage";
 import CleaningTool from "./../pages/CleaningTool/CleaningToolPage";
+import CreateCleaningTool from "./../pages/CleaningTool/CreateCleaningToolPage";
+import AllocationCleaningToolNotAccept from "./../pages/AllocationCleaningTool/CleaningToolNotAccept";
+import AllocationCleaningToolAccept from "./../pages/AllocationCleaningTool/CleaningToolAccept";
+import HistoryAllocationCleaningToolAccept from "./../pages/AllocationCleaningTool/HistoryCleaningToolAccept";
 
 export const ROUTES = [
   {
@@ -92,13 +96,37 @@ export const ADMIN_ROUTES = [
     component: CleaningTool,
   },
   {
+    path: "/create-cleaning-tool",
+    name: "CreateCleaningTool",
+    exact: true,
+    component: CreateCleaningTool,
+  },
+  {
+    path: "/allocation-cleaning-tool-not-accept",
+    name: "AllocationCleaningToolNotAccept",
+    exact: true,
+    component: AllocationCleaningToolNotAccept,
+  },
+  {
+    path: "/allocation-cleaning-tool-accept",
+    name: "AllocationCleaningToolAccept",
+    exact: true,
+    component: AllocationCleaningToolAccept,
+  },
+  {
+    path: "/history-allocation-cleaning-tool-accept",
+    name: "HistoryAllocationCleaningToolAccept",
+    exact: true,
+    component: HistoryAllocationCleaningToolAccept,
+  },
+  {
     path: "/booking",
     name: "Đặt lịch",
     exact: true,
     component: ListBooking,
   },
   {
-    path: "/booking-log",
+    path: "/booking-log/:id",
     name: "Nhật ký",
     exact: true,
     component: BookingLog,

@@ -3,6 +3,10 @@ import * as API_LINK from "../../constants/ApiLink";
 
 const token = localStorage.getItem("token");
 
-export const deleteCleaningToolApi = (data) => {
-  return axiosService.delete(`${API_LINK.DELETE_CLEANING_TOOL}/${data}`, token);
+export const updateCleaningToolApi = (id, data) => {
+  return axiosService.put(
+    `${API_LINK.UPDATE_CLEANING_TOOL}/${id}`,
+    data,
+    token
+  );
 };

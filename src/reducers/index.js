@@ -13,7 +13,10 @@ import putAvatarReducer from "./EmployeesReducer/PutAvatarReducer";
 import transactionsReducer from "./TransactionsReducer/GetTransactionReducer";
 import bookingsReducer from "./BookingsReducer/GetBookingReducer";
 import bookingDetailReducer from "./BookingsReducer/GetBookingDetailReducer";
+import bookingImageReducer from "./BookingLogReducer/GetBookingImageReducer";
+import bookingLogReducer from "./BookingLogReducer/GetBookingLogReducer";
 import cleaningToolsReducer from "./CleaningTool/GetCleaningToolReducer";
+import requestCleaningToolPendingReducer from "./RequestCleaningTool/GetRequestCleaningToolPendingReducer";
 
 const rootReducers = combineReducers({
   services,
@@ -29,6 +32,9 @@ const rootReducers = combineReducers({
   getTransaction: transactionsReducer,
   getBooking: bookingsReducer,
   getBookingDetail: bookingDetailReducer,
+  getBookingImage: bookingImageReducer,
+  getBookingLog: bookingLogReducer,
+  getRequestCleaningToolPending: requestCleaningToolPendingReducer,
   avatarStringCode: putAvatarReducer,
   cleaningTool: cleaningToolsReducer,
 });

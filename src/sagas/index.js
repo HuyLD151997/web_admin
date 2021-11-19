@@ -13,6 +13,8 @@ import { sagas as getBookingSaga } from "./BookingSagas/GetBookingSaga";
 import { sagas as getBookingDetailSaga } from "./BookingSagas/GetBookingDetailSaga";
 import { sagas as putAvatarSaga } from "./EmployeesSagas/PutAvatarSaga";
 import { sagas as getCleaningToolSaga } from "./CleaningTool/GetCleaningToolSaga";
+import { sagas as getBookingImageSaga } from "./BookingLogSagas/GetBookingImageSaga";
+import { sagas as getBookingLogSaga } from "./BookingLogSagas/GetBookingLogSaga";
 
 const allSaga = [
   ...authenticateSagas,
@@ -29,6 +31,8 @@ const allSaga = [
   ...getBookingSaga,
   ...getBookingDetailSaga,
   ...getCleaningToolSaga,
+  ...getBookingImageSaga,
+  ...getBookingLogSaga,
 ];
 
 export default function* rootSaga() {

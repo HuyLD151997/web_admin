@@ -24,17 +24,23 @@ export const GET_CUSTOMER = "http://api.beclean.store/api/Account/Customers";
 export const GET_SERVICE_GROUPS = "http://api.beclean.store/api/ServiceGroup";
 
 export const DELETE_SERVICE_GROUPS =
-  "http://api.beclean.store/api/ServiceGroup";
+  "http://api.beclean.store/api/ServiceGroup/Disable";
 
 export const CREATE_SERVICE_GROUPS =
   "http://api.beclean.store/api/ServiceGroup";
 
 export const UPDATE_SERVICE_GROUP = "http://api.beclean.store/api/ServiceGroup";
 
+export const UPDATE_SERVICE_GROUP_STATUS =
+  "http://api.beclean.store/api/ServiceGroup/Enable";
+
 export const GET_SERVICE_BY_ID =
   "http://api.beclean.store/api/Service/ServiceGroupId";
 
-export const DELETE_SERVICE = "http://api.beclean.store/api/Service";
+export const DELETE_SERVICE = "http://api.beclean.store/api/Service/Disable";
+
+export const UPDATE_SERVICE_STATUS =
+  "http://api.beclean.store/api/Service/Enable";
 
 export const CREATE_SERVICE = "http://api.beclean.store/api/Service";
 
@@ -43,18 +49,41 @@ export const UPDATE_SERVICE = "http://api.beclean.store/api/Service";
 export const UPDATE_SERVICE_IMG =
   "http://api.beclean.store/api/ServiceGroup/Image";
 
-export const GET_TRANSACTION = "http://api.beclean.store/api/Transaction";
+export const GET_TRANSACTION_USER =
+  "http://api.beclean.store/api/Transaction/User";
 
-export const GET_BOOKING = `${BASE_URL}/Booking`;
+export const GET_TRANSACTION_BOOKING =
+  "http://api.beclean.store/api/Transaction/Booking";
 
-export const DELETE_BOOKING = `${BASE_URL}/Booking`;
+export const GET_BOOKING = `${BASE_URL}/Booking/Default`;
 
 export const GET_BOOKING_STATUS = `${BASE_URL}/BookingStatus`;
+
+export const GET_BOOKING_IMAGE = `${BASE_URL}/BookingLog/BookingImages`;
+
+export const GET_BOOKING_IMAGE_BEFORE = `${BASE_URL}/BookingLog/BookingImageReference`;
+
+export const GET_BOOKING_LOG = `${BASE_URL}/BookingLog`;
 
 export const PUT_AVATAR = `${BASE_URL}/Account/Avatar`;
 
 export const GET_AVATAR = "http://api.beclean.store/api/Account/Avatar";
 
-export const GET_CLEANING_TOOL = "http://api.beclean.store/api/CleaningTool";
+export const GET_CLEANING_TOOL =
+  "http://api.beclean.store/api/CleaningTool/Default";
 
-export const DELETE_CLEANING_TOOL = `${BASE_URL}/Booking`;
+export const CREATE_CLEANING_TOOL = "http://api.beclean.store/api/CleaningTool";
+
+export const DELETE_CLEANING_TOOL = `${BASE_URL}/CleaningTool/Disable`;
+
+export const UPDATE_CLEANING_TOOL_STATUS = `${BASE_URL}/CleaningTool/Enable`;
+
+export const UPDATE_CLEANING_TOOL = `${BASE_URL}/CleaningTool`;
+
+export const UPDATE_CLEANING_TOOL_IMG = `${BASE_URL}/CleaningTool/Image`;
+
+export const REQUEST_CLEANING_TOOL_PENDING = `${BASE_URL}/RequestCleaningTool/Pending`;
+
+export const REQUEST_CLEANING_TOOL_APPROVED = `${BASE_URL}/RequestCleaningTool/Approved`;
+
+export const REQUEST_CLEANING_TOOL_HISTORY = `${BASE_URL}/RequestCleaningTool/AdminHistory`;

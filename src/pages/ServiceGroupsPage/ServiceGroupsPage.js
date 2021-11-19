@@ -6,6 +6,7 @@ import { Link } from "react-router-dom";
 import Swal from "sweetalert2";
 import { deleteServiceGroupApi } from "../../apis/ServiceGroup/DeleteServiceGroup";
 import { updateServiceGroupApi } from "../../apis/ServiceGroup/UpdateServiceGroup";
+import { updateServiceGroupStatusApi } from "../../apis/ServiceGroup/UpdateServiceGroupStatus";
 import { updateImgServiceGroupApi } from "../../apis/ServiceGroup/UpdateImgServiceGroup";
 import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
@@ -53,6 +54,30 @@ const ServiceGroupsPage = (props) => {
     try {
       console.log(data);
       await updateServiceGroupApi(id, { description, type });
+      Swal.fire({
+        icon: "success",
+        text: "active status success",
+        timer: 2000,
+        showConfirmButton: false,
+      });
+      window.location.reload();
+    } catch (error) {
+      Swal.fire({
+        icon: "error",
+        text: "active failed ",
+        timer: 1000,
+        showConfirmButton: false,
+      });
+    }
+  };
+
+  const handleActive = (id) => {
+    handleUpdateServiceGroupStatus(id);
+  };
+
+  const handleUpdateServiceGroupStatus = async (id) => {
+    try {
+      await updateServiceGroupStatusApi(id);
       Swal.fire({
         icon: "success",
         text: "active status success",
@@ -252,7 +277,7 @@ const ServiceGroupsPage = (props) => {
                         class="fa fa-unlock-alt text-success"
                         type="button"
                         style={{ fontSize: "30px", marginTop: "15px" }}
-                        // onClick={() => handleActive(item.id)}
+                        onClick={() => handleActive(item.id)}
                       ></i>
                     )}
                     {item.isDisable === true ? (

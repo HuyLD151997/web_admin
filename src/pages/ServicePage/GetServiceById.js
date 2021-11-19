@@ -7,6 +7,7 @@ import Swal from "sweetalert2";
 import * as yup from "yup";
 import { deleteServiceApi } from "../../apis/Service/DeleteService";
 import { updateServiceApi } from "../../apis/Service/UpdateServiceGroup";
+import { updateServiceStatusApi } from "../../apis/Service/UpdateServiceStatus";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useForm } from "react-hook-form";
 import * as getServiceGroupsAction from "../../actions/ServicesGroup/GetServiceGroups";
@@ -102,6 +103,30 @@ const GetServiceById = (props) => {
     resolver: yupResolver(validationSchema),
   });
 
+  const handleActive = (id) => {
+    handleUpdateServiceStatus(id);
+  };
+
+  const handleUpdateServiceStatus = async (id) => {
+    try {
+      await updateServiceStatusApi(id);
+      Swal.fire({
+        icon: "success",
+        text: "active status success",
+        timer: 2000,
+        showConfirmButton: false,
+      });
+      window.location.reload();
+    } catch (error) {
+      Swal.fire({
+        icon: "error",
+        text: "active failed ",
+        timer: 1000,
+        showConfirmButton: false,
+      });
+    }
+  };
+
   const handleGetDescription = (description, id, unitPrice) => {
     setDescription(description);
     setIdService(id);
@@ -151,55 +176,45 @@ const GetServiceById = (props) => {
           data.length > 0 ? (
             data.map((item, index) => (
               <tbody>
-                <tr
-                  className={
-                    item.isDisable === true ? "table-danger" : "table-primary"
-                  }
-                  key={index}
-                >
-                  <td className="col-2">{item.description}</td>
-                  <td className="col-2">
+                <tr key={index}>
+                  <td className="col-2 align-middle">{item.description}</td>
+                  <td className="col-2 align-middle">
                     {moment(item.dateCreated).format("DD/MM/YYYY")}
                     &nbsp;/ {item.dateCreated.substring(11, 16)}
                   </td>
-                  <td className="col-2">
+                  <td className="col-2 align-middle">
                     {moment(item.dateUpdated).format("DD/MM/YYYY")}
                     &nbsp;/ {item.dateUpdated.substring(11, 16)}
                   </td>
-                  <td className="col-2">{item.unitPrice}VND</td>
-                  <td className="col-2">
+                  <td className="col-2 align-middle">{item.unitPrice}VND</td>
+                  <td className="col-2 align-middle">
                     {item.isDisable === false ? (
                       ""
                     ) : (
-                      // <button
-                      //   className="btn btn-info btn-sm"
-                      //   // type="button"
-                      //   // // onClick={() =>
-                      //   // //   handleGetDescription(item.description, item.id)
-                      //   // // }
-                      //   // data-toggle="modal"
-                      //   // data-target="#exampleModal"
-                      //   // data-whatever="yah"
-                      // >
-                      //   Kích hoạt
-                      // </button>
+                      <span className="text-danger">Tạm dừng</span>
+                    )}
+                    {item.isDisable === true ? (
+                      ""
+                    ) : (
+                      <span className="text-success border border-success rounded p-1">
+                        Hoạt động
+                      </span>
+                    )}
+                  </td>
+                  <td className="col-2 align-middle">
+                    {item.isDisable === false ? (
+                      ""
+                    ) : (
                       <i
                         class="fa fa-unlock-alt text-success"
                         type="button"
-                        style={{ fontSize: "30px", marginTop: "15px" }}
-                        // onClick={() => handleActive(item.id)}
+                        style={{ fontSize: "30px", marginTop: "8px" }}
+                        onClick={() => handleActive(item.id)}
                       ></i>
                     )}
                     {item.isDisable === true ? (
                       ""
                     ) : (
-                      // <button
-                      //   className="btn btn-danger btn-sm"
-                      //   type="button"
-                      //   onClick={() => handleOnClickDelete(item.id)}
-                      // >
-                      //   Khóa
-                      // </button>
                       <i
                         class="fa fa-lock text-danger"
                         type="button"
@@ -207,20 +222,6 @@ const GetServiceById = (props) => {
                         onClick={() => handleOnClickDelete(item.id)}
                       ></i>
                     )}
-                  </td>
-                  <td className="col-2">
-                    {/* <button
-                      className="btn btn-light btn-sm"
-                      type="button"
-                      onClick={() =>
-                        handleGetDescription(item.description, item.id)
-                      }
-                      data-toggle="modal"
-                      data-target="#exampleModal"
-                      data-whatever="yah"
-                    >
-                      Cập nhật
-                    </button> */}
                     <i
                       class="fa fa-edit"
                       type="button"
@@ -234,6 +235,7 @@ const GetServiceById = (props) => {
                         fontSize: "30px",
                         margin: "auto",
                         marginTop: "8px",
+                        marginLeft: "20px",
                       }}
                     ></i>
                   </td>

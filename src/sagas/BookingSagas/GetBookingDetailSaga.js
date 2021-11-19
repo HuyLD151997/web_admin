@@ -14,6 +14,7 @@ function* getBookingDetailSaga() {
     const { data, status } = res;
     if (status === 200 || status === 201) {
       yield put(getBookingDetailSuccess(data));
+      console.log(data);
     } else {
       yield put(getBookingDetailFailed(data));
     }

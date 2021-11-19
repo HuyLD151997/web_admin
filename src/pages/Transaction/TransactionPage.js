@@ -97,8 +97,8 @@ const TransactionPage = (props) => {
           <tr>
             <th scope="col">#</th>
             <th scope="col">Ghi chú</th>
+            <th scope="col">Nhân viên</th>
             <th scope="col">Ngày/Giờ tạo</th>
-            <th scope="col">Ngày/Giờ cập nhật</th>
             {/* <th scope="col">Trạng thái</th> */}
           </tr>
         </thead>
@@ -117,12 +117,21 @@ const TransactionPage = (props) => {
                   </td>
                   <td className="">{item.description}</td>
                   <td className="">
-                    {moment(item.dateCreated).format("DD/MM/YYYY")}
-                    &nbsp;/ {item.dateCreated.substring(11, 16)}
+                    {item.booking ? (
+                      <span>
+                        {item.booking.employee !== null ? (
+                          <span>{item.booking.employee.fullname}</span>
+                        ) : (
+                          <span>Chưa tìm thấy</span>
+                        )}
+                      </span>
+                    ) : (
+                      <span>Chưa tìm thấy</span>
+                    )}
                   </td>
                   <td className="">
-                    {moment(item.dateUpdated).format("DD/MM/YYYY")}
-                    &nbsp;/ {item.dateUpdated.substring(11, 16)}
+                    {moment(item.dateCreated).format("DD/MM/YYYY")}
+                    &nbsp;/ {item.dateCreated.substring(11, 16)}
                   </td>
                 </tr>
               </tbody>
