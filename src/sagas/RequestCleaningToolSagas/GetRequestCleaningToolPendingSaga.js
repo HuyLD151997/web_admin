@@ -7,7 +7,7 @@ import {
 import { getRequestCleaningToolPendingApi } from "../../apis/RequestCleaningTool/GetRequestCleaningToolPendingApi";
 import * as getRequestCleaningToolPendingConstants from "../../constants/RequestCleaningTool/GetRequestCleaningToolPending";
 
-function* getEmployeesSaga() {
+function* getRequestCleaningToolPendingSaga() {
   while (true) {
     const action = yield take(
       getRequestCleaningToolPendingConstants.GET_REQUEST_CLEANING_TOOL_PENDING
@@ -22,4 +22,4 @@ function* getEmployeesSaga() {
     }
   }
 }
-export const sagas = [getEmployeesSaga];
+export const sagas = [getRequestCleaningToolPendingSaga];

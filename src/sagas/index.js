@@ -15,6 +15,10 @@ import { sagas as putAvatarSaga } from "./EmployeesSagas/PutAvatarSaga";
 import { sagas as getCleaningToolSaga } from "./CleaningTool/GetCleaningToolSaga";
 import { sagas as getBookingImageSaga } from "./BookingLogSagas/GetBookingImageSaga";
 import { sagas as getBookingLogSaga } from "./BookingLogSagas/GetBookingLogSaga";
+import { sagas as getRequestCleaningToolPendingSaga } from "./RequestCleaningToolSagas/GetRequestCleaningToolPendingSaga";
+import { sagas as getRequestCleaningToolApprovedSaga } from "./RequestCleaningToolSagas/GetRequestCleaningToolApprovedSaga";
+import { sagas as getRequestCleaningToolHistorySaga } from "./RequestCleaningToolSagas/GetRequestCleaningToolHistorySaga";
+import { sagas as getSettingSaga } from "./SettingSagas/GetSettingSaga";
 
 const allSaga = [
   ...authenticateSagas,
@@ -33,6 +37,10 @@ const allSaga = [
   ...getCleaningToolSaga,
   ...getBookingImageSaga,
   ...getBookingLogSaga,
+  ...getRequestCleaningToolPendingSaga,
+  ...getRequestCleaningToolApprovedSaga,
+  ...getRequestCleaningToolHistorySaga,
+  ...getSettingSaga,
 ];
 
 export default function* rootSaga() {

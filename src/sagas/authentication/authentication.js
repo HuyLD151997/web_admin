@@ -30,7 +30,7 @@ function* loginAction({ payload }) {
       yield localStorage.setItem("token", data.token);
       yield localStorage.setItem("fullname", data.fullname);
       yield localStorage.setItem("hasAvatar", data.hasAvatar);
-      history.push("/home");
+      history.push("/chart");
     }
   } catch (error) {
     console.log("Error catch");

@@ -87,3 +87,11 @@ export const REQUEST_CLEANING_TOOL_PENDING = `${BASE_URL}/RequestCleaningTool/Pe
 export const REQUEST_CLEANING_TOOL_APPROVED = `${BASE_URL}/RequestCleaningTool/Approved`;
 
 export const REQUEST_CLEANING_TOOL_HISTORY = `${BASE_URL}/RequestCleaningTool/AdminHistory`;
+
+export const APPROVED_REQUEST = `${BASE_URL}/RequestCleaningTool/Approved`;
+
+export const REJECTED_REQUEST = `${BASE_URL}/RequestCleaningTool/Rejected`;
+
+export const PROVIDED_REQUEST = `${BASE_URL}/RequestCleaningTool/Provided`;
+
+export const GET_SETTING = `${BASE_URL}/Setting`;

@@ -6,6 +6,8 @@ import { Link } from "react-router-dom";
 import Swal from "sweetalert2";
 import { deleteEmployeeApi } from "../../apis/Employees/DeleteEmployee";
 import { updateEmployeeStatusApi } from "../../apis/Employees/UpdateEmployeeStatus";
+import ReactHTMLTableToExcel from "react-html-table-to-excel";
+
 const AccountCustomerPage = (props) => {
   const dispatchAction = useDispatch();
   useEffect(() => {
@@ -62,8 +64,25 @@ const AccountCustomerPage = (props) => {
   };
   return (
     <div className="container ml-2 table-responsive-xl p-0 mt-2">
-      <h2>Thông tin khách hàng</h2>
-      <table className="table align-middle mt-2">
+      <div className="row m-0">
+        <h2>Thông tin khách hàng</h2>
+        <Link
+          type="button"
+          to="/customer-export"
+          className="btn btn-warning btn-lg ml-auto mr-3"
+        >
+          Xuất tập tin
+        </Link>
+      </div>
+      {/* <ReactHTMLTableToExcel
+        id="test-table-xls-button"
+        className="download-table-xls-button"
+        table="table-to-xls"
+        filename="tablexls"
+        sheet="tablexls"
+        buttonText="Download as XLS"
+      /> */}
+      <table className="table align-middle mt-2" id="table-to-xls">
         <thead className="table-light">
           <tr>
             <th scope="col">Hình</th>

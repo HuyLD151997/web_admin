@@ -2,6 +2,7 @@ import Login from "./../pages/login";
 import HomePage from "./../pages/HomePage/AccountPage";
 import CreateAccount from "./../pages/HomePage/CreateAccount";
 import AccountCustomerPage from "./../pages/CustomerPage/AccountCustomerPage";
+import ExportAccountCustomerPage from "./../pages/CustomerPage/ExportAccountCustomerPage";
 import ServiceGroupsPage from "./../pages/ServiceGroupsPage/ServiceGroupsPage";
 import CreateGroupPage from "./../pages/ServiceGroupsPage/CreateGroupPage";
 import NotFoundPage from "./../pages/NotFoundPage/NotFoundPage";
@@ -18,6 +19,8 @@ import CreateCleaningTool from "./../pages/CleaningTool/CreateCleaningToolPage";
 import AllocationCleaningToolNotAccept from "./../pages/AllocationCleaningTool/CleaningToolNotAccept";
 import AllocationCleaningToolAccept from "./../pages/AllocationCleaningTool/CleaningToolAccept";
 import HistoryAllocationCleaningToolAccept from "./../pages/AllocationCleaningTool/HistoryCleaningToolAccept";
+import Setting from "./../pages/SettingPage/SettingPage";
+import Chart from "./../pages/chartAll";
 
 export const ROUTES = [
   {
@@ -52,6 +55,12 @@ export const ADMIN_ROUTES = [
     name: "Customer",
     exact: true,
     component: AccountCustomerPage,
+  },
+  {
+    path: "/customer-export",
+    name: "ExportCustomer",
+    exact: true,
+    component: ExportAccountCustomerPage,
   },
   {
     path: "/service-group",
@@ -136,6 +145,18 @@ export const ADMIN_ROUTES = [
     name: "Booking",
     exact: true,
     component: Booking,
+  },
+  {
+    path: "/setting",
+    name: "Cài đặt",
+    exact: true,
+    component: Setting,
+  },
+  {
+    path: "/chart",
+    name: "Biểu đồ",
+    exact: true,
+    component: Chart,
   },
   {
     path: "",

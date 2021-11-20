@@ -1,6 +1,14 @@
 import React, { Component } from "react";
 import { NavLink } from "react-router-dom";
 
+const chart = [
+  {
+    name: "Biểu đồ",
+    to: "/chart",
+    exact: false,
+  },
+];
+
 const account = [
   {
     name: "Nhân viên",
@@ -34,7 +42,7 @@ const capPhat = [
     exact: false,
   },
   {
-    name: "Đã cấp phát",
+    name: "Chờ cấp phát",
     to: "/allocation-cleaning-tool-accept",
     exact: false,
   },
@@ -62,6 +70,11 @@ const menus = [
     to: "/cleaning-tool",
     exact: false,
   },
+  {
+    name: "Cài đặt",
+    to: "/setting",
+    exact: false,
+  },
 ];
 
 class SideBar extends Component {
@@ -81,6 +94,7 @@ class SideBar extends Component {
         </div>
 
         <ul className="navbar-nav rounded-0 logo font-weight-bold pl-3">
+          <li className="nav-item ">{this.showChart(chart)}</li>
           <li className="nav-item dropdown mb-2 ">
             <span
               data-toggle="collapse"
@@ -152,6 +166,31 @@ class SideBar extends Component {
             key={index}
           >
             {menu.name}
+            <span className="sr-only">(current)</span>
+          </NavLink>
+        );
+      });
+    }
+    return result;
+  };
+
+  showChart = (chart) => {
+    var result = null;
+    if (chart.length > 0) {
+      result = chart.map((chart, index) => {
+        return (
+          <NavLink
+            activeStyle={{
+              backgroundColor: "#FF9900",
+              color: "white",
+              paddingLeft: "20px",
+            }}
+            className="nav-link"
+            exact={chart.exact}
+            to={chart.to}
+            key={index}
+          >
+            {chart.name}
             <span className="sr-only">(current)</span>
           </NavLink>
         );

@@ -17,6 +17,9 @@ import bookingImageReducer from "./BookingLogReducer/GetBookingImageReducer";
 import bookingLogReducer from "./BookingLogReducer/GetBookingLogReducer";
 import cleaningToolsReducer from "./CleaningTool/GetCleaningToolReducer";
 import requestCleaningToolPendingReducer from "./RequestCleaningTool/GetRequestCleaningToolPendingReducer";
+import requestCleaningToolApprovedReducer from "./RequestCleaningTool/GetRequestCleaningToolApprovedReducer";
+import requestCleaningToolHistoryReducer from "./RequestCleaningTool/GetRequestCleaningToolHistoryReducer";
+import getSettingsReducer from "./SettingReducer/GetSettingReducer";
 
 const rootReducers = combineReducers({
   services,
@@ -35,8 +38,11 @@ const rootReducers = combineReducers({
   getBookingImage: bookingImageReducer,
   getBookingLog: bookingLogReducer,
   getRequestCleaningToolPending: requestCleaningToolPendingReducer,
+  getRequestCleaningToolApproved: requestCleaningToolApprovedReducer,
+  getRequestCleaningToolHistory: requestCleaningToolHistoryReducer,
   avatarStringCode: putAvatarReducer,
   cleaningTool: cleaningToolsReducer,
+  getSetting: getSettingsReducer,
 });
 
 export default rootReducers;

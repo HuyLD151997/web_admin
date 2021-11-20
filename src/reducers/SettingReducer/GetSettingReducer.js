@@ -1,4 +1,4 @@
-import * as getRequestCleaningToolPendingConstants from "../../constants/RequestCleaningTool/GetRequestCleaningToolPending";
+import * as getSettingsConstants from "../../constants/Setting/GetSetting";
 
 const initialState = {
   table: [],
@@ -7,19 +7,20 @@ const initialState = {
 
 const reducer = (state = initialState, action) => {
   switch (action.type) {
-    case getRequestCleaningToolPendingConstants.GET_REQUEST_CLEANING_TOOL_PENDING: {
+    case getSettingsConstants.GET_SETTING: {
       return {
         ...state,
       };
     }
-    case getRequestCleaningToolPendingConstants.GET_REQUEST_CLEANING_TOOL_PENDING_SUCCESS: {
+    case getSettingsConstants.GET_SETTING_SUCCESS: {
       const { data } = action.payload;
+
       return {
         ...state,
         table: data,
       };
     }
-    case getRequestCleaningToolPendingConstants.GET_REQUEST_CLEANING_TOOL_PENDING_FAILED: {
+    case getSettingsConstants.GET_SETTING_FAILED: {
       return {
         ...state,
       };

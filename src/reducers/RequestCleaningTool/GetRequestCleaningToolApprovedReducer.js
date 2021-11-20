@@ -1,4 +1,4 @@
-import * as getRequestCleaningToolPendingConstants from "../../constants/RequestCleaningTool/GetRequestCleaningToolPending";
+import * as getRequestCleaningToolApprovedConstants from "../../constants/RequestCleaningTool/GetRequestCleaningToolApproved";
 
 const initialState = {
   table: [],
@@ -7,19 +7,19 @@ const initialState = {
 
 const reducer = (state = initialState, action) => {
   switch (action.type) {
-    case getRequestCleaningToolPendingConstants.GET_REQUEST_CLEANING_TOOL_PENDING: {
+    case getRequestCleaningToolApprovedConstants.GET_REQUEST_CLEANING_TOOL_APPROVED: {
       return {
         ...state,
       };
     }
-    case getRequestCleaningToolPendingConstants.GET_REQUEST_CLEANING_TOOL_PENDING_SUCCESS: {
+    case getRequestCleaningToolApprovedConstants.GET_REQUEST_CLEANING_TOOL_APPROVED_SUCCESS: {
       const { data } = action.payload;
       return {
         ...state,
         table: data,
       };
     }
-    case getRequestCleaningToolPendingConstants.GET_REQUEST_CLEANING_TOOL_PENDING_FAILED: {
+    case getRequestCleaningToolApprovedConstants.GET_REQUEST_CLEANING_TOOL_APPROVED_FAILED: {
       return {
         ...state,
       };

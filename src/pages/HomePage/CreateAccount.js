@@ -19,8 +19,8 @@ const CreateAccount = (props) => {
   const [idCity, setIDCity] = useState(-1);
   const [idWard, setIDWard] = useState(-1);
   const [idDistrict, setIDDistrict] = useState(-1);
-  // Geocode.setApiKey("AIzaSyAdZ2TGm2P1vYP5OHgkDzG1WlokxC4kg6I"); //Insert your Google Maps API here
-  // Geocode.enableDebug();
+  Geocode.setApiKey("AIzaSyBjnyL2BSaV2tCT8PGFZZmKkZQXqCDBSPs"); //Insert your Google Maps API here
+  Geocode.enableDebug();
 
   const [lat, setLat] = useState(0);
   const [long, setLong] = useState(0);
@@ -162,26 +162,26 @@ const CreateAccount = (props) => {
     var y = 0;
     var address = `${data.address}, ${district}, ${ward}, ${city}, Việt Nam`;
 
-    // Geocode.fromAddress(address).then((response) => {
-    //   x = response.results[0].geometry.location.lat;
-    //   y = response.results[0].geometry.location.lng;
-    handleCreateAccount(
-      data.username,
-      data.password,
-      data.fullname,
-      data.gender,
-      idCity,
-      idWard,
-      idDistrict,
-      data.address,
-      x,
-      y,
-      data.phoneNumber.toString(),
-      data.email,
-      //data.file
-      data.AvatarFile
-    );
-    // });
+    Geocode.fromAddress(address).then((response) => {
+      x = response.results[0].geometry.location.lat;
+      y = response.results[0].geometry.location.lng;
+      handleCreateAccount(
+        data.username,
+        data.password,
+        data.fullname,
+        data.gender,
+        idCity,
+        idWard,
+        idDistrict,
+        data.address,
+        x,
+        y,
+        data.phoneNumber.toString(),
+        data.email,
+        //data.file
+        data.AvatarFile
+      );
+    });
 
     console.log(idWard);
 
