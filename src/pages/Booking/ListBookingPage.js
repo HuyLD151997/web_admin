@@ -49,6 +49,7 @@ const ListBookingPage = (props) => {
             <th scope="col">Nhân viên</th>
             <th scope="col">Trạng thái</th>
             <th scope="col">Ngày/Giờ bắt đầu</th>
+
             <th scope="col"></th>
           </tr>
         </thead>
@@ -62,33 +63,47 @@ const ListBookingPage = (props) => {
                   // }
                   key={index}
                 >
-                  <td className="col-1 align-middle">{index + 1}</td>
-                  <td className="col-2 align-middle">
+                  <td className=" align-middle">{index + 1}</td>
+                  <td className=" align-middle">
                     {item.customer !== null ? (
                       <span>{item.customer.fullname}</span>
                     ) : (
                       <span>Chưa có dữ liệu</span>
                     )}
                   </td>
-                  <td className="col-2 align-middle">
+                  <td className=" align-middle">
                     {item.employee === null ? (
                       <span>Chưa có dữ liệu</span>
                     ) : (
                       <span>{item.employee.fullname}</span>
                     )}
                   </td>
-                  <td className="col-2 align-middle">
+                  <td className=" align-middle">
                     {item.bookingStatus === null ? (
                       <span>Chưa có dữ liệu</span>
                     ) : (
                       <span>{item.bookingStatus.description}</span>
                     )}
                   </td>
-                  <td className="col-2 align-middle">
+                  <td className=" align-middle">
                     {moment(item.dateBegin).format("DD-MM-YYYY")}
                     &nbsp;/ {item.dateBegin.substring(11, 16)}
                   </td>
-                  <td className="col-2 align-middle">
+
+                  <td className=" align-middle">
+                    <Link
+                      type="button"
+                      to={`/export-booking/${item.id}`}
+                      style={{
+                        fontSize: "30px",
+                        // float: "right",
+                        // marginTop: "5px",
+                        margin: "auto",
+                        marginLeft: "50px",
+                      }}
+                    >
+                      <span className="btn btn-success"> Xuất tập tin</span>
+                    </Link>
                     <Link
                       type="button"
                       to={`/booking-detail/${item.id}`}

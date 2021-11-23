@@ -14,7 +14,8 @@ export const CREATE_ACCOUNT_EMPLOYEE =
 
 export const DELETE_EMPLOYEE = "http://api.beclean.store/api/Account/Disable";
 
-export const GET_EMPLOYEE_BY_ID = "http://api.beclean.store/api/Account";
+export const GET_EMPLOYEE_BY_ID =
+  "http://api.beclean.store/api/Account/UserDetails";
 
 export const GET_EMPLOYEE_UPDATE =
   "http://api.beclean.store/api/Account/Enable";
@@ -95,3 +96,5 @@ export const REJECTED_REQUEST = `${BASE_URL}/RequestCleaningTool/Rejected`;
 export const PROVIDED_REQUEST = `${BASE_URL}/RequestCleaningTool/Provided`;
 
 export const GET_SETTING = `${BASE_URL}/Setting`;
+
+export const UPDATE_SETTING = `${BASE_URL}/Setting`;

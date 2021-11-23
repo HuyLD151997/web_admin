@@ -47,6 +47,7 @@ const GetBooking = (props) => {
         <div className="container">
           <div className="row m-0">
             <h2>Thông tin đặt lịch</h2>
+
             <Link
               type="button"
               to={`/booking-log/${data.id}`}

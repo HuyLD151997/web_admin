@@ -101,7 +101,7 @@ class AxiosService {
 
   put2(url, body, token) {
     const formData = new FormData();
-    formData.append("ImageFile", body.File[0]);
+    formData.append("File", body.File);
     return this.intance.put(url, formData, {
       headers: {
         Authorization: `Bearer ${token}`,

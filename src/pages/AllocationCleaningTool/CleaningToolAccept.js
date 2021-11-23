@@ -117,9 +117,20 @@ const CleaningToolAcceptPage = (props) => {
                     {item.cleaningTool.description}
                   </td>
                   <td className="align-middle">{item.employee.fullname}</td>
-                  <td className="align-middle">{item.description}</td>
-                  <td className="align-middle">Ngày/Giờ yêu cầu</td>
-                  <td className=" align-middle">{item.status}</td>
+                  <td className="align-middle">
+                    {item.description === null ? (
+                      <span>Không có dữ liệu</span>
+                    ) : (
+                      <span>{item.description}</span>
+                    )}
+                  </td>
+                  <td className="align-middle">
+                    {moment(item.dateCreated).format("DD/MM/YYYY")}
+                    &nbsp;/ {item.dateCreated.substring(11, 16)}
+                  </td>
+                  <td className=" align-middle">
+                    {item.requestStatus.description}
+                  </td>
                   <td className="align-middle">
                     <span className="">
                       <i

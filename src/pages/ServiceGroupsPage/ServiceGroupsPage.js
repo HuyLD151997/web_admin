@@ -17,8 +17,11 @@ import { render } from "react-dom";
 
 const ServiceGroupsPage = (props) => {
   const [description, setDescription] = useState("");
+  const [type, setType] = useState("");
   const [idService, setIdService] = useState("");
   const [selectedImages, setSelectedImage] = useState([]);
+  const [imgSelect, setImgSelect] = useState("");
+  const [imgSelect2, setImgSelect2] = useState(null);
 
   const dispatchAction = useDispatch();
   useEffect(() => {
@@ -71,6 +74,31 @@ const ServiceGroupsPage = (props) => {
     }
   };
 
+  const submitForm2 = (e) => {
+    handleUpdateImgCleaningTool(imgSelect, imgSelect2);
+  };
+
+  const handleUpdateImgCleaningTool = async (id, File) => {
+    try {
+      console.log(data);
+      await updateImgServiceGroupApi(id, { File });
+      Swal.fire({
+        icon: "success",
+        text: "active status success",
+        timer: 2000,
+        showConfirmButton: false,
+      });
+      window.location.reload();
+    } catch (error) {
+      Swal.fire({
+        icon: "error",
+        text: "active failed ",
+        timer: 1000,
+        showConfirmButton: false,
+      });
+    }
+  };
+
   const handleActive = (id) => {
     handleUpdateServiceGroupStatus(id);
   };
@@ -94,11 +122,14 @@ const ServiceGroupsPage = (props) => {
       });
     }
   };
+  const handleGetAndUpdateImg = (id) => {
+    setImgSelect(id);
+  };
 
-  const handleUpdateServiceImg = async (id, file) => {
+  const handleUpdateServiceImg = async (id, File) => {
     try {
       console.log(data);
-      await updateImgServiceGroupApi(id, { file });
+      await updateImgServiceGroupApi(id, { File });
       Swal.fire({
         icon: "success",
         text: "active status success",
@@ -138,9 +169,10 @@ const ServiceGroupsPage = (props) => {
     resolver: yupResolver(validationSchema),
   });
 
-  const handleGetDescription = (description, id) => {
+  const handleGetDescription = (description, id, type) => {
     setDescription(description);
     setIdService(id);
+    setType(type);
   };
 
   const submitForm = (data) => {
@@ -159,6 +191,8 @@ const ServiceGroupsPage = (props) => {
 
   const handleChangeFile = (e) => {
     if (e.target.files) {
+      setImgSelect2(e.target.files[0]);
+
       const fileArray = Array.from(e.target.files).map((file) =>
         URL.createObjectURL(file)
       );
@@ -226,9 +260,7 @@ const ServiceGroupsPage = (props) => {
                     <i
                       class="fa fa-edit"
                       type="button"
-                      // onClick={() =>
-                      //   handleGetDescription(item.description, item.id)
-                      // }
+                      onClick={() => handleGetAndUpdateImg(item.hasImage)}
                       data-toggle="modal"
                       data-target="#exampleModal2"
                       data-whatever="yah"
@@ -297,7 +329,11 @@ const ServiceGroupsPage = (props) => {
                       class="fa fa-edit"
                       type="button"
                       onClick={() =>
-                        handleGetDescription(item.description, item.id)
+                        handleGetDescription(
+                          item.description,
+                          item.id,
+                          item.type
+                        )
                       }
                       data-toggle="modal"
                       data-target="#exampleModal"
@@ -342,7 +378,7 @@ const ServiceGroupsPage = (props) => {
           <div className="modal-content">
             <div className="modal-header">
               <h5 className="modal-title w-100" id="exampleModalLabel">
-                Cập nhật dịch vụ tên {description}
+                Cập nhật nhóm dịch vụ
               </h5>
               <button
                 type="button"
@@ -366,17 +402,19 @@ const ServiceGroupsPage = (props) => {
                     class="form-control"
                     id="recipient-name"
                     {...register("description")}
+                    defaultValue={description}
                   />
                   <p>{errors.description?.message}</p>
                 </div>
                 <div className="form-group">
-                  <label>Thuộc loại</label>
+                  <label>Loại</label>
                   <select
                     class="custom-select"
                     id="inputGroupSelect01"
                     {...register("type")}
+                    defaultValue={type}
                   >
-                    <option selected>Loại</option>
+                    <option selected> {type}</option>
                     <option value="NORMAL">NORMAL</option>
                     <option value="OVERALL">OVERALL</option>
                     <option value="OPTIONAL">OPTIONAL</option>
@@ -425,7 +463,7 @@ const ServiceGroupsPage = (props) => {
                 </span>
               </button>
             </div>
-            <form onSubmit={handleSubmit(submitForm)}>
+            <form>
               <div className="modal-body">
                 <div className="form-group">
                   <input
@@ -450,9 +488,13 @@ const ServiceGroupsPage = (props) => {
                 >
                   Đóng
                 </button>
-                {/* <button type="submit" className="btn btn-primary">
+                <button
+                  type="button"
+                  className="btn btn-primary"
+                  onClick={submitForm2}
+                >
                   Cập nhật
-                </button> */}
+                </button>
               </div>
             </form>
           </div>

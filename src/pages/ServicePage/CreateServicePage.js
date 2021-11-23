@@ -26,6 +26,8 @@ const CreateServiceItem = (props) => {
   const validationSchema = yup
     .object({
       description: yup.string().required("Vui lòng nhập tên loại dịch vụ"),
+      estiamtedMinutes: yup.number().required("Vui lòng nhập thời gian làm"),
+      unitPrice: yup.number().required("Vui lòng nhập giá tiền"),
     })
     .required();
 
@@ -40,15 +42,18 @@ const CreateServiceItem = (props) => {
   const handleCreateService = async (
     unitPrice,
     serviceGroupId,
-    description
+    description,
+    estiamtedMinutes,
+    type
   ) => {
     try {
-      console.log(unitPrice);
       await createServiceApi({
         unitPrice,
         canInputQuantity: true,
         serviceGroupId,
         description,
+        estiamtedMinutes,
+        type,
       });
       Swal.fire({
         icon: "success",
@@ -72,27 +77,32 @@ const CreateServiceItem = (props) => {
   const submitForm = (data) => {
     // console.log(typeof data.phoneNumber.toString());
     var priceNumber = parseInt(data.unitPrice);
-    console.log(priceNumber);
-    handleCreateService(priceNumber, id, data.description);
+
+    handleCreateService(
+      priceNumber,
+      id,
+      data.description,
+      data.estiamtedMinutes,
+      data.type
+    );
   };
 
   return (
     <div>
-      <div className="container w-100">
+      <div className="container col-12">
         <h3 className="">Thêm loại dịch vụ</h3>
         <div
-          className=" border border-warning"
-          style={{ width: "400px", paddingLeft: "60px", padding: "20px" }}
+          className=" border border-warning col-10"
+          // style={{ width: "400px", paddingLeft: "60px", padding: "20px" }}
         >
           <form
-            className="border-0 row"
+            className="border-0 row col-10 ml-5 mt-4 mb-4"
             onSubmit={handleSubmit(submitForm)}
-            style={{ width: "100%" }}
           >
-            <div className="">
+            <div className="col-12">
               <div className="row-12">
                 <div className="form-group">
-                  <label>Loại dịch vụ</label>
+                  <label>Mô tả</label>
                   <input
                     type="text"
                     className="form-control"
@@ -100,9 +110,31 @@ const CreateServiceItem = (props) => {
                   />
                   <p>{errors.description?.message}</p>
                 </div>
+                <div className="form-group">
+                  <label>Thời gian làm</label>
+                  <input
+                    type="number"
+                    className="form-control"
+                    {...register("estiamtedMinutes")}
+                  />
+                  <p>{errors.estiamtedMinutes?.message}</p>
+                </div>
+                <div className="form-group">
+                  <label>Loại</label>
+                  <select
+                    class="custom-select"
+                    id="inputGroupSelect01"
+                    {...register("type")}
+                  >
+                    <option selected> Chọn</option>
+                    <option value="AREA">AREA</option>
+                    <option value="QUANTITY">QUANTITY</option>
+                  </select>
+                  <p>{errors.type?.message}</p>
+                </div>
                 <div className="dropdown show" style={{ marginTop: "35px" }}>
                   <a
-                    className="btn btn-secondary dropdown-toggle"
+                    className="btn btn-secondary dropdown-toggle col-12"
                     href="#"
                     role="button"
                     id="dropdownMenuLink"
@@ -139,18 +171,17 @@ const CreateServiceItem = (props) => {
                 <div className="form-group">
                   <label>Giá cả</label>
                   <input
-                    type="text"
+                    type="number"
                     className="form-control"
                     {...register("unitPrice")}
                   />
-                  {/* <p>{errors.serviceGroup?.message}</p> */}
+                  <p>{errors.unitPrice?.message}</p>
                 </div>
                 <div className="">
                   <button
                     type="submit"
-                    className="btn btn-warning "
+                    className="btn btn-warning col-12"
                     style={{
-                      width: "100px",
                       marginTop: "35px",
                     }}
                   >

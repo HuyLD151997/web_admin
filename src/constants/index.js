@@ -12,6 +12,7 @@ import CreateServiceItem from "./../pages/ServicePage/CreateServicePage";
 import Transaction from "./../pages/Transaction/TransactionPage";
 import TransactionCus from "./../pages/Transaction/TransactionCusPage";
 import Booking from "./../pages/Booking/BookingPage";
+import ExportBooking from "./../pages/Booking/ExportBookingPage";
 import ListBooking from "./../pages/Booking/ListBookingPage";
 import BookingLog from "./../pages/Booking/BookingLogPage";
 import CleaningTool from "./../pages/CleaningTool/CleaningToolPage";
@@ -19,6 +20,7 @@ import CreateCleaningTool from "./../pages/CleaningTool/CreateCleaningToolPage";
 import AllocationCleaningToolNotAccept from "./../pages/AllocationCleaningTool/CleaningToolNotAccept";
 import AllocationCleaningToolAccept from "./../pages/AllocationCleaningTool/CleaningToolAccept";
 import HistoryAllocationCleaningToolAccept from "./../pages/AllocationCleaningTool/HistoryCleaningToolAccept";
+import ExportHistoryAllocationCleaningToolAccept from "./../pages/AllocationCleaningTool/ExportHistoryCleaningToolAccept";
 import Setting from "./../pages/SettingPage/SettingPage";
 import Chart from "./../pages/chartAll";
 
@@ -129,10 +131,22 @@ export const ADMIN_ROUTES = [
     component: HistoryAllocationCleaningToolAccept,
   },
   {
+    path: "/export-history-allocation-cleaning-tool-accept",
+    name: "ExportHistoryAllocationCleaningToolAccept",
+    exact: true,
+    component: ExportHistoryAllocationCleaningToolAccept,
+  },
+  {
     path: "/booking",
     name: "Đặt lịch",
     exact: true,
     component: ListBooking,
+  },
+  {
+    path: "/export-booking/:id",
+    name: "ExportBooking",
+    exact: true,
+    component: ExportBooking,
   },
   {
     path: "/booking-log/:id",

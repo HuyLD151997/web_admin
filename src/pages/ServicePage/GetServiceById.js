@@ -18,6 +18,7 @@ const GetServiceById = (props) => {
   const [description, setDescription] = useState("");
   const [unitPrice, setUnitPrice] = useState("");
   const [idService, setIdService] = useState("");
+  const [type, setType] = useState("");
   const { id } = useParams();
   console.log(id);
   const dispatchAction = useDispatch();
@@ -61,7 +62,8 @@ const GetServiceById = (props) => {
     id,
     serviceGroupId,
     description,
-    unitPrice
+    unitPrice,
+    type
   ) => {
     try {
       console.log(data);
@@ -70,6 +72,7 @@ const GetServiceById = (props) => {
         canInputQuantity: true,
         serviceGroupId,
         description,
+        type,
       });
       Swal.fire({
         icon: "success",
@@ -127,10 +130,11 @@ const GetServiceById = (props) => {
     }
   };
 
-  const handleGetDescription = (description, id, unitPrice) => {
+  const handleGetDescription = (description, id, unitPrice, type) => {
     setDescription(description);
     setIdService(id);
     setUnitPrice(unitPrice);
+    setType(type);
   };
 
   const submitForm = (data) => {
@@ -139,7 +143,8 @@ const GetServiceById = (props) => {
       idService,
       idSerGroup,
       data.description,
-      unitPriceNum
+      unitPriceNum,
+      data.type
     );
   };
   console.log(data);
@@ -159,17 +164,18 @@ const GetServiceById = (props) => {
         to={`/add-service-item/${id}`}
         className="btn btn-warning btn-lg "
       >
-        Create Services
+        Tạo dịch vụ
       </NavLink>
       <table className="table">
         <thead className="table-light">
           <tr>
             <th scope="col">Dịch vụ</th>
+            <th scope="col">Loại</th>
             <th scope="col">Ngày/Giờ tạo</th>
             <th scope="col">Ngày/Giờ cập nhật</th>
             <th scope="col">Giá cả</th>
             <th scope="col">Trạng thái</th>
-            <th scope="col">Hành động</th>
+            <th scope="col"></th>
           </tr>
         </thead>
         {data ? (
@@ -178,16 +184,32 @@ const GetServiceById = (props) => {
               <tbody>
                 <tr key={index}>
                   <td className="col-2 align-middle">{item.description}</td>
-                  <td className="col-2 align-middle">
+                  <td className="align-middle">
+                    {item.type === "AREA" ? (
+                      ""
+                    ) : (
+                      <span className="text-primary  rounded p-1">
+                        {item.type}
+                      </span>
+                    )}
+                    {item.type === "QUANTITY" ? (
+                      ""
+                    ) : (
+                      <span className="text-success  rounded p-1">
+                        {item.type}
+                      </span>
+                    )}
+                  </td>
+                  <td className="align-middle">
                     {moment(item.dateCreated).format("DD/MM/YYYY")}
                     &nbsp;/ {item.dateCreated.substring(11, 16)}
                   </td>
-                  <td className="col-2 align-middle">
+                  <td className="align-middle">
                     {moment(item.dateUpdated).format("DD/MM/YYYY")}
                     &nbsp;/ {item.dateUpdated.substring(11, 16)}
                   </td>
-                  <td className="col-2 align-middle">{item.unitPrice}VND</td>
-                  <td className="col-2 align-middle">
+                  <td className=" align-middle">{item.unitPrice}VND</td>
+                  <td className=" align-middle">
                     {item.isDisable === false ? (
                       ""
                     ) : (
@@ -201,7 +223,7 @@ const GetServiceById = (props) => {
                       </span>
                     )}
                   </td>
-                  <td className="col-2 align-middle">
+                  <td className=" align-middle">
                     {item.isDisable === false ? (
                       ""
                     ) : (
@@ -226,7 +248,13 @@ const GetServiceById = (props) => {
                       class="fa fa-edit"
                       type="button"
                       onClick={() =>
-                        handleGetDescription(item.description, item.id)
+                        handleGetDescription(
+                          item.description,
+                          item.id,
+                          item.type,
+                          item.unitPrice,
+                          item.serviceGroupId
+                        )
                       }
                       data-toggle="modal"
                       data-target="#exampleModal"
@@ -266,38 +294,45 @@ const GetServiceById = (props) => {
                 className="close"
                 data-dismiss="modal"
                 aria-label="Close"
-                style={{ marginLeft: "160px" }}
+                // style={{ marginLeft: "160px" }}
               >
-                <span aria-hidden="true">×</span>
+                <span aria-hidden="true" style={{ float: "right" }}>
+                  ×
+                </span>
               </button>
             </div>
             <form onSubmit={handleSubmit(submitForm)}>
               <div className="modal-body">
                 <div className="form-group">
                   <label htmlFor="recipient-name" className="col-form-label">
-                    Dịch vụ {description} đổi thành
+                    Dịch vụ
                   </label>
                   <input
                     type="text"
                     class="form-control"
                     id="recipient-name"
                     {...register("description")}
+                    defaultValue={description}
                   />
                   <p>{errors.description?.message}</p>
                 </div>
                 <div className="form-group">
                   <label htmlFor="recipient-name" className="col-form-label">
-                    Giá {unitPrice} đổi thành
+                    Giá
                   </label>
                   <input
                     type="text"
                     class="form-control"
                     id="recipient-name"
                     {...register("unitPrice")}
+                    defaultValue={unitPrice}
                   />
                   <p>{errors.unitPrice?.message}</p>
                 </div>
-                <div className="dropdown show" style={{ marginTop: "35px" }}>
+                <div
+                  className="dropdown show w-100"
+                  style={{ marginTop: "35px" }}
+                >
                   <a
                     className="btn btn-secondary dropdown-toggle"
                     href="#"
