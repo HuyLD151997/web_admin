@@ -12,6 +12,7 @@ import * as moment from "moment";
 const ListBookingPage = (props) => {
   const [description, setDescription] = useState("");
   const [idService, setIdService] = useState("");
+  const [search, setSearch] = useState("");
 
   const dispatchAction = useDispatch();
   useEffect(() => {
@@ -40,87 +41,107 @@ const ListBookingPage = (props) => {
 
   return (
     <div className="container ml-2 table-responsive-xl">
-      <h3>Danh sách đặt lịch</h3>
+      <div className="row">
+        <h3>Danh sách đặt lịch</h3>
+        <input
+          className="ml-auto mr-5"
+          type="text"
+          placeholder="Tìm kiếm mã đặt lịch"
+          onChange={(e) => {
+            setSearch(e.target.value);
+          }}
+          style={{ width: "500px", height: "35px" }}
+        />
+      </div>
+
       <table className="table">
         <thead className="table-light">
           <tr>
-            <th scope="col">#</th>
+            {/* <th scope="col">#</th> */}
+            <th scope="col">Mã đặt lịch</th>
             <th scope="col">Khách hàng</th>
-            <th scope="col">Nhân viên</th>
+            {/* <th scope="col">Nhân viên</th> */}
             <th scope="col">Trạng thái</th>
             <th scope="col">Ngày/Giờ bắt đầu</th>
-
             <th scope="col"></th>
           </tr>
         </thead>
         {data ? (
           data.length > 0 ? (
-            data.map((item, index) => (
-              <tbody>
-                <tr
-                  // className={
-                  //   item.isDisable === true ? "table-danger" : "table-primary"
-                  // }
-                  key={index}
-                >
-                  <td className=" align-middle">{index + 1}</td>
-                  <td className=" align-middle">
-                    {item.customer !== null ? (
-                      <span>{item.customer.fullname}</span>
-                    ) : (
-                      <span>Chưa có dữ liệu</span>
-                    )}
-                  </td>
-                  <td className=" align-middle">
-                    {item.employee === null ? (
-                      <span>Chưa có dữ liệu</span>
-                    ) : (
-                      <span>{item.employee.fullname}</span>
-                    )}
-                  </td>
-                  <td className=" align-middle">
-                    {item.bookingStatus === null ? (
-                      <span>Chưa có dữ liệu</span>
-                    ) : (
-                      <span>{item.bookingStatus.description}</span>
-                    )}
-                  </td>
-                  <td className=" align-middle">
-                    {moment(item.dateBegin).format("DD-MM-YYYY")}
-                    &nbsp;/ {item.dateBegin.substring(11, 16)}
-                  </td>
+            data
+              .filter((item) => {
+                if (search == "") {
+                  return item;
+                } else if (
+                  item.id &&
+                  item.id.toLowerCase().includes(search.toLowerCase())
+                ) {
+                  return item;
+                } else {
+                  return "";
+                }
+              })
+              .map((item, index) => (
+                <tbody>
+                  <tr
+                    // className={
+                    //   item.isDisable === true ? "table-danger" : "table-primary"
+                    // }
+                    key={index}
+                  >
+                    {/* <td className=" align-middle">{index + 1}</td> */}
+                    <td className="align-middle">{item.id}</td>
+                    <td className="col-2 align-middle">
+                      {item.customer !== null ? (
+                        <span>{item.customer.fullname}</span>
+                      ) : (
+                        <span>Chưa có dữ liệu</span>
+                      )}
+                    </td>
 
-                  <td className=" align-middle">
-                    <Link
-                      type="button"
-                      to={`/export-booking/${item.id}`}
-                      style={{
-                        fontSize: "30px",
-                        // float: "right",
-                        // marginTop: "5px",
-                        margin: "auto",
-                        marginLeft: "50px",
-                      }}
-                    >
-                      <span className="btn btn-success"> Xuất tập tin</span>
-                    </Link>
-                    <Link
-                      type="button"
-                      to={`/booking-detail/${item.id}`}
-                      style={{
-                        fontSize: "30px",
-                        // float: "right",
-                        // marginTop: "5px",
-                        margin: "auto",
-                        marginLeft: "50px",
-                      }}
-                    >
-                      <span className="btn btn-outline-info ">Chi tiết</span>
-                    </Link>
-                  </td>
-                </tr>
-              </tbody>
-            ))
+                    <td className=" align-middle">
+                      {item.bookingStatus === null ? (
+                        <span>Chưa có dữ liệu</span>
+                      ) : (
+                        <span>{item.bookingStatus.description}</span>
+                      )}
+                    </td>
+                    <td className="col-2 align-middle">
+                      {moment(item.dateBegin).format("DD-MM-YYYY")}
+                      &nbsp;/ {item.dateBegin.substring(11, 16)}
+                    </td>
+
+                    <td className="col-4 align-middle">
+                      <Link
+                        type="button"
+                        to={`/export-booking/${item.id}`}
+                        style={{
+                          fontSize: "15px",
+                          // float: "right",
+                          // marginTop: "5px",
+                          margin: "auto",
+                          marginLeft: "50px",
+                        }}
+                      >
+                        <span className="btn btn-success"> Xuất tập tin</span>
+                      </Link>
+                      <Link
+                        type="button"
+                        to={`/booking-detail/${item.id}`}
+                        style={{
+                          fontSize: "15px",
+                          // float: "right",
+                          // marginTop: "5px",
+                          margin: "auto",
+                          marginLeft: "50px",
+                        }}
+                      >
+                        <span className="btn btn-outline-info ">Chi tiết</span>
+                      </Link>
+                    </td>
+                  </tr>
+                </tbody>
+              ))
           ) : null
         ) : (
           <div>Progress .....</div>

@@ -56,6 +56,9 @@ export const GET_TRANSACTION_USER =
 export const GET_TRANSACTION_BOOKING =
   "http://api.beclean.store/api/Transaction/Booking";
 
+export const GET_TRANSACTION_COMPANY =
+  "http://api.beclean.store/api/Transaction/Company";
+
 export const GET_BOOKING = `${BASE_URL}/Booking/Default`;
 
 export const GET_BOOKING_STATUS = `${BASE_URL}/BookingStatus`;

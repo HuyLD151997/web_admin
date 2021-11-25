@@ -79,7 +79,7 @@ const AccountCustomerPage = (props) => {
           />
         </div>
       </div>
-      <table className="table align-middle mt-2" id="table-to-xls">
+      <table className="table align-middle mt-2 ml-1" id="table-to-xls">
         <thead className="table-light">
           <tr>
             <th scope="col">Tài khoản</th>
@@ -97,8 +97,20 @@ const AccountCustomerPage = (props) => {
             data.map((item, index) => (
               <tbody>
                 <tr className="align-middle" key={index}>
-                  <td className="align-middle">{item.userName}</td>
-                  <td className="align-middle">{item.fullname}</td>
+                  <td className="align-middle">
+                    {item.userName !== null ? (
+                      <span>{item.userName}</span>
+                    ) : (
+                      <span>Chưa có dữ liệu</span>
+                    )}
+                  </td>
+                  <td className="align-middle">
+                    {item.fullname !== null ? (
+                      <span>{item.fullname}</span>
+                    ) : (
+                      <span>Chưa có dữ liệu</span>
+                    )}
+                  </td>
                   <td className="align-middle">
                     {item.address !== null ? (
                       <span>{item.address}</span>
@@ -122,13 +134,43 @@ const AccountCustomerPage = (props) => {
                     )}
                     .
                   </td>
-                  <td className="align-middle">{item.balance} VND</td>
-                  <td className="align-middle">{item.gender}</td>
-                  <td className="align-middle">{item.email}</td>
-                  <td className="align-middle">{item.phoneNumber}</td>
                   <td className="align-middle">
-                    {moment(item.dateCreated).format("DD/MM/YYYY")}
-                    &nbsp;/ {item.dateCreated.substring(11, 16)}
+                    {item.balance !== null ? (
+                      <span>{item.balance} VND</span>
+                    ) : (
+                      <span>Chưa có dữ liệu</span>
+                    )}
+                  </td>
+                  <td className="align-middle">
+                    {item.gender !== null ? (
+                      <span>{item.gender}</span>
+                    ) : (
+                      <span>Chưa có dữ liệu</span>
+                    )}
+                  </td>
+                  <td className="align-middle">
+                    {item.email !== null ? (
+                      <span>{item.email}</span>
+                    ) : (
+                      <span>Chưa có dữ liệu</span>
+                    )}
+                  </td>
+                  <td className="align-middle">
+                    {item.phoneNumber !== null ? (
+                      <span>{item.phoneNumber}</span>
+                    ) : (
+                      <span>Chưa có dữ liệu</span>
+                    )}
+                  </td>
+                  <td className="align-middle">
+                    {item.dateCreated ? (
+                      <span>
+                        {moment(item.dateCreated).format("DD/MM/YYYY")}
+                        &nbsp;/ {item.dateCreated.substring(11, 16)}
+                      </span>
+                    ) : (
+                      <span>Chưa có dữ liệu</span>
+                    )}
                   </td>
                 </tr>
               </tbody>

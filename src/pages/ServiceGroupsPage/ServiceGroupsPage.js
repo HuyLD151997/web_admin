@@ -22,6 +22,7 @@ const ServiceGroupsPage = (props) => {
   const [selectedImages, setSelectedImage] = useState([]);
   const [imgSelect, setImgSelect] = useState("");
   const [imgSelect2, setImgSelect2] = useState(null);
+  const [search, setSearch] = useState("");
 
   const dispatchAction = useDispatch();
   useEffect(() => {
@@ -232,149 +233,199 @@ const ServiceGroupsPage = (props) => {
           Tạo loại dịch vụ
         </Link>
       </div>
+      <div>
+        <input
+          className="ml-auto mr-4"
+          type="text"
+          placeholder="Tìm kiếm nhóm dịch vụ"
+          onChange={(e) => {
+            setSearch(e.target.value);
+          }}
+          style={{ width: "500px", height: "35px" }}
+        />
+        <table className="table">
+          <thead className="table-light">
+            <tr>
+              <th scope="col">Hình</th>
+              <th scope="col">Dịch vụ</th>
+              <th scope="col">Loại</th>
+              <th scope="col">Ngày/Giờ tạo</th>
+              <th scope="col">Ngày/Giờ cập nhật</th>
+              <th scope="col">Trạng thái</th>
+              <th scope="col"></th>
+            </tr>
+          </thead>
+          {data ? (
+            data.length > 0 ? (
+              data
+                .filter((item) => {
+                  if (search == "") {
+                    return item;
+                  } else if (
+                    item.description &&
+                    item.description
+                      .toLowerCase()
+                      .includes(search.toLowerCase())
+                  ) {
+                    return item;
+                  } else {
+                    return "";
+                  }
+                })
+                .map((item, index) => (
+                  <tbody>
+                    <tr className="" key={index}>
+                      <td className="col-1">
+                        {item.hasImage ? (
+                          <img
+                            src={`http://api.beclean.store/api/ServiceGroup/Image/${item.hasImage}`}
+                            style={{
+                              width: "50px",
+                              height: "50px",
+                              // borderRadius: "50%",
+                              marginRight: "5px",
+                              marginBottom: "5px",
+                            }}
+                          />
+                        ) : (
+                          <span>Chưa có</span>
+                        )}
 
-      <table className="table">
-        <thead className="table-light">
-          <tr>
-            <th scope="col">Hình</th>
-            <th scope="col">Dịch vụ</th>
-            <th scope="col">Loại</th>
-            <th scope="col">Ngày/Giờ tạo</th>
-            <th scope="col">Ngày/Giờ cập nhật</th>
-            <th scope="col">Trạng thái</th>
-            <th scope="col"></th>
-          </tr>
-        </thead>
-        {data ? (
-          data.length > 0 ? (
-            data.map((item, index) => (
-              <tbody>
-                <tr className="" key={index}>
-                  <td className="col-1">
-                    {item.hasImage ? (
-                      <img
-                        src={`http://api.beclean.store/api/ServiceGroup/Image/${item.hasImage}`}
-                        style={{
-                          width: "50px",
-                          height: "50px",
-                          // borderRadius: "50%",
-                          marginRight: "5px",
-                          marginBottom: "5px",
-                        }}
-                      />
-                    ) : (
-                      <span>Chưa có</span>
-                    )}
+                        <i
+                          class="fa fa-edit"
+                          type="button"
+                          onClick={() => handleGetAndUpdateImg(item.hasImage)}
+                          data-toggle="modal"
+                          data-target="#exampleModal2"
+                          data-whatever="yah"
+                          style={{
+                            fontSize: "20px",
+                            margin: "auto",
+                            marginTop: "8px",
+                            position: "absolute",
+                            bottom: "7px",
+                            right: "15px",
+                          }}
+                        ></i>
+                        {/* </form> */}
+                      </td>
+                      <td className="col-2 align-middle">
+                        {item.description !== null ? (
+                          <span>{item.description}</span>
+                        ) : (
+                          <span>Chưa có dữ liệu</span>
+                        )}
+                      </td>
+                      <td className="col-1 align-middle">
+                        {item.type !== null ? (
+                          <span>{item.type}</span>
+                        ) : (
+                          <span>Chưa có dữ liệu</span>
+                        )}
+                      </td>
+                      <td className="col-2 align-middle">
+                        {item.dateCreated ? (
+                          <span>
+                            {moment(item.dateCreated).format("DD/MM/YYYY")}
+                            &nbsp;/ {item.dateCreated.substring(11, 16)}
+                          </span>
+                        ) : (
+                          <span>Chưa có dữ liệu</span>
+                        )}
+                      </td>
+                      <td className="col-2 align-middle">
+                        {item.dateUpdated ? (
+                          <span>
+                            {moment(item.dateUpdated).format("DD/MM/YYYY")}
+                            &nbsp;/ {item.dateUpdated.substring(11, 16)}
+                          </span>
+                        ) : (
+                          <span>Chưa có dữ liệu</span>
+                        )}
+                      </td>
 
-                    <i
-                      class="fa fa-edit"
-                      type="button"
-                      onClick={() => handleGetAndUpdateImg(item.hasImage)}
-                      data-toggle="modal"
-                      data-target="#exampleModal2"
-                      data-whatever="yah"
-                      style={{
-                        fontSize: "20px",
-                        margin: "auto",
-                        marginTop: "8px",
-                        position: "absolute",
-                        bottom: "7px",
-                        right: "15px",
-                      }}
-                    ></i>
-                    {/* </form> */}
-                  </td>
-                  <td className="col-2 align-middle">{item.description}</td>
-                  <td className="col-1 align-middle">{item.type}</td>
-                  <td className="col-2 align-middle">
-                    {moment(item.dateCreated).format("DD/MM/YYYY")}
-                    &nbsp;/ {item.dateCreated.substring(11, 16)}
-                  </td>
-                  <td className="col-2 align-middle">
-                    {moment(item.dateUpdated).format("DD/MM/YYYY")}
-                    &nbsp;/ {item.dateUpdated.substring(11, 16)}
-                  </td>
+                      <td className="col-2 align-middle">
+                        {item.isDisable === false ? (
+                          ""
+                        ) : (
+                          <span className="text-danger">Tạm dừng</span>
+                        )}
+                        {item.isDisable === true ? (
+                          ""
+                        ) : (
+                          <span className="text-success border border-success rounded p-1">
+                            Hoạt động
+                          </span>
+                        )}
+                      </td>
 
-                  <td className="col-2 align-middle">
-                    {item.isDisable === false ? (
-                      ""
-                    ) : (
-                      <span className="text-danger">Tạm dừng</span>
-                    )}
-                    {item.isDisable === true ? (
-                      ""
-                    ) : (
-                      <span className="text-success border border-success rounded p-1">
-                        Hoạt động
-                      </span>
-                    )}
-                  </td>
+                      <td className="col-2 align-middle">
+                        {item.isDisable === false ? (
+                          ""
+                        ) : (
+                          <i
+                            class="fa fa-unlock-alt text-success"
+                            type="button"
+                            style={{ fontSize: "30px", marginTop: "15px" }}
+                            onClick={() => handleActive(item.id)}
+                          ></i>
+                        )}
+                        {item.isDisable === true ? (
+                          ""
+                        ) : (
+                          <i
+                            class="fa fa-lock text-danger"
+                            type="button"
+                            style={{
+                              fontSize: "30px",
+                              marginTop: "15px",
+                            }}
+                            onClick={() => handleOnClickDelete(item.id)}
+                          ></i>
+                        )}
+                        <i
+                          class="fa fa-edit"
+                          type="button"
+                          onClick={() =>
+                            handleGetDescription(
+                              item.description,
+                              item.id,
+                              item.type
+                            )
+                          }
+                          data-toggle="modal"
+                          data-target="#exampleModal"
+                          data-whatever="yah"
+                          style={{
+                            fontSize: "30px",
+                            margin: "auto",
+                            marginTop: "8px",
+                            marginLeft: "20px",
+                          }}
+                        ></i>
+                        <Link
+                          style={{
+                            fontSize: "30px",
+                            margin: "auto",
+                            marginLeft: "20px",
+                          }}
+                          type="button"
+                          to={`detail-service-group/${item.id}`}
+                          //style={{ paddingLeft: "55px", paddingRight: "55px" }}
+                        >
+                          <i class="fa fa-ellipsis-v text-muted"></i>
+                        </Link>
+                      </td>
+                    </tr>
+                  </tbody>
+                ))
+            ) : null
+          ) : (
+            <div>Progress .....</div>
+          )}
+        </table>
+      </div>
 
-                  <td className="col-2 align-middle">
-                    {item.isDisable === false ? (
-                      ""
-                    ) : (
-                      <i
-                        class="fa fa-unlock-alt text-success"
-                        type="button"
-                        style={{ fontSize: "30px", marginTop: "15px" }}
-                        onClick={() => handleActive(item.id)}
-                      ></i>
-                    )}
-                    {item.isDisable === true ? (
-                      ""
-                    ) : (
-                      <i
-                        class="fa fa-lock text-danger"
-                        type="button"
-                        style={{
-                          fontSize: "30px",
-                          marginTop: "15px",
-                        }}
-                        onClick={() => handleOnClickDelete(item.id)}
-                      ></i>
-                    )}
-                    <i
-                      class="fa fa-edit"
-                      type="button"
-                      onClick={() =>
-                        handleGetDescription(
-                          item.description,
-                          item.id,
-                          item.type
-                        )
-                      }
-                      data-toggle="modal"
-                      data-target="#exampleModal"
-                      data-whatever="yah"
-                      style={{
-                        fontSize: "30px",
-                        margin: "auto",
-                        marginTop: "8px",
-                        marginLeft: "20px",
-                      }}
-                    ></i>
-                    <Link
-                      style={{
-                        fontSize: "30px",
-                        margin: "auto",
-                        marginLeft: "20px",
-                      }}
-                      type="button"
-                      to={`detail-service-group/${item.id}`}
-                      //style={{ paddingLeft: "55px", paddingRight: "55px" }}
-                    >
-                      <i class="fa fa-ellipsis-v text-muted"></i>
-                    </Link>
-                  </td>
-                </tr>
-              </tbody>
-            ))
-          ) : null
-        ) : (
-          <div>Progress .....</div>
-        )}
-      </table>
       <div
         className="modal fade"
         id="exampleModal"

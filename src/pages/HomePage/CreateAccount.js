@@ -87,7 +87,7 @@ const CreateAccount = (props) => {
       gender: yup
         .string()
         .required("Giới tính không được để trống")
-        .matches(/(nam|nữ)/, "Phải điền đúng nam hoặc nữ"),
+        .matches(/(nam|nữ)/, "Phải chọn nam hoặc nữ"),
       email: yup
         .string()
         .email("email không hợp lệ")
@@ -220,7 +220,7 @@ const CreateAccount = (props) => {
                     className="form-control"
                     {...register("username")}
                   />
-                  <p>{errors.username?.message}</p>
+                  <p className="text-danger">{errors.username?.message}</p>
                 </div>
                 <div className="form-group">
                   <label>Phone Number</label>
@@ -229,7 +229,7 @@ const CreateAccount = (props) => {
                     className="form-control"
                     {...register("phoneNumber")}
                   />
-                  <p>{errors.phoneNumber?.message}</p>
+                  <p className="text-danger">{errors.phoneNumber?.message}</p>
                 </div>
 
                 <div className="form-group">
@@ -239,7 +239,7 @@ const CreateAccount = (props) => {
                     className="form-control"
                     {...register("password")}
                   />
-                  <p>{errors.password?.message}</p>
+                  <p className="text-danger">{errors.password?.message}</p>
                 </div>
                 <div className="form-group">
                   <label>Confirm Password</label>
@@ -248,7 +248,7 @@ const CreateAccount = (props) => {
                     className="form-control"
                     {...register("cpassword")}
                   />
-                  <p>{errors.cpassword?.message}</p>
+                  <p className="text-danger">{errors.cpassword?.message}</p>
                 </div>
                 <div className="form-group">
                   <input
@@ -256,7 +256,7 @@ const CreateAccount = (props) => {
                     // className="form-control"
                     {...register("AvatarFile")}
                   />
-                  <p>{errors.AvatarFile?.message}</p>
+                  <p className="text-danger">{errors.AvatarFile?.message}</p>
                 </div>
               </div>
             </div>
@@ -268,7 +268,7 @@ const CreateAccount = (props) => {
                   className="form-control"
                   {...register("fullname")}
                 />
-                <p>{errors.fullname?.message}</p>
+                <p className="text-danger">{errors.fullname?.message}</p>
               </div>
 
               <div className="form-group">
@@ -289,7 +289,7 @@ const CreateAccount = (props) => {
                     <option value="nữ">Nữ</option>
                   </select>
                 </div>
-                <p>{errors.gender?.message}</p>
+                <p className="text-danger">{errors.gender?.message}</p>
               </div>
               <div className="form-group">
                 <label>Email</label>
@@ -298,7 +298,7 @@ const CreateAccount = (props) => {
                   className="form-control"
                   {...register("email")}
                 />
-                <p>{errors.email?.message}</p>
+                <p className="text-danger">{errors.email?.message}</p>
               </div>
               {/* <div className="form-group">
                 <label>Sinh nhật</label>
@@ -319,7 +319,7 @@ const CreateAccount = (props) => {
                     className="form-control"
                     {...register("address")}
                   />
-                  <p>{errors.address?.message}</p>
+                  <p className="text-danger">{errors.address?.message}</p>
                 </div>
                 <div className="dropdown show" style={{ marginTop: "55px" }}>
                   <a
@@ -330,7 +330,7 @@ const CreateAccount = (props) => {
                     data-toggle="dropdown"
                     aria-haspopup="true"
                     aria-expanded="false"
-                    style={{ paddingLeft: "95px", paddingRight: "95px" }}
+                    // style={{ paddingLeft: "95px", paddingRight: "95px" }}
                   >
                     {city === "" ? "Thành Phố" : city}
                   </a>
@@ -366,7 +366,7 @@ const CreateAccount = (props) => {
                     data-toggle="dropdown"
                     aria-haspopup="true"
                     aria-expanded="false"
-                    style={{ paddingLeft: "115px", paddingRight: "115px" }}
+                    // style={{ paddingLeft: "115px", paddingRight: "115px" }}
                   >
                     {ward === "" ? "Quận" : ward}
                   </a>
@@ -406,7 +406,7 @@ const CreateAccount = (props) => {
                     data-toggle="dropdown"
                     aria-haspopup="true"
                     aria-expanded="false"
-                    style={{ paddingLeft: "115px", paddingRight: "115px" }}
+                    // style={{ paddingLeft: "115px", paddingRight: "115px" }}
                   >
                     {district === "" ? "Huyện" : district}
                   </a>

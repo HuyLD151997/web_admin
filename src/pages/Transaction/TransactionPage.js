@@ -14,6 +14,7 @@ import * as moment from "moment";
 const TransactionPage = (props) => {
   const [description, setDescription] = useState("");
   const [idService, setIdService] = useState("");
+  const [search, setSearch] = useState("");
 
   const dispatchAction = useDispatch();
   useEffect(() => {
@@ -91,56 +92,90 @@ const TransactionPage = (props) => {
 
   return (
     <div className="container ml-2 table-responsive-xl">
-      <h3>Giao dịch đặt lịch</h3>
-      <table className="table">
-        <thead className="table-light">
-          <tr>
-            <th scope="col">#</th>
-            <th scope="col">Ghi chú</th>
-            <th scope="col">Nhân viên</th>
-            <th scope="col">Ngày/Giờ tạo</th>
-            {/* <th scope="col">Trạng thái</th> */}
-          </tr>
-        </thead>
-        {data ? (
-          data.length > 0 ? (
-            data.map((item, index) => (
-              <tbody>
-                <tr className="" key={index}>
-                  <td className="">
-                    <i
-                      class="fa fa-check-circle text-success"
-                      style={{
-                        fontSize: "30px",
-                      }}
-                    ></i>
-                  </td>
-                  <td className="">{item.description}</td>
-                  <td className="">
-                    {item.booking ? (
-                      <span>
-                        {item.booking.employee !== null ? (
-                          <span>{item.booking.employee.fullname}</span>
+      <div className="row">
+        <h3>Giao dịch đặt lịch</h3>
+        <input
+          className="ml-auto mr-4"
+          type="text"
+          placeholder="Tìm kiếm mã đặt lịch"
+          onChange={(e) => {
+            setSearch(e.target.value);
+          }}
+          style={{ width: "500px", height: "35px" }}
+        />
+      </div>
+
+      <div>
+        <table className="table">
+          <thead className="table-light">
+            <tr>
+              <th scope="col">#</th>
+              <th scope="col">Mã đặt lịch</th>
+              <th scope="col">Ghi chú</th>
+              <th scope="col">Ngày/Giờ tạo</th>
+              {/* <th scope="col">Trạng thái</th> */}
+            </tr>
+          </thead>
+          {data ? (
+            data.length > 0 ? (
+              data
+                .filter((item) => {
+                  if (search == "") {
+                    return item;
+                  } else if (
+                    item.bookingId &&
+                    item.bookingId.toLowerCase().includes(search.toLowerCase())
+                  ) {
+                    return item;
+                  } else {
+                    return "";
+                  }
+                })
+                .map((item, index) => (
+                  <tbody>
+                    <tr className="" key={index}>
+                      <td className="">
+                        <i
+                          class="fa fa-check-circle text-success"
+                          style={{
+                            fontSize: "30px",
+                          }}
+                        ></i>
+                      </td>
+                      <td className="">
+                        {item.bookingId !== null ? (
+                          <span>{item.bookingId}</span>
                         ) : (
-                          <span>Chưa tìm thấy</span>
+                          <span>Chưa có dữ liệu</span>
                         )}
-                      </span>
-                    ) : (
-                      <span>Chưa tìm thấy</span>
-                    )}
-                  </td>
-                  <td className="">
-                    {moment(item.dateCreated).format("DD/MM/YYYY")}
-                    &nbsp;/ {item.dateCreated.substring(11, 16)}
-                  </td>
-                </tr>
-              </tbody>
-            ))
-          ) : null
-        ) : (
-          <div>Progress .....</div>
-        )}
-      </table>
+                      </td>
+                      <td className="">
+                        {item.description !== null ? (
+                          <span>{item.description}</span>
+                        ) : (
+                          <span>Chưa có dữ liệu</span>
+                        )}
+                      </td>
+
+                      <td className="">
+                        {item.dateCreated ? (
+                          <span>
+                            {moment(item.dateCreated).format("DD/MM/YYYY")}
+                            &nbsp;/ {item.dateCreated.substring(11, 16)}
+                          </span>
+                        ) : (
+                          <span>Chưa có dữ liệu</span>
+                        )}
+                      </td>
+                    </tr>
+                  </tbody>
+                ))
+            ) : null
+          ) : (
+            <div>Progress .....</div>
+          )}
+        </table>
+      </div>
     </div>
   );
 };

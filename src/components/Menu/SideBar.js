@@ -33,6 +33,11 @@ const transaction = [
     to: "/transactionCus",
     exact: false,
   },
+  {
+    name: "Công ty",
+    to: "/transactionCompany",
+    exact: false,
+  },
 ];
 
 const capPhat = [
@@ -68,6 +73,11 @@ const menus = [
   {
     name: "Dụng cụ",
     to: "/cleaning-tool",
+    exact: false,
+  },
+  {
+    name: "Mã khuyến mãi",
+    to: "/list-code",
     exact: false,
   },
   {
@@ -127,7 +137,7 @@ class SideBar extends Component {
               </span>
             </div>
           </li>
-          <li className="nav-item dropdown mb-2 ">
+          <li className="nav-item dropdown mb-1 mt-1">
             <span
               data-toggle="collapse"
               href="#collapseExample3"

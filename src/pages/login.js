@@ -27,6 +27,7 @@ const Login = () => {
   useEffect(() => {
     localStorage.clear();
   });
+
   return (
     <div className="container">
       <div className="row mt-5">

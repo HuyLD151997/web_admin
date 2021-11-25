@@ -53,7 +53,27 @@ const DetailAccount = (props) => {
                     style={{ width: "270px" }}
                   >
                     <li className="list-group-item">
-                      <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSgnq9pVEA16U0vH0nT0UeFY9vrTn99Za2a7QWub_dBpXSYTCZtBQULWaaRJ4ENFreEmPc&usqp=CAU" />
+                      {item.hasAvatar ? (
+                        <img
+                          src={`http://api.beclean.store/api/Account/Avatar/${item.hasAvatar}`}
+                          style={{
+                            width: "250px",
+                            height: "250px",
+                            marginRight: "55px",
+                            marginBottom: "5px",
+                          }}
+                        />
+                      ) : (
+                        <img
+                          src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSgnq9pVEA16U0vH0nT0UeFY9vrTn99Za2a7QWub_dBpXSYTCZtBQULWaaRJ4ENFreEmPc&usqp=CAU"
+                          style={{
+                            width: "250px",
+                            height: "250px",
+                            marginRight: "55px",
+                            marginBottom: "5px",
+                          }}
+                        />
+                      )}
                     </li>
                     <li className="list-group-item">
                       {/* <input type="file" name="img-upload" /> */}
@@ -72,10 +92,20 @@ const DetailAccount = (props) => {
                 <div className="col-8">
                   <ul className="list-group list-group-flush">
                     <li className="list-group-item">
-                      Tên tài khoản: {item.userName}
+                      Tên tài khoản:{" "}
+                      {item.userName !== null ? (
+                        <span>{item.userName}</span>
+                      ) : (
+                        <span>Chưa có dữ liệu</span>
+                      )}
                     </li>
                     <li className="list-group-item">
-                      Họ và tên: {item.fullname}
+                      Họ và tên:{" "}
+                      {item.fullname !== null ? (
+                        <span>{item.fullname}</span>
+                      ) : (
+                        <span>Chưa có dữ liệu</span>
+                      )}
                     </li>
                     <li className="list-group-item">
                       Địa chỉ:{" "}
@@ -102,17 +132,34 @@ const DetailAccount = (props) => {
                       .
                     </li>
                     <li className="list-group-item">
-                      Giới tính: {item.gender}
+                      Giới tính:
+                      {item.gender !== null ? (
+                        <span>{item.gender}</span>
+                      ) : (
+                        <span>Chưa có dữ liệu</span>
+                      )}
                     </li>
                     <li className="list-group-item">
                       Ngày tạo / giờ tạo:&nbsp;
-                      {moment(item.dateCreated).format("DD/MM/YYYY")}
-                      &nbsp;/ {item.dateCreated.substring(11, 16)}
+                      {item.dateCreated ? (
+                        <span>
+                          {moment(item.dateCreated).format("DD/MM/YYYY")}
+                          &nbsp;/ {item.dateCreated.substring(11, 16)}
+                        </span>
+                      ) : (
+                        <span>Chưa có dữ liệu</span>
+                      )}
                     </li>
                     <li className="list-group-item">
                       Ngày cập nhật / giờ cập nhật:&nbsp;
-                      {moment(item.dateUpdated).format("DD/MM/YYYY")}
-                      &nbsp;/ {item.dateUpdated.substring(11, 16)}
+                      {item.dateUpdated ? (
+                        <span>
+                          {moment(item.dateUpdated).format("DD/MM/YYYY")}
+                          &nbsp;/ {item.dateUpdated.substring(11, 16)}
+                        </span>
+                      ) : (
+                        <span>Chưa có dữ liệu</span>
+                      )}
                     </li>
                     <li className="list-group-item">
                       Email: {item.email}{" "}
@@ -128,9 +175,21 @@ const DetailAccount = (props) => {
                       )}
                     </li>
                     <li className="list-group-item">
-                      Số điện thoại: {item.phoneNumber}
+                      Số điện thoại:
+                      {item.phoneNumber !== null ? (
+                        <span>{item.phoneNumber}</span>
+                      ) : (
+                        <span>Chưa có dữ liệu</span>
+                      )}
                     </li>
-                    <li className="list-group-item">Số dư: {item.balance}</li>
+                    <li className="list-group-item">
+                      Số dư:
+                      {item.balance !== null ? (
+                        <span>{item.balance} VND</span>
+                      ) : (
+                        <span>Chưa có dữ liệu</span>
+                      )}
+                    </li>
                   </ul>
                 </div>
               </div>

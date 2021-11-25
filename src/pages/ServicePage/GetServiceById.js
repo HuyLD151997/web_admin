@@ -19,6 +19,7 @@ const GetServiceById = (props) => {
   const [unitPrice, setUnitPrice] = useState("");
   const [idService, setIdService] = useState("");
   const [type, setType] = useState("");
+  const [search, setSearch] = useState("");
   const { id } = useParams();
   console.log(id);
   const dispatchAction = useDispatch();
@@ -170,116 +171,166 @@ const GetServiceById = (props) => {
           Tạo dịch vụ
         </NavLink>
       </div>
+      <div>
+        <input
+          className="ml-auto mr-4"
+          type="text"
+          placeholder="Tìm kiếm nhóm dịch vụ"
+          onChange={(e) => {
+            setSearch(e.target.value);
+          }}
+          style={{ width: "500px", height: "35px" }}
+        />
+        <table className="table">
+          <thead className="table-light">
+            <tr>
+              <th scope="col">Dịch vụ</th>
+              <th scope="col">Loại</th>
+              <th scope="col">Ngày/Giờ tạo</th>
+              <th scope="col">Ngày/Giờ cập nhật</th>
+              <th scope="col">Giá cả</th>
+              <th scope="col">Trạng thái</th>
+              <th scope="col"></th>
+            </tr>
+          </thead>
+          {data ? (
+            data.length > 0 ? (
+              data
+                .filter((item) => {
+                  if (search == "") {
+                    return item;
+                  } else if (
+                    item.description &&
+                    item.description
+                      .toLowerCase()
+                      .includes(search.toLowerCase())
+                  ) {
+                    return item;
+                  } else {
+                    return "";
+                  }
+                })
+                .map((item, index) => (
+                  <tbody>
+                    <tr key={index}>
+                      <td className="col-2 align-middle">
+                        {item.description !== null ? (
+                          <span>{item.description}</span>
+                        ) : (
+                          <span>Chưa có dữ liệu</span>
+                        )}
+                      </td>
+                      <td className="align-middle">
+                        {item.type === "AREA" ? (
+                          ""
+                        ) : (
+                          <span className="text-primary  rounded p-1">
+                            {item.type}
+                          </span>
+                        )}
+                        {item.type === "QUANTITY" ? (
+                          ""
+                        ) : (
+                          <span className="text-success  rounded p-1">
+                            {item.type}
+                          </span>
+                        )}
+                      </td>
+                      <td className="align-middle">
+                        {item.dateCreated ? (
+                          <span>
+                            {moment(item.dateCreated).format("DD/MM/YYYY")}
+                            &nbsp;/ {item.dateCreated.substring(11, 16)}
+                          </span>
+                        ) : (
+                          <span>Chưa có dữ liệu</span>
+                        )}
+                      </td>
+                      <td className="align-middle">
+                        {item.dateUpdated ? (
+                          <span>
+                            {moment(item.dateUpdated).format("DD/MM/YYYY")}
+                            &nbsp;/ {item.dateUpdated.substring(11, 16)}
+                          </span>
+                        ) : (
+                          <span>Chưa có dữ liệu</span>
+                        )}
+                      </td>
+                      <td className=" align-middle">
+                        {item.unitPrice !== null ? (
+                          <span>{item.unitPrice} VND</span>
+                        ) : (
+                          <span>Chưa có dữ liệu</span>
+                        )}
+                      </td>
+                      <td className=" align-middle">
+                        {item.isDisable === false ? (
+                          ""
+                        ) : (
+                          <span className="text-danger">Tạm dừng</span>
+                        )}
+                        {item.isDisable === true ? (
+                          ""
+                        ) : (
+                          <span className="text-success border border-success rounded p-1">
+                            Hoạt động
+                          </span>
+                        )}
+                      </td>
+                      <td className=" align-middle">
+                        {item.isDisable === false ? (
+                          ""
+                        ) : (
+                          <i
+                            class="fa fa-unlock-alt text-success"
+                            type="button"
+                            style={{ fontSize: "30px", marginTop: "8px" }}
+                            onClick={() => handleActive(item.id)}
+                          ></i>
+                        )}
+                        {item.isDisable === true ? (
+                          ""
+                        ) : (
+                          <i
+                            class="fa fa-lock text-danger"
+                            type="button"
+                            style={{ fontSize: "30px", marginTop: "8px" }}
+                            onClick={() => handleOnClickDelete(item.id)}
+                          ></i>
+                        )}
+                        <i
+                          class="fa fa-edit"
+                          type="button"
+                          onClick={() =>
+                            handleGetDescription(
+                              item.description,
+                              item.id,
+                              item.unitPrice,
+                              item.type,
+                              item.serviceGroupId
+                            )
+                          }
+                          data-toggle="modal"
+                          data-target="#exampleModal"
+                          data-whatever="yah"
+                          style={{
+                            fontSize: "30px",
+                            margin: "auto",
+                            marginTop: "8px",
+                            marginLeft: "20px",
+                          }}
+                        ></i>
+                      </td>
+                    </tr>
+                  </tbody>
+                ))
+            ) : null
+          ) : (
+            <div>Progress .....</div>
+          )}
+        </table>
+      </div>
 
-      <table className="table">
-        <thead className="table-light">
-          <tr>
-            <th scope="col">Dịch vụ</th>
-            <th scope="col">Loại</th>
-            <th scope="col">Ngày/Giờ tạo</th>
-            <th scope="col">Ngày/Giờ cập nhật</th>
-            <th scope="col">Giá cả</th>
-            <th scope="col">Trạng thái</th>
-            <th scope="col"></th>
-          </tr>
-        </thead>
-        {data ? (
-          data.length > 0 ? (
-            data.map((item, index) => (
-              <tbody>
-                <tr key={index}>
-                  <td className="col-2 align-middle">{item.description}</td>
-                  <td className="align-middle">
-                    {item.type === "AREA" ? (
-                      ""
-                    ) : (
-                      <span className="text-primary  rounded p-1">
-                        {item.type}
-                      </span>
-                    )}
-                    {item.type === "QUANTITY" ? (
-                      ""
-                    ) : (
-                      <span className="text-success  rounded p-1">
-                        {item.type}
-                      </span>
-                    )}
-                  </td>
-                  <td className="align-middle">
-                    {moment(item.dateCreated).format("DD/MM/YYYY")}
-                    &nbsp;/ {item.dateCreated.substring(11, 16)}
-                  </td>
-                  <td className="align-middle">
-                    {moment(item.dateUpdated).format("DD/MM/YYYY")}
-                    &nbsp;/ {item.dateUpdated.substring(11, 16)}
-                  </td>
-                  <td className=" align-middle">{item.unitPrice}VND</td>
-                  <td className=" align-middle">
-                    {item.isDisable === false ? (
-                      ""
-                    ) : (
-                      <span className="text-danger">Tạm dừng</span>
-                    )}
-                    {item.isDisable === true ? (
-                      ""
-                    ) : (
-                      <span className="text-success border border-success rounded p-1">
-                        Hoạt động
-                      </span>
-                    )}
-                  </td>
-                  <td className=" align-middle">
-                    {item.isDisable === false ? (
-                      ""
-                    ) : (
-                      <i
-                        class="fa fa-unlock-alt text-success"
-                        type="button"
-                        style={{ fontSize: "30px", marginTop: "8px" }}
-                        onClick={() => handleActive(item.id)}
-                      ></i>
-                    )}
-                    {item.isDisable === true ? (
-                      ""
-                    ) : (
-                      <i
-                        class="fa fa-lock text-danger"
-                        type="button"
-                        style={{ fontSize: "30px", marginTop: "8px" }}
-                        onClick={() => handleOnClickDelete(item.id)}
-                      ></i>
-                    )}
-                    <i
-                      class="fa fa-edit"
-                      type="button"
-                      onClick={() =>
-                        handleGetDescription(
-                          item.description,
-                          item.id,
-                          item.unitPrice,
-                          item.type,
-                          item.serviceGroupId
-                        )
-                      }
-                      data-toggle="modal"
-                      data-target="#exampleModal"
-                      data-whatever="yah"
-                      style={{
-                        fontSize: "30px",
-                        margin: "auto",
-                        marginTop: "8px",
-                        marginLeft: "20px",
-                      }}
-                    ></i>
-                  </td>
-                </tr>
-              </tbody>
-            ))
-          ) : null
-        ) : (
-          <div>Progress .....</div>
-        )}
-      </table>
       <div
         className="modal fade"
         id="exampleModal"

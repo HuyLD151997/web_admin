@@ -205,7 +205,7 @@ const CleaningToolPage = (props) => {
         <input
           className="ml-auto"
           type="text"
-          placeholder="Tìm kiếm ..."
+          placeholder="Tìm kiếm dụng cụ"
           onChange={(e) => {
             setSearch(e.target.value);
           }}
@@ -230,11 +230,14 @@ const CleaningToolPage = (props) => {
                   if (search == "") {
                     return item;
                   } else if (
+                    item.description &&
                     item.description
                       .toLowerCase()
                       .includes(search.toLowerCase())
                   ) {
                     return item;
+                  } else {
+                    return "";
                   }
                 })
                 .map((item, index) => (
@@ -281,15 +284,39 @@ const CleaningToolPage = (props) => {
                           }}
                         ></i>
                       </td>
-                      <td className="col-2 align-middle">{item.description}</td>
-                      <td className="align-middle">{item.quantity}</td>
-                      <td className="align-middle">
-                        {moment(item.dateCreated).format("DD/MM/YYYY")}
-                        &nbsp;/ {item.dateCreated.substring(11, 16)}
+                      <td className="col-2 align-middle">
+                        {item.description !== null ? (
+                          <span>{item.description}</span>
+                        ) : (
+                          <span>Chưa có dữ liệu</span>
+                        )}
                       </td>
                       <td className="align-middle">
-                        {moment(item.dateUpdated).format("DD/MM/YYYY")}
-                        &nbsp;/ {item.dateUpdated.substring(11, 16)}
+                        {item.quantity !== null ? (
+                          <span>{item.quantity}</span>
+                        ) : (
+                          <span>Chưa có dữ liệu</span>
+                        )}
+                      </td>
+                      <td className="align-middle">
+                        {item.dateCreated ? (
+                          <span>
+                            {moment(item.dateCreated).format("DD/MM/YYYY")}
+                            &nbsp;/ {item.dateCreated.substring(11, 16)}
+                          </span>
+                        ) : (
+                          <span>Chưa có dữ liệu</span>
+                        )}
+                      </td>
+                      <td className="align-middle">
+                        {item.dateUpdated ? (
+                          <span>
+                            {moment(item.dateUpdated).format("DD/MM/YYYY")}
+                            &nbsp;/ {item.dateUpdated.substring(11, 16)}
+                          </span>
+                        ) : (
+                          <span>Chưa có dữ liệu</span>
+                        )}
                       </td>
                       <td className="align-middle">
                         {item.isDisable === false ? (

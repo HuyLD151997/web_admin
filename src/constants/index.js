@@ -11,6 +11,7 @@ import GetServiceById from "./../pages/ServicePage/GetServiceById";
 import CreateServiceItem from "./../pages/ServicePage/CreateServicePage";
 import Transaction from "./../pages/Transaction/TransactionPage";
 import TransactionCus from "./../pages/Transaction/TransactionCusPage";
+import TransactionCompany from "./../pages/Transaction/TransactionCompanyPage";
 import Booking from "./../pages/Booking/BookingPage";
 import ExportBooking from "./../pages/Booking/ExportBookingPage";
 import ListBooking from "./../pages/Booking/ListBookingPage";
@@ -23,6 +24,7 @@ import HistoryAllocationCleaningToolAccept from "./../pages/AllocationCleaningTo
 import ExportHistoryAllocationCleaningToolAccept from "./../pages/AllocationCleaningTool/ExportHistoryCleaningToolAccept";
 import Setting from "./../pages/SettingPage/SettingPage";
 import Chart from "./../pages/chartAll";
+import ListCode from "./../pages/Promo/ListCodePage";
 
 export const ROUTES = [
   {
@@ -34,6 +36,12 @@ export const ROUTES = [
 ];
 
 export const ADMIN_ROUTES = [
+  {
+    path: "/list-code",
+    name: "ListCode",
+    exact: true,
+    component: ListCode,
+  },
   {
     path: "/home",
     name: "Trang chủ",
@@ -99,6 +107,12 @@ export const ADMIN_ROUTES = [
     name: "TransactionCus",
     exact: true,
     component: TransactionCus,
+  },
+  {
+    path: "/transactionCompany",
+    name: "TransactionCompany",
+    exact: true,
+    component: TransactionCompany,
   },
   {
     path: "/cleaning-tool",

@@ -1,7 +1,7 @@
 import React, { Component, useEffect, useState } from "react";
 import { useLocation, withRouter } from "react-router";
 import { useDispatch, connect } from "react-redux";
-import * as getTransactionUsersActions from "../../actions/Transaction/GetTransactionUser";
+import * as getTransactionCompanyActions from "../../actions/Transaction/GetTransactionCompany";
 import { Link } from "react-router-dom";
 import Swal from "sweetalert2";
 import { deleteServiceGroupApi } from "../../apis/ServiceGroup/DeleteServiceGroup";
@@ -11,14 +11,14 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import { useForm } from "react-hook-form";
 import * as moment from "moment";
 
-const TransactionCusPage = (props) => {
+const TransactionCompanyPage = (props) => {
   const [description, setDescription] = useState("");
   const [idService, setIdService] = useState("");
   const [search, setSearch] = useState("");
 
   const dispatchAction = useDispatch();
   useEffect(() => {
-    dispatchAction(getTransactionUsersActions.getTransactionUsers());
+    dispatchAction(getTransactionCompanyActions.getTransactionCompany());
   }, []);
   const { data } = props;
   console.log(data);
@@ -94,11 +94,11 @@ const TransactionCusPage = (props) => {
   return (
     <div className="container ml-2 table-responsive-xl">
       <div className="row">
-        <h3>Giao dịch khách hàng</h3>
+        <h3>Giao dịch Công ty</h3>
         <input
           className="ml-auto mr-4"
           type="text"
-          placeholder="Tìm kiếm tên khách hàng"
+          placeholder="Tìm kiếm mã đặt lịch"
           onChange={(e) => {
             setSearch(e.target.value);
           }}
@@ -109,7 +109,9 @@ const TransactionCusPage = (props) => {
         <thead className="table-light">
           <tr>
             <th scope="col">Mã đặt lịch</th>
+            <th scope="col">Công ty</th>
             <th scope="col">Khách hàng</th>
+            <th scope="col">Nhân viên</th>
             <th scope="col">Tổng tiền</th>
             <th scope="col">Ghi chú</th>
             <th scope="col">Ngày/Giờ tạo</th>
@@ -134,7 +136,8 @@ const TransactionCusPage = (props) => {
               .map((item, index) => (
                 <tbody>
                   <tr className="" key={index}>
-                    <td className="">
+                    <td className="col-3">
+                      {" "}
                       {item.bookingId !== null ? (
                         <span>{item.bookingId}</span>
                       ) : (
@@ -142,20 +145,35 @@ const TransactionCusPage = (props) => {
                       )}
                     </td>
                     <td className="">
+                      {" "}
                       {item.user.fullname !== null ? (
                         <span>{item.user.fullname}</span>
                       ) : (
                         <span>Chưa có dữ liệu</span>
                       )}
                     </td>
-                    <td className="">
+                    <td className="col-2 align-middle">
+                      {item.booking.customer.fullname !== null ? (
+                        <span>{item.booking.customer.fullname}</span>
+                      ) : (
+                        <span>Chưa có dữ liệu</span>
+                      )}
+                    </td>
+                    <td className="col-2 align-middle">
+                      {item.booking.employee.fullname !== null ? (
+                        <span>{item.booking.employee.fullname}</span>
+                      ) : (
+                        <span>Chưa có dữ liệu</span>
+                      )}
+                    </td>
+                    <td className="col-2 align-middle">
                       {item.deposit !== null ? (
                         <span>{item.deposit} VND</span>
                       ) : (
                         <span>Chưa có dữ liệu</span>
                       )}
                     </td>
-                    <td className="">
+                    <td className="col-2">
                       {item.description !== null ? (
                         <span>{item.description}</span>
                       ) : (
@@ -172,6 +190,7 @@ const TransactionCusPage = (props) => {
                         <span>Chưa có dữ liệu</span>
                       )}
                     </td>
+                    <td className=""></td>
                   </tr>
                 </tbody>
               ))
@@ -185,7 +204,7 @@ const TransactionCusPage = (props) => {
 };
 
 const mapStateToProps = (state) => ({
-  data: state.getTransactionUser.table,
+  data: state.getTransactionCompany.table,
 });
 const withConnect = connect(mapStateToProps);
-export default withRouter(withConnect(TransactionCusPage));
+export default withRouter(withConnect(TransactionCompanyPage));

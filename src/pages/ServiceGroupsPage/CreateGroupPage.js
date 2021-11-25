@@ -94,7 +94,7 @@ const CreateService = (props) => {
                     className="form-control"
                     {...register("Description")}
                   />
-                  <p>{errors.Description?.message}</p>
+                  <p className="text-danger">{errors.Description?.message}</p>
                 </div>
                 <div className="form-group">
                   <label>Thuộc loại</label>
@@ -108,7 +108,7 @@ const CreateService = (props) => {
                     <option value="OVERALL">OVERALL</option>
                     <option value="OPTIONAL">OPTIONAL</option>
                   </select>
-                  <p>{errors.Type?.message}</p>
+                  <p className="text-danger">{errors.Type?.message}</p>
                 </div>
                 <div className="form-group">
                   <label>Hình ảnh</label>

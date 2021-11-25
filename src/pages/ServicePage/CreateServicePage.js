@@ -26,8 +26,19 @@ const CreateServiceItem = (props) => {
   const validationSchema = yup
     .object({
       description: yup.string().required("Vui lòng nhập tên loại dịch vụ"),
-      estiamtedMinutes: yup.number().required("Vui lòng nhập thời gian làm"),
-      unitPrice: yup.number().required("Vui lòng nhập giá tiền"),
+      estiamtedMinutes: yup
+        .number()
+        .typeError("Vui lòng nhập là thời gian")
+        .required("Vui lòng nhập thời gian làm"),
+      unitPrice: yup
+        .number()
+        .typeError("Vui lòng nhập là giá tiền")
+        .required("Vui lòng nhập giá tiền"),
+      Type: yup
+        .string()
+        .required("Phải chọn một trong hai cái có sẵn")
+        .matches(/(AREA|QUANTITY)/, "Chỉ được chọn một trong hai cái có sẵn"),
+      nhom: yup.string().required("Vui lòng chọn nhóm dịch vụ"),
     })
     .required();
 
@@ -90,9 +101,9 @@ const CreateServiceItem = (props) => {
   return (
     <div>
       <div className="container col-12">
-        <h3 className="">Thêm loại dịch vụ</h3>
+        <h3 className="">Thêm dịch vụ</h3>
         <div
-          className=" border border-warning col-10"
+          className=" border border-warning col-10 ml-5"
           // style={{ width: "400px", paddingLeft: "60px", padding: "20px" }}
         >
           <form
@@ -108,7 +119,7 @@ const CreateServiceItem = (props) => {
                     className="form-control"
                     {...register("description")}
                   />
-                  <p>{errors.description?.message}</p>
+                  <p className="text-danger">{errors.description?.message}</p>
                 </div>
                 <div className="form-group">
                   <label>Thời gian làm</label>
@@ -117,7 +128,9 @@ const CreateServiceItem = (props) => {
                     className="form-control"
                     {...register("estiamtedMinutes")}
                   />
-                  <p>{errors.estiamtedMinutes?.message}</p>
+                  <p className="text-danger">
+                    {errors.estiamtedMinutes?.message}
+                  </p>
                 </div>
                 <div className="form-group">
                   <label>Loại</label>
@@ -130,7 +143,7 @@ const CreateServiceItem = (props) => {
                     <option value="AREA">AREA</option>
                     <option value="QUANTITY">QUANTITY</option>
                   </select>
-                  <p>{errors.type?.message}</p>
+                  <p className="text-danger">{errors.Type?.message}</p>
                 </div>
                 <div className="dropdown show" style={{ marginTop: "35px" }}>
                   <a
@@ -167,6 +180,7 @@ const CreateServiceItem = (props) => {
                       <div>Progress...</div>
                     )}
                   </div>
+                  <p className="text-danger">{errors.nhom?.message}</p>
                 </div>
                 <div className="form-group">
                   <label>Giá cả</label>
@@ -175,7 +189,7 @@ const CreateServiceItem = (props) => {
                     className="form-control"
                     {...register("unitPrice")}
                   />
-                  <p>{errors.unitPrice?.message}</p>
+                  <p className="text-danger">{errors.unitPrice?.message}</p>
                 </div>
                 <div className="">
                   <button

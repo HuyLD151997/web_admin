@@ -78,7 +78,7 @@ const CreateService = (props) => {
                     className="form-control"
                     {...register("Description")}
                   />
-                  <p>{errors.Description?.message}</p>
+                  <p className="text-danger">{errors.Description?.message}</p>
                 </div>
                 <div className="form-group">
                   <label>Số lượng</label>
@@ -87,7 +87,7 @@ const CreateService = (props) => {
                     className="form-control"
                     {...register("Quantity")}
                   />
-                  <p>{errors.Quantity?.message}</p>
+                  <p className="text-danger">{errors.Quantity?.message}</p>
                 </div>
                 <div className="form-group">
                   <label>Hình ảnh</label>

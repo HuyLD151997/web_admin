@@ -9,6 +9,8 @@ import { sagas as getCustomersSaga } from "./CustomerSagas/GetCustomersSaga";
 import { sagas as getServiceGroupsSaga } from "./ServiceGroupsSagas/GetServiceGroupsSaga";
 import { sagas as getServiceByIdSaga } from "./ServiceGroupsSagas/GetServiceByIdSaga";
 import { sagas as getTransactionSaga } from "./TransactionSagas/GetTransactionSaga";
+import { sagas as getTransactionUserSaga } from "./TransactionSagas/GetTransactionUserSaga";
+import { sagas as getTransactionCompanySaga } from "./TransactionSagas/GetTransactionCompanySaga";
 import { sagas as getBookingSaga } from "./BookingSagas/GetBookingSaga";
 import { sagas as getBookingDetailSaga } from "./BookingSagas/GetBookingDetailSaga";
 import { sagas as putAvatarSaga } from "./EmployeesSagas/PutAvatarSaga";
@@ -33,6 +35,8 @@ const allSaga = [
   ...getServiceByIdSaga,
   ...putAvatarSaga,
   ...getTransactionSaga,
+  ...getTransactionUserSaga,
+  ...getTransactionCompanySaga,
   ...getBookingSaga,
   ...getBookingDetailSaga,
   ...getCleaningToolSaga,
