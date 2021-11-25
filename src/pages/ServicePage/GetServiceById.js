@@ -159,13 +159,18 @@ const GetServiceById = (props) => {
     //   )}
     // </div>
     <div className="container ml-2 table-responsive-xl">
-      <NavLink
-        type="button"
-        to={`/add-service-item/${id}`}
-        className="btn btn-warning btn-lg "
-      >
-        Tạo dịch vụ
-      </NavLink>
+      <div className="row m-0">
+        <h2>Thông tin dịch vụ</h2>
+
+        <NavLink
+          type="button"
+          to={`/add-service-item/${id}`}
+          className="btn btn-warning btn-lg ml-auto mr-3"
+        >
+          Tạo dịch vụ
+        </NavLink>
+      </div>
+
       <table className="table">
         <thead className="table-light">
           <tr>
@@ -251,8 +256,8 @@ const GetServiceById = (props) => {
                         handleGetDescription(
                           item.description,
                           item.id,
-                          item.type,
                           item.unitPrice,
+                          item.type,
                           item.serviceGroupId
                         )
                       }
@@ -312,9 +317,23 @@ const GetServiceById = (props) => {
                     class="form-control"
                     id="recipient-name"
                     {...register("description")}
-                    defaultValue={description}
+                    // defaultValue={description}
                   />
                   <p>{errors.description?.message}</p>
+                </div>
+                <div className="form-group">
+                  <label>Loại</label>
+                  <select
+                    class="custom-select"
+                    id="inputGroupSelect01"
+                    {...register("type")}
+                    // defaultValue={type}
+                  >
+                    <option selected> {type}</option>
+                    <option value="AREA">AREA</option>
+                    <option value="QUANTITY">QUANTITY</option>
+                  </select>
+                  {/* <p>{errors.type?.message}</p> */}
                 </div>
                 <div className="form-group">
                   <label htmlFor="recipient-name" className="col-form-label">
@@ -325,10 +344,11 @@ const GetServiceById = (props) => {
                     class="form-control"
                     id="recipient-name"
                     {...register("unitPrice")}
-                    defaultValue={unitPrice}
+                    // defaultValue={unitPrice}
                   />
                   <p>{errors.unitPrice?.message}</p>
                 </div>
+
                 <div
                   className="dropdown show w-100"
                   style={{ marginTop: "35px" }}

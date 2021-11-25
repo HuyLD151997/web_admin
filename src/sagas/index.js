@@ -19,6 +19,7 @@ import { sagas as getRequestCleaningToolPendingSaga } from "./RequestCleaningToo
 import { sagas as getRequestCleaningToolApprovedSaga } from "./RequestCleaningToolSagas/GetRequestCleaningToolApprovedSaga";
 import { sagas as getRequestCleaningToolHistorySaga } from "./RequestCleaningToolSagas/GetRequestCleaningToolHistorySaga";
 import { sagas as getSettingSaga } from "./SettingSagas/GetSettingSaga";
+import { sagas as getChartSaga } from "./ChartSagas/GetChartSaga";
 
 const allSaga = [
   ...authenticateSagas,
@@ -41,6 +42,7 @@ const allSaga = [
   ...getRequestCleaningToolApprovedSaga,
   ...getRequestCleaningToolHistorySaga,
   ...getSettingSaga,
+  ...getChartSaga,
 ];
 
 export default function* rootSaga() {

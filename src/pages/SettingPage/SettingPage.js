@@ -23,8 +23,16 @@ const SettingPage = (props) => {
     dispatchAction(getSettingsActions.getSettings());
   }, []);
   const { dataSetting } = props;
-
-  console.log(dataSetting);
+  var stringTime = [];
+  if (dataSetting.length > 0) {
+    for (let index = 0; index < dataSetting.length; index++) {
+      const element = dataSetting[index];
+      if (element.description.includes("(giờ : phút)")) {
+        stringTime = JSON.parse(element.data);
+      }
+    }
+  }
+  console.log(stringTime);
 
   const handleUpdateSetting = async (id, description, data) => {
     try {
@@ -117,22 +125,7 @@ const SettingPage = (props) => {
     return itemJSon;
   };
 
-  const handCongChuoi = (data) => {
-    const itemJSon = JSON.parse(data);
-    const str = "[";
-    for (let i = 0; i < itemJSon.length; i++) {
-      const index = itemJSon[i];
-      if (index == itemJSon.length - 1) {
-        str += "]";
-      } else {
-        str += ",";
-      }
-    }
-    const strNew =
-      '[{"timeFrom": ' + data.timeFrom + '"timeTo": ' + data.timeTo;
-    return itemJSon;
-    console.log(itemJSon);
-  };
+  console.log(settingTime);
 
   console.log(settingTime);
 
@@ -150,21 +143,40 @@ const SettingPage = (props) => {
     setData(data);
   };
 
-  const chaneTimeForm = (e, index) => {
+  const changeTimeForm = (e, index) => {
+    console.log(e.target.value);
+
+    console.log(index);
+    console.log(stringTime[0].timeFrom);
+    stringTime[index].timeFrom = e.target.value;
+    console.log(stringTime);
+  };
+  const changeTimeTo = (e, index) => {
     console.log(e.target.value);
     console.log(index);
+    stringTime[index].timeTo = e.target.value;
+  };
+
+  const handleUpdateTime = (idSettingTime, description) => {
+    //Lấy được chuỗi dạng string đã thay đổi đc giá trị cần đổi
+    console.log(stringTime);
+
+    const StringConvertData = JSON.stringify(stringTime);
+    console.log(idSettingTime, description, StringConvertData);
+    handleUpdateSetting(idSettingTime, description, StringConvertData);
   };
 
   console.log(valueJson.length);
   return (
     <div className="container ml-2 table-responsive-xl p-0 mt-2">
       <h2>Cài đặt</h2>
+      {/* <button onClick={() => handCongChuoi()}></button> */}
       <div className="row m-0">
         {dataSetting ? (
           dataSetting.length > 0 ? (
             dataSetting.map((item, index) =>
               item.description.includes("(giờ : phút)") ? (
-                <form onSubmit={submitForm2} className="border-0 col-12">
+                <form onSubmit={submitForm2} className="border-0 ">
                   <div className="input-group mb-3 col-12">
                     <input
                       type="text"
@@ -184,7 +196,7 @@ const SettingPage = (props) => {
                           aria-label="Recipient's username"
                           aria-describedby="basic-addon2"
                           defaultValue={itemTime.timeFrom}
-                          onChange={(e) => chaneTimeForm(e, index)}
+                          onChange={(e) => changeTimeForm(e, index)}
                         />
 
                         <input
@@ -194,6 +206,7 @@ const SettingPage = (props) => {
                           aria-label="Recipient's username"
                           aria-describedby="basic-addon2"
                           defaultValue={itemTime.timeTo}
+                          onChange={(e) => changeTimeTo(e, index)}
                         />
                       </div>
                     ))}
@@ -201,6 +214,9 @@ const SettingPage = (props) => {
                       <button
                         className="btn btn-outline-secondary"
                         type="button"
+                        onClick={() =>
+                          handleUpdateTime(item.id, item.description)
+                        }
                       >
                         Cập nhật
                       </button>
@@ -208,47 +224,42 @@ const SettingPage = (props) => {
                   </div>
                 </form>
               ) : (
-                <form
-                  onSubmit={handleSubmit(submitForm)}
-                  className="border-0 col-12"
-                >
-                  <div className="input-group mb-3 col-12">
-                    <input
-                      type="text"
-                      className="form-control"
-                      placeholder="Recipient's username"
-                      aria-label="Recipient's username"
-                      aria-describedby="basic-addon2"
-                      defaultValue={item.description}
-                    />
-                    <input
-                      type="text"
-                      className="form-control"
-                      placeholder="Recipient's username"
-                      aria-label="Recipient's username"
-                      aria-describedby="basic-addon2"
-                      defaultValue={item.data}
-                    />
-                    <div className="input-group-append">
-                      <button
-                        className="btn btn-outline-secondary"
-                        type="submit"
-                        // onClick={() =>
-                        //   handleGetDescription(
-                        //     item.description,
-                        //     item.id,
-                        //     item.data
-                        //   )
-                        // }
-                        // data-toggle="modal"
-                        // data-target="#exampleModal"
-                        // data-whatever="yah"
-                      >
-                        Cập nhật
-                      </button>
-                    </div>
+                <div className="input-group mb-3 col-12">
+                  <input
+                    type="text"
+                    className="form-control"
+                    placeholder="Recipient's username"
+                    aria-label="Recipient's username"
+                    aria-describedby="basic-addon2"
+                    value={item.description}
+                  />
+                  <input
+                    type="text"
+                    className="form-control"
+                    placeholder="Recipient's username"
+                    aria-label="Recipient's username"
+                    aria-describedby="basic-addon2"
+                    value={item.data}
+                  />
+                  <div className="input-group-append">
+                    <button
+                      className="btn btn-outline-secondary"
+                      type="submit"
+                      onClick={() =>
+                        handleGetDescription(
+                          item.description,
+                          item.id,
+                          item.data
+                        )
+                      }
+                      data-toggle="modal"
+                      data-target="#exampleModal"
+                      data-whatever="yah"
+                    >
+                      Cập nhật
+                    </button>
                   </div>
-                </form>
+                </div>
               )
             )
           ) : null
@@ -285,7 +296,7 @@ const SettingPage = (props) => {
               <div className="modal-body">
                 <div className="form-group">
                   <label htmlFor="recipient-name" className="col-form-label">
-                    Mô tả:{description}
+                    Mô tả
                   </label>
                   <input
                     type="text"
@@ -297,7 +308,7 @@ const SettingPage = (props) => {
                 </div>
                 <div className="form-group">
                   <label htmlFor="recipient-name" className="col-form-label">
-                    Dữ liệu:{data}
+                    Dữ liệu:
                   </label>
                   <input
                     type="text"

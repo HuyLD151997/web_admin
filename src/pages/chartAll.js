@@ -1,7 +1,7 @@
 import React, { Component, useEffect, useState } from "react";
 import { useLocation, withRouter } from "react-router";
 import { useDispatch, connect } from "react-redux";
-
+import * as getChartsActions from "../actions/Chart/GetChart";
 import { Link } from "react-router-dom";
 import Swal from "sweetalert2";
 
@@ -11,7 +11,13 @@ import { useForm } from "react-hook-form";
 import * as moment from "moment";
 import { Doughnut, Bar } from "react-chartjs-2";
 
-const TransactionPage = (props) => {
+const ChartPage = (props) => {
+  const dispatchAction = useDispatch();
+  useEffect(() => {
+    dispatchAction(getChartsActions.getCharts());
+  }, []);
+  const { data } = props;
+  console.log(data);
   const validationSchema = yup
     .object({
       description: yup.string().required("Tên dịch vụ không được để trống"),
@@ -29,8 +35,43 @@ const TransactionPage = (props) => {
   return (
     <div className="container">
       <div className="row ml-5">
-        <div className="col-4 mr-5">
-          <Doughnut
+        {data ? (
+          <div className="col-4 mr-5">
+            <Doughnut
+              data={{
+                labels: [
+                  `${data.bookingWaiting.name}`,
+                  `${data.bookingDone.name}`,
+                  `${data.bookingCancelled.name}`,
+                  `${data.bookingOther.name}`,
+                ],
+                datasets: [
+                  {
+                    label: "Population (millions)",
+                    backgroundColor: [
+                      "#3e95cd",
+                      "#8e5ea2",
+                      "#3cba9f",
+                      "#e8c3b9",
+                      // "#c45850",
+                    ],
+                    data: [
+                      `${data.bookingWaiting.quantity}`,
+                      `${data.bookingDone.quantity}`,
+                      `${data.bookingCancelled.quantity}`,
+                      `${data.bookingOther.quantity}`,
+                    ],
+                  },
+                ],
+              }}
+              option={{
+                title: {
+                  display: true,
+                  text: "Predicted world population (millions) in 2050",
+                },
+              }}
+            />
+            {/* <Doughnut
             data={{
               labels: ["Booking hủy", "Booking đang đợi", "Booking hoàn thành"],
               datasets: [
@@ -53,8 +94,11 @@ const TransactionPage = (props) => {
                 text: "Predicted world population (millions) in 2050",
               },
             }}
-          />
-        </div>
+          /> */}
+          </div>
+        ) : (
+          <div>Progress .....</div>
+        )}
         <div className="col-4" style={{ marginLeft: "200px" }}>
           <Doughnut
             data={{
@@ -145,7 +189,7 @@ const TransactionPage = (props) => {
 };
 
 const mapStateToProps = (state) => ({
-  data: state.getTransaction.table,
+  data: state.getChart.table,
 });
 const withConnect = connect(mapStateToProps);
-export default withRouter(withConnect(TransactionPage));
+export default withRouter(withConnect(ChartPage));

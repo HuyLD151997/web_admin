@@ -373,7 +373,7 @@ const CleaningToolPage = (props) => {
           <div className="modal-content">
             <div className="modal-header">
               <h5 className="modal-title w-100" id="exampleModalLabel">
-                Cập nhật dịch vụ tên {description}
+                Cập nhật dịch vụ tên
               </h5>
               <button
                 type="button"
@@ -390,27 +390,27 @@ const CleaningToolPage = (props) => {
               <div className="modal-body">
                 <div className="form-group">
                   <label htmlFor="recipient-name" className="col-form-label">
-                    Mô tả:{description}
+                    Mô tả:
                   </label>
                   <input
                     type="text"
                     class="form-control"
                     id="recipient-name"
                     {...register("description")}
-                    defaultValue={description}
+                    // defaultValue={description}
                   />
                   <p>{errors.description?.message}</p>
                 </div>
                 <div className="form-group">
                   <label htmlFor="recipient-name" className="col-form-label">
-                    Số lượng:{quantity}
+                    Số lượng:
                   </label>
                   <input
                     type="number"
                     class="form-control"
                     id="recipient-name"
                     {...register("quantity")}
-                    defaultValue={quantity}
+                    // defaultValue={quantity}
                   />
                   <p>{errors.quantity?.message}</p>
                 </div>

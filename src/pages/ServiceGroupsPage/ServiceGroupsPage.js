@@ -221,9 +221,18 @@ const ServiceGroupsPage = (props) => {
 
   return (
     <div className="container ml-2 table-responsive-xl">
-      <Link type="button" to="/add-service" className="btn btn-warning btn-lg ">
-        Tạo loại dịch vụ
-      </Link>
+      <div className="row m-0">
+        <h2>Thông tin nhóm dịch vụ</h2>
+
+        <Link
+          type="button"
+          to="/add-service"
+          className="btn btn-warning btn-lg ml-auto mr-3"
+        >
+          Tạo loại dịch vụ
+        </Link>
+      </div>
+
       <table className="table">
         <thead className="table-light">
           <tr>
@@ -402,7 +411,7 @@ const ServiceGroupsPage = (props) => {
                     class="form-control"
                     id="recipient-name"
                     {...register("description")}
-                    defaultValue={description}
+                    // defaultValue={description}
                   />
                   <p>{errors.description?.message}</p>
                 </div>
@@ -419,7 +428,7 @@ const ServiceGroupsPage = (props) => {
                     <option value="OVERALL">OVERALL</option>
                     <option value="OPTIONAL">OPTIONAL</option>
                   </select>
-                  <p>{errors.type?.message}</p>
+                  {/* <p>{errors.type?.message}</p> */}
                 </div>
               </div>
               <div className="modal-footer">

@@ -98,3 +98,5 @@ export const PROVIDED_REQUEST = `${BASE_URL}/RequestCleaningTool/Provided`;
 export const GET_SETTING = `${BASE_URL}/Setting`;
 
 export const UPDATE_SETTING = `${BASE_URL}/Setting`;
+
+export const CHART = `${BASE_URL}/Chart/Booking`;

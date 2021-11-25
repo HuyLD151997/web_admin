@@ -20,6 +20,7 @@ import requestCleaningToolPendingReducer from "./RequestCleaningTool/GetRequestC
 import requestCleaningToolApprovedReducer from "./RequestCleaningTool/GetRequestCleaningToolApprovedReducer";
 import requestCleaningToolHistoryReducer from "./RequestCleaningTool/GetRequestCleaningToolHistoryReducer";
 import getSettingsReducer from "./SettingReducer/GetSettingReducer";
+import getChartsReducer from "./ChartReducer/GetTransactionReducer";
 
 const rootReducers = combineReducers({
   services,
@@ -43,6 +44,7 @@ const rootReducers = combineReducers({
   avatarStringCode: putAvatarReducer,
   cleaningTool: cleaningToolsReducer,
   getSetting: getSettingsReducer,
+  getChart: getChartsReducer,
 });
 
 export default rootReducers;
