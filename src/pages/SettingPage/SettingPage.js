@@ -85,6 +85,7 @@ const SettingPage = (props) => {
       }
     }
   }
+
   // xu li thay doi va cap nhat area
   console.log(stringHour);
   const changeHourMin = (e) => {
@@ -94,9 +95,38 @@ const SettingPage = (props) => {
     stringHour.maxHour = e.target.value;
   };
 
+  // Khung giờ không được đăng ký làm việc
+  var stringHourSignUp = null;
+  if (dataSetting.length > 0) {
+    for (let index = 0; index < dataSetting.length; index++) {
+      const element = dataSetting[index];
+      if (
+        element.description.includes("Khung giờ không được đăng ký làm việc")
+      ) {
+        stringHourSignUp = JSON.parse(element.data);
+      }
+    }
+  }
+
+  console.log(stringHourSignUp);
+
+  // xu li thay doi va cap nhat area
+  const changeHourStart = (e) => {
+    stringHourSignUp.start = e.target.value;
+  };
+  const changeHourEnd = (e) => {
+    stringHourSignUp.end = e.target.value;
+  };
+
   const handleUpdateHour = (idSettingTime, description) => {
     //Lấy được chuỗi dạng string đã thay đổi đc giá trị cần đổi
     const StringConvertData = JSON.stringify(stringHour);
+    handleUpdateSetting(idSettingTime, description, StringConvertData);
+  };
+
+  const handleUpdateHourSignUp = (idSettingTime, description) => {
+    //Lấy được chuỗi dạng string đã thay đổi đc giá trị cần đổi
+    const StringConvertData = JSON.stringify(stringHourSignUp);
     handleUpdateSetting(idSettingTime, description, StringConvertData);
   };
 
@@ -223,9 +253,22 @@ const SettingPage = (props) => {
                       aria-describedby="basic-addon2"
                       value={item.description}
                     />
-
+                    <div className="">
+                      <div className="col-1" style={{ marginTop: "15px" }}>
+                        <span>Từ</span>
+                      </div>
+                      <div className="col-1" style={{ marginTop: "30px" }}>
+                        <span>Đến</span>
+                      </div>
+                    </div>
                     {handParse(item.data).map((itemTime, index) => (
-                      <div className="col-2">
+                      <div
+                        className="col-2"
+                        style={{
+                          borderLeft: "1px solid ",
+                          marginLeft: "14px",
+                        }}
+                      >
                         <input
                           type="text"
                           className="form-control"
@@ -272,8 +315,28 @@ const SettingPage = (props) => {
                       value={item.description}
                     />
 
+                    <div className="">
+                      <div className="col-1" style={{ marginTop: "15px" }}>
+                        <span>Từ</span>
+                      </div>
+                      <div className="col-1" style={{ marginTop: "30px" }}>
+                        <span>Đến</span>
+                      </div>
+                      <div className="col-1" style={{ marginTop: "30px" }}>
+                        <span>Tiền</span>
+                      </div>
+                      <div className="col-1" style={{ marginTop: "30px" }}>
+                        <span>Khoảng</span>
+                      </div>
+                    </div>
                     {handParse(item.data).map((itemArea, index) => (
-                      <div className="col-2">
+                      <div
+                        className="col-2"
+                        style={{
+                          borderLeft: "1px solid ",
+                          marginLeft: "14px",
+                        }}
+                      >
                         <input
                           type="text"
                           className="form-control"
@@ -311,7 +374,6 @@ const SettingPage = (props) => {
                           defaultValue={itemArea.estimateTime}
                           onChange={(e) => changeEsTime(e, index)}
                         />
-                        <hr />
                       </div>
                     ))}
                     <div className="input-group-append">
@@ -338,8 +400,21 @@ const SettingPage = (props) => {
                       aria-describedby="basic-addon2"
                       value={item.description}
                     />
-
-                    <div className="col-2">
+                    <div className="">
+                      <div className="col-1" style={{ marginTop: "15px" }}>
+                        <span>Từ</span>
+                      </div>
+                      <div className="col-1" style={{ marginTop: "30px" }}>
+                        <span>Đến</span>
+                      </div>
+                    </div>
+                    <div
+                      className="col-2"
+                      style={{
+                        borderLeft: "1px solid ",
+                        marginLeft: "14px",
+                      }}
+                    >
                       <input
                         type="text"
                         className="form-control"
@@ -367,6 +442,67 @@ const SettingPage = (props) => {
                         type="button"
                         onClick={() =>
                           handleUpdateHour(item.id, item.description)
+                        }
+                      >
+                        Cập nhật
+                      </button>
+                    </div>
+                  </div>
+                </form>
+              ) : item.description.includes(
+                  "Khung giờ không được đăng ký làm việc"
+                ) ? (
+                <form onSubmit={submitForm2} className="border-0 ">
+                  <div className="input-group mb-3 col-12">
+                    <input
+                      type="text"
+                      className="form-control"
+                      // placeholder="Recipient's username"
+                      aria-label="Recipient's username"
+                      aria-describedby="basic-addon2"
+                      value={item.description}
+                    />
+                    <div className="">
+                      <div className="col-1" style={{ marginTop: "15px" }}>
+                        <span>Từ</span>
+                      </div>
+                      <div className="col-1" style={{ marginTop: "30px" }}>
+                        <span>Đến</span>
+                      </div>
+                    </div>
+                    <div
+                      className="col-2"
+                      style={{
+                        borderLeft: "1px solid ",
+                        marginLeft: "14px",
+                      }}
+                    >
+                      <input
+                        type="text"
+                        className="form-control"
+                        // placeholder="Recipient's username"
+                        aria-label="Recipient's username"
+                        aria-describedby="basic-addon2"
+                        defaultValue={handParse(item.data).start}
+                        onChange={(e) => changeHourStart(e)}
+                      />
+
+                      <input
+                        type="text"
+                        className="form-control"
+                        aria-label="Recipient's username"
+                        aria-describedby="basic-addon2"
+                        defaultValue={handParse(item.data).end}
+                        onChange={(e) => changeHourEnd(e)}
+                      />
+                    </div>
+
+                    <div className="input-group-append">
+                      <button
+                        className="btn btn-outline-secondary"
+                        type="button"
+                        onClick={() =>
+                          handleUpdateHourSignUp(item.id, item.description)
                         }
                       >
                         Cập nhật
