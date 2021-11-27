@@ -60,25 +60,33 @@ const CreateAccount = (props) => {
 
     return parsedDate;
   };
+
+  const phoneRegExp =
+    /^((\\+[1-9]{1,4}[ \\-]*)|(\\([0-9]{2,3}\\)[ \\-]*)|([0-9]{2,4})[ \\-]*)*?[0-9]{3,4}?[ \\-]*[0-9]{3,4}?$/;
+
   const validationSchema = yup
     .object({
-      username: yup.string().required("Tên người dùng không được để trống"),
+      username: yup.string().required("Tên tài khoản không được để trống"),
+      // phoneNumber: yup
+      //   .number()
+      //   .typeError("Số điện thoại phải là số")
+      //   .required("Số đt không được để trống"),
       phoneNumber: yup
-        .number()
-        .typeError("Số điện thoại phải là số")
-        .required("Số đt không được để trống"),
+        .string()
+        .required("Số điện thoại không được để trống")
+        .matches(phoneRegExp, "Số điện thoại không đúng định dạng"),
       password: yup
         .string()
-        .min(6, "password phải lớn hơn hoặc bằng 6 kí tự")
-        .required("password không được để trống"),
+        .min(6, "Mật khẩu phải lớn hơn hoặc bằng 6 kí tự")
+        .required("Mật khẩu không được để trống"),
       cpassword: yup
         .string()
         .oneOf(
           [yup.ref("password")],
-          "password xác nhận phải trùng với password"
+          "Mật khẩu xác nhận phải trùng với Mật khẩu"
         )
-        .required("Password xác nhận không được để trống"),
-      fullname: yup.string().required("Fullname không được để trống"),
+        .required("Mật khẩu xác nhận không được để trống"),
+      fullname: yup.string().required("Họ và tên không được để trống"),
       // birthday: yup
       //   .date()
       //   .transform(parseDateString)
@@ -90,9 +98,9 @@ const CreateAccount = (props) => {
         .matches(/(nam|nữ)/, "Phải chọn nam hoặc nữ"),
       email: yup
         .string()
-        .email("email không hợp lệ")
+        .email("Email không hợp lệ")
         .required("Email không được để trống"),
-      address: yup.string().required("địa chỉ không được để trống"),
+      address: yup.string().required("Địa chỉ không được để trống"),
       AvatarFile: yup.mixed().required("File is required"),
     })
     .required();
@@ -214,7 +222,7 @@ const CreateAccount = (props) => {
             <div className="">
               <div className="col">
                 <div className="form-group">
-                  <label>UserName</label>
+                  <label>Tên tài khoản</label>
                   <input
                     type="text"
                     className="form-control"
@@ -223,17 +231,18 @@ const CreateAccount = (props) => {
                   <p className="text-danger">{errors.username?.message}</p>
                 </div>
                 <div className="form-group">
-                  <label>Phone Number</label>
+                  <label>Số điện thoại</label>
                   <input
                     type="text"
                     className="form-control"
+                    placeholder="Ex: 0123456789"
                     {...register("phoneNumber")}
                   />
                   <p className="text-danger">{errors.phoneNumber?.message}</p>
                 </div>
 
                 <div className="form-group">
-                  <label>Password</label>
+                  <label>Mật khẩu</label>
                   <input
                     type="text"
                     className="form-control"
@@ -242,7 +251,7 @@ const CreateAccount = (props) => {
                   <p className="text-danger">{errors.password?.message}</p>
                 </div>
                 <div className="form-group">
-                  <label>Confirm Password</label>
+                  <label>Nhập lại mật khẩu</label>
                   <input
                     type="text"
                     className="form-control"
@@ -262,7 +271,7 @@ const CreateAccount = (props) => {
             </div>
             <div className="col">
               <div className="form-group">
-                <label>Fullname</label>
+                <label>Họ và tên</label>
                 <input
                   type="text"
                   className="form-control"
@@ -272,13 +281,7 @@ const CreateAccount = (props) => {
               </div>
 
               <div className="form-group">
-                {/* <label>Gender</label>
-                <input
-                  type="text"
-                  className="form-control"
-                  {...register("gender")}
-                /> */}
-                <div class="input-group mt-5">
+                <div class="input-group" style={{ marginTop: "56px" }}>
                   <select
                     class="custom-select"
                     id="inputGroupSelect01"
@@ -291,7 +294,7 @@ const CreateAccount = (props) => {
                 </div>
                 <p className="text-danger">{errors.gender?.message}</p>
               </div>
-              <div className="form-group">
+              <div className="form-group mt-4">
                 <label>Email</label>
                 <input
                   type="text"
@@ -313,7 +316,7 @@ const CreateAccount = (props) => {
             <div className="form-group">
               <div className="col">
                 <div className="form-group">
-                  <label>Address</label>
+                  <label>Địa chỉ</label>
                   <input
                     type="text"
                     className="form-control"

@@ -39,6 +39,23 @@ const GetServiceById = (props) => {
     setSerGroup(description);
   };
 
+  const handleConfirmDelete = (id) => {
+    Swal.fire({
+      title: "Bạn có chắc chắn muốn xóa dữ liệu này ?",
+      text: "Việc này có thể ảnh hưởng tới hiển thị dữ liệu",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Đồng ý!",
+      cancelButtonText: "Hủy",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        handleDelete(id);
+      }
+    });
+  };
+
   const handleDelete = async (id) => {
     try {
       await deleteServiceApi(id);
@@ -295,7 +312,7 @@ const GetServiceById = (props) => {
                             class="fa fa-lock text-danger"
                             type="button"
                             style={{ fontSize: "30px", marginTop: "8px" }}
-                            onClick={() => handleOnClickDelete(item.id)}
+                            onClick={() => handleConfirmDelete(item.id)}
                           ></i>
                         )}
                         <i

@@ -23,6 +23,7 @@ const SettingPage = (props) => {
     dispatchAction(getSettingsActions.getSettings());
   }, []);
   const { dataSetting } = props;
+  //xu li time
   var stringTime = [];
   if (dataSetting.length > 0) {
     for (let index = 0; index < dataSetting.length; index++) {
@@ -32,7 +33,72 @@ const SettingPage = (props) => {
       }
     }
   }
-  console.log(stringTime);
+  //xu li thay doi va cap nhat time
+  const changeTimeForm = (e, index) => {
+    stringTime[index].timeFrom = e.target.value;
+  };
+  const changeTimeTo = (e, index) => {
+    stringTime[index].timeTo = e.target.value;
+  };
+
+  const handleUpdateTime = (idSettingTime, description) => {
+    //Lấy được chuỗi dạng string đã thay đổi đc giá trị cần đổi
+    const StringConvertData = JSON.stringify(stringTime);
+    handleUpdateSetting(idSettingTime, description, StringConvertData);
+  };
+  // xu li area
+  var stringArea = [];
+  if (dataSetting.length > 0) {
+    for (let index = 0; index < dataSetting.length; index++) {
+      const element = dataSetting[index];
+      if (element.description.includes("Tổng vệ sinh")) {
+        stringArea = JSON.parse(element.data);
+      }
+    }
+  }
+  // xu li thay doi va cap nhat area
+  const changeAreaForm = (e, index) => {
+    stringArea[index].areaFrom = e.target.value;
+  };
+  const changeAreaTo = (e, index) => {
+    stringArea[index].areaTo = e.target.value;
+  };
+  const changePrice = (e, index) => {
+    stringArea[index].price = e.target.value;
+  };
+  const changeEsTime = (e, index) => {
+    stringArea[index].estimateTime = e.target.value;
+  };
+
+  const handleUpdateArea = (idSettingTime, description) => {
+    //Lấy được chuỗi dạng string đã thay đổi đc giá trị cần đổi
+    const StringConvertData = JSON.stringify(stringArea);
+    handleUpdateSetting(idSettingTime, description, StringConvertData);
+  };
+  //Xu li Hour
+  var stringHour = null;
+  if (dataSetting.length > 0) {
+    for (let index = 0; index < dataSetting.length; index++) {
+      const element = dataSetting[index];
+      if (element.description.includes("Khung giờ đặt dịch vụ")) {
+        stringHour = JSON.parse(element.data);
+      }
+    }
+  }
+  // xu li thay doi va cap nhat area
+  console.log(stringHour);
+  const changeHourMin = (e) => {
+    stringHour.minHour = e.target.value;
+  };
+  const changeHourMax = (e) => {
+    stringHour.maxHour = e.target.value;
+  };
+
+  const handleUpdateHour = (idSettingTime, description) => {
+    //Lấy được chuỗi dạng string đã thay đổi đc giá trị cần đổi
+    const StringConvertData = JSON.stringify(stringHour);
+    handleUpdateSetting(idSettingTime, description, StringConvertData);
+  };
 
   const handleUpdateSetting = async (id, description, data) => {
     try {
@@ -125,45 +191,16 @@ const SettingPage = (props) => {
     return itemJSon;
   };
 
-  console.log(settingTime);
-
-  console.log(settingTime);
-
   const submitForm = (data) => {
     handleUpdateSetting(idSetting, data.description, data.data);
   };
 
-  const submitForm2 = (e) => {
-    console.log("form 2");
-  };
+  const submitForm2 = (e) => {};
 
   const handleGetDescription = (description, id, data) => {
     setDescription(description);
     setIdSetting(id);
     setData(data);
-  };
-
-  const changeTimeForm = (e, index) => {
-    console.log(e.target.value);
-
-    console.log(index);
-    console.log(stringTime[0].timeFrom);
-    stringTime[index].timeFrom = e.target.value;
-    console.log(stringTime);
-  };
-  const changeTimeTo = (e, index) => {
-    console.log(e.target.value);
-    console.log(index);
-    stringTime[index].timeTo = e.target.value;
-  };
-
-  const handleUpdateTime = (idSettingTime, description) => {
-    //Lấy được chuỗi dạng string đã thay đổi đc giá trị cần đổi
-    console.log(stringTime);
-
-    const StringConvertData = JSON.stringify(stringTime);
-    console.log(idSettingTime, description, StringConvertData);
-    handleUpdateSetting(idSettingTime, description, StringConvertData);
   };
 
   console.log(valueJson.length);
@@ -216,6 +253,120 @@ const SettingPage = (props) => {
                         type="button"
                         onClick={() =>
                           handleUpdateTime(item.id, item.description)
+                        }
+                      >
+                        Cập nhật
+                      </button>
+                    </div>
+                  </div>
+                </form>
+              ) : item.description.includes("Tổng vệ sinh") ? (
+                <form onSubmit={submitForm2} className="border-0 ">
+                  <div className="input-group mb-3 col-12">
+                    <input
+                      type="text"
+                      className="form-control"
+                      // placeholder="Recipient's username"
+                      aria-label="Recipient's username"
+                      aria-describedby="basic-addon2"
+                      value={item.description}
+                    />
+
+                    {handParse(item.data).map((itemArea, index) => (
+                      <div className="col-2">
+                        <input
+                          type="text"
+                          className="form-control"
+                          // placeholder="Recipient's username"
+                          aria-label="Recipient's username"
+                          aria-describedby="basic-addon2"
+                          defaultValue={itemArea.areaFrom}
+                          onChange={(e) => changeAreaForm(e, index)}
+                        />
+
+                        <input
+                          type="text"
+                          className="form-control"
+                          placeholder="Recipient's username"
+                          aria-label="Recipient's username"
+                          aria-describedby="basic-addon2"
+                          defaultValue={itemArea.areaTo}
+                          onChange={(e) => changeAreaTo(e, index)}
+                        />
+                        <input
+                          type="text"
+                          className="form-control"
+                          placeholder="Recipient's username"
+                          aria-label="Recipient's username"
+                          aria-describedby="basic-addon2"
+                          defaultValue={itemArea.price}
+                          onChange={(e) => changePrice(e, index)}
+                        />
+                        <input
+                          type="text"
+                          className="form-control"
+                          placeholder="Recipient's username"
+                          aria-label="Recipient's username"
+                          aria-describedby="basic-addon2"
+                          defaultValue={itemArea.estimateTime}
+                          onChange={(e) => changeEsTime(e, index)}
+                        />
+                        <hr />
+                      </div>
+                    ))}
+                    <div className="input-group-append">
+                      <button
+                        className="btn btn-outline-secondary"
+                        type="button"
+                        onClick={() =>
+                          handleUpdateArea(item.id, item.description)
+                        }
+                      >
+                        Cập nhật
+                      </button>
+                    </div>
+                  </div>
+                </form>
+              ) : item.description.includes("Khung giờ đặt dịch vụ") ? (
+                <form onSubmit={submitForm2} className="border-0 ">
+                  <div className="input-group mb-3 col-12">
+                    <input
+                      type="text"
+                      className="form-control"
+                      // placeholder="Recipient's username"
+                      aria-label="Recipient's username"
+                      aria-describedby="basic-addon2"
+                      value={item.description}
+                    />
+
+                    <div className="col-2">
+                      <input
+                        type="text"
+                        className="form-control"
+                        // placeholder="Recipient's username"
+                        aria-label="Recipient's username"
+                        aria-describedby="basic-addon2"
+                        defaultValue={handParse(item.data).minHour}
+                        onChange={(e) => changeHourMin(e)}
+                      />
+
+                      <input
+                        type="text"
+                        className="form-control"
+                        placeholder="Recipient's username"
+                        aria-label="Recipient's username"
+                        aria-describedby="basic-addon2"
+                        defaultValue={handParse(item.data).maxHour}
+                        onChange={(e) => changeHourMax(e)}
+                      />
+                    </div>
+
+                    <div className="input-group-append">
+                      <button
+                        className="btn btn-outline-secondary"
+                        type="button"
+                        onClick={() =>
+                          handleUpdateHour(item.id, item.description)
                         }
                       >
                         Cập nhật

@@ -18,12 +18,29 @@ const AccountPage = (props) => {
     handleDelete(id);
   };
 
+  const handleConfirmDelete = (id) => {
+    Swal.fire({
+      title: "Bạn có chắc chắn muốn xóa dữ liệu này ?",
+      text: "Việc này có thể ảnh hưởng tới hiển thị dữ liệu",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Đồng ý!",
+      cancelButtonText: "Hủy",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        handleDelete(id);
+      }
+    });
+  };
+
   const handleDelete = async (id) => {
     try {
       await deleteEmployeeApi(id);
       Swal.fire({
         icon: "success",
-        text: "delete status success",
+        text: "Xóa nhân viên thành công",
         timer: 2000,
         showConfirmButton: false,
       });
@@ -31,7 +48,7 @@ const AccountPage = (props) => {
     } catch (error) {
       Swal.fire({
         icon: "error",
-        text: "delete failed ",
+        text: "Xóa nhân viên thất bại",
         timer: 1000,
         showConfirmButton: false,
       });
@@ -206,7 +223,7 @@ const AccountPage = (props) => {
                             class="fa fa-lock text-danger"
                             type="button"
                             style={{ fontSize: "30px", marginTop: "15px" }}
-                            onClick={() => handleOnClickDelete(item.id)}
+                            onClick={() => handleConfirmDelete(item.id)}
                           ></i>
                         )}
                         <Link

@@ -25,7 +25,7 @@ const reducer = (state = initialState, action) => {
       const { error } = action.payload;
       swal.fire({
         icon: "error",
-        text: "Đăng nhập thất bại tên đăng nhặp hoặc mật khẩu không đúng",
+        text: "Tên đăng nhặp hoặc mật khẩu không đúng",
         timer: 3000,
         showConfirmButton: false,
       });
