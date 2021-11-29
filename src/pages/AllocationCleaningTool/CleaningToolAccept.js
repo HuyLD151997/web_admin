@@ -33,7 +33,7 @@ const CleaningToolAcceptPage = (props) => {
       await providedRequestApi(id);
       Swal.fire({
         icon: "success",
-        text: "active status success",
+        text: "Cấp phát thành công",
         timer: 2000,
         showConfirmButton: false,
       });

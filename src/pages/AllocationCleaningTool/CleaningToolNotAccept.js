@@ -35,7 +35,7 @@ const CleaningToolNotAcceptPage = (props) => {
       await acceptRequestApi(id);
       Swal.fire({
         icon: "success",
-        text: "active status success",
+        text: "Chấp nhận thành công",
         timer: 2000,
         showConfirmButton: false,
       });
@@ -78,7 +78,7 @@ const CleaningToolNotAcceptPage = (props) => {
       await rejectedRequestApi(id, { description });
       Swal.fire({
         icon: "success",
-        text: "active status success",
+        text: "Từ chối thành công",
         timer: 2000,
         showConfirmButton: false,
       });
@@ -296,7 +296,7 @@ const CleaningToolNotAcceptPage = (props) => {
                   Đóng
                 </button>
                 <button type="submit" className="btn btn-primary">
-                  Cập nhật
+                  Đồng ý
                 </button>
               </div>
             </form>

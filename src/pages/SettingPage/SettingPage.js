@@ -136,7 +136,7 @@ const SettingPage = (props) => {
       await updateSettingApi(id, { description, data });
       Swal.fire({
         icon: "success",
-        text: "active status success",
+        text: "Cập nhật thành công",
         timer: 2000,
         showConfirmButton: false,
       });
@@ -196,10 +196,18 @@ const SettingPage = (props) => {
     }
   };
 
+  yup.addMethod(yup.string, "stripEmptyString", function () {
+    return this.transform((value) => (value === "" ? undefined : value));
+  });
+
   const validationSchema = yup
-    .object({
-      description: yup.string().required("Tên dịch vụ không được để trống"),
-      data: yup.string().required("Không được để trống"),
+    .object()
+    .shape({
+      description: yup
+        .string()
+        .stripEmptyString("Tên dịch vụ không được để trống")
+        .default(description),
+      data: yup.string().stripEmptyString("Không được để trống").default(data),
       timeFrom: yup.string(),
       timeTo: yup.string(),
     })
@@ -566,7 +574,7 @@ const SettingPage = (props) => {
           <div className="modal-content">
             <div className="modal-header">
               <h5 className="modal-title w-100" id="exampleModalLabel">
-                Cập nhật dịch vụ tên {description}
+                Cập nhật dịch vụ tên
               </h5>
               <button
                 type="button"
@@ -590,6 +598,7 @@ const SettingPage = (props) => {
                     class="form-control"
                     id="recipient-name"
                     {...register("description")}
+                    defaultValue={description}
                   />
                   <p>{errors.description?.message}</p>
                 </div>
@@ -602,6 +611,7 @@ const SettingPage = (props) => {
                     class="form-control"
                     id="recipient-name"
                     {...register("data")}
+                    defaultValue={data}
                   />
                   <p>{errors.data?.message}</p>
                 </div>

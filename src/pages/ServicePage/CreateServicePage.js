@@ -25,10 +25,10 @@ const CreateServiceItem = (props) => {
   };
   const validationSchema = yup
     .object({
-      description: yup.string().required("Vui lòng nhập tên loại dịch vụ"),
+      description: yup.string().required("Vui lòng nhập tên dịch vụ"),
       estiamtedMinutes: yup
         .number()
-        .typeError("Vui lòng nhập là thời gian")
+        .typeError("Vui lòng nhập thời gian làm")
         .required("Vui lòng nhập thời gian làm"),
       unitPrice: yup
         .number()
@@ -68,7 +68,7 @@ const CreateServiceItem = (props) => {
       });
       Swal.fire({
         icon: "success",
-        text: "Tạo tài khoản thành công !",
+        text: "Tạo dịch vụ thành công !",
         timer: 3000,
         showConfirmButton: false,
       });
@@ -113,7 +113,7 @@ const CreateServiceItem = (props) => {
             <div className="col-12">
               <div className="row-12">
                 <div className="form-group">
-                  <label>Mô tả</label>
+                  <label>Tên dịch vụ</label>
                   <input
                     type="text"
                     className="form-control"

@@ -56,7 +56,7 @@ const CreateService = (props) => {
       });
       Swal.fire({
         icon: "success",
-        text: "Tạo tài khoản thành công !",
+        text: "Tạo nhóm dịch vụ thành công !",
         timer: 3000,
         showConfirmButton: false,
       });
@@ -88,7 +88,7 @@ const CreateService = (props) => {
             <div className="col-12">
               <div className="col-12">
                 <div className="form-group">
-                  <label>Loại dịch vụ</label>
+                  <label>Tên loại dịch vụ</label>
                   <input
                     type="text"
                     className="form-control"
@@ -103,7 +103,7 @@ const CreateService = (props) => {
                     id="inputGroupSelect01"
                     {...register("Type")}
                   >
-                    <option selected>Loại</option>
+                    <option selected>Chọn loại</option>
                     <option value="NORMAL">NORMAL</option>
                     <option value="OVERALL">OVERALL</option>
                     <option value="OPTIONAL">OPTIONAL</option>

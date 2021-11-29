@@ -53,7 +53,7 @@ const CleaningToolPage = (props) => {
       await deleteCleaningToolApi(id);
       Swal.fire({
         icon: "success",
-        text: "delete status success",
+        text: "Xóa dụng cụ thành công",
         timer: 2000,
         showConfirmButton: false,
       });
@@ -97,7 +97,7 @@ const CleaningToolPage = (props) => {
       await updateCleaningToolStatusApi(id);
       Swal.fire({
         icon: "success",
-        text: "active status success",
+        text: "Kích hoạt thành công",
         timer: 2000,
         showConfirmButton: false,
       });
@@ -142,13 +142,21 @@ const CleaningToolPage = (props) => {
     }
   };
 
+  yup.addMethod(yup.string, "stripEmptyString", function () {
+    return this.transform((value) => (value === "" ? undefined : value));
+  });
+
   const validationSchema = yup
-    .object({
-      description: yup.string().required("Tên dịch vụ không được để trống"),
+    .object()
+    .shape({
+      description: yup
+        .string()
+        .stripEmptyString("Tên dịch vụ không được để trống")
+        .default(description),
       quantity: yup
-        .number()
-        .typeError("Số lượng phải là số")
-        .required("Số lượng không được để trống"),
+        .string()
+        .stripEmptyString("Số lượng không được để trống")
+        .default(quantity.toString()),
     })
     .required();
 
@@ -168,12 +176,8 @@ const CleaningToolPage = (props) => {
   };
 
   const submitForm = (dataSubmit) => {
-    console.log(idService, dataSubmit);
-    handleUpdateServiceName(
-      idService,
-      dataSubmit.description,
-      dataSubmit.quantity
-    );
+    var quantity = parseInt(dataSubmit.quantity);
+    handleUpdateServiceName(idService, dataSubmit.description, quantity);
   };
 
   const handleChangeFile = (e) => {
@@ -434,14 +438,14 @@ const CleaningToolPage = (props) => {
               <div className="modal-body">
                 <div className="form-group">
                   <label htmlFor="recipient-name" className="col-form-label">
-                    Mô tả:
+                    Tên dụng cụ:
                   </label>
                   <input
                     type="text"
                     class="form-control"
                     id="recipient-name"
                     {...register("description")}
-                    // defaultValue={description}
+                    defaultValue={description}
                   />
                   <p>{errors.description?.message}</p>
                 </div>
@@ -454,7 +458,7 @@ const CleaningToolPage = (props) => {
                     class="form-control"
                     id="recipient-name"
                     {...register("quantity")}
-                    // defaultValue={quantity}
+                    defaultValue={quantity}
                   />
                   <p>{errors.quantity?.message}</p>
                 </div>

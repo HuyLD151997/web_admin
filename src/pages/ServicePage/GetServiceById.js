@@ -61,7 +61,7 @@ const GetServiceById = (props) => {
       await deleteServiceApi(id);
       Swal.fire({
         icon: "success",
-        text: "delete status success",
+        text: "Xóa dịch vụ thành công",
         timer: 2000,
         showConfirmButton: false,
       });
@@ -109,13 +109,29 @@ const GetServiceById = (props) => {
     }
   };
 
+  yup.addMethod(yup.string, "stripEmptyString", function () {
+    return this.transform((value) => (value === "" ? undefined : value));
+  });
+
   const validationSchema = yup
-    .object({
-      description: yup.string().required("Tên dịch vụ không được để trống"),
-      unitPrice: yup.string().required("Giá tiền dịch vụ không được để trống"),
+    .object()
+    .shape({
+      descriptionUpdate: yup
+        .string()
+        .stripEmptyString("Tên dịch vụ không được để trống")
+        .default(description),
+      unitPriceUpdate: yup
+        .string()
+        .stripEmptyString("Giá tiền dịch vụ không được để trống")
+        .default(unitPrice.toString()),
+      typeUpdate: yup
+        .string()
+        .stripEmptyString("Loại dịch vụ không được để trống")
+        .default(type),
+      serGroup: yup.string().required("Vui lòng chọn nhóm dịch vụ"),
     })
     .required();
-
+  console.log(description);
   const {
     register,
     handleSubmit,
@@ -133,7 +149,7 @@ const GetServiceById = (props) => {
       await updateServiceStatusApi(id);
       Swal.fire({
         icon: "success",
-        text: "active status success",
+        text: "Kích hoạt thành công",
         timer: 2000,
         showConfirmButton: false,
       });
@@ -156,16 +172,17 @@ const GetServiceById = (props) => {
   };
 
   const submitForm = (data) => {
-    var unitPriceNum = parseInt(data.unitPrice);
+    var unitPriceNum = parseInt(data.unitPriceUpdate);
     handleUpdateServiceName(
       idService,
       idSerGroup,
-      data.description,
+      data.descriptionUpdate,
       unitPriceNum,
-      data.type
+      data.typeUpdate
     );
+    // console.log(data);
   };
-  console.log(data);
+
   return (
     // <div>
     //   {data ? (
@@ -192,7 +209,7 @@ const GetServiceById = (props) => {
         <input
           className="ml-auto mr-4"
           type="text"
-          placeholder="Tìm kiếm nhóm dịch vụ"
+          placeholder="Tìm kiếm dịch vụ"
           onChange={(e) => {
             setSearch(e.target.value);
           }}
@@ -323,8 +340,7 @@ const GetServiceById = (props) => {
                               item.description,
                               item.id,
                               item.unitPrice,
-                              item.type,
-                              item.serviceGroupId
+                              item.type
                             )
                           }
                           data-toggle="modal"
@@ -384,20 +400,21 @@ const GetServiceById = (props) => {
                     type="text"
                     class="form-control"
                     id="recipient-name"
-                    {...register("description")}
-                    // defaultValue={description}
+                    defaultValue={description}
+                    name="descriptionUpdate"
+                    {...register("descriptionUpdate")}
                   />
-                  <p>{errors.description?.message}</p>
+                  <p>{errors.descriptionUpdate?.message}</p>
                 </div>
                 <div className="form-group">
                   <label>Loại</label>
                   <select
                     class="custom-select"
                     id="inputGroupSelect01"
-                    {...register("type")}
-                    // defaultValue={type}
+                    {...register("typeUpdate")}
+                    defaultValue={type}
                   >
-                    <option selected> {type}</option>
+                    <option selected>&#10004;{type}</option>
                     <option value="AREA">AREA</option>
                     <option value="QUANTITY">QUANTITY</option>
                   </select>
@@ -411,10 +428,10 @@ const GetServiceById = (props) => {
                     type="text"
                     class="form-control"
                     id="recipient-name"
-                    {...register("unitPrice")}
-                    // defaultValue={unitPrice}
+                    {...register("unitPriceUpdate")}
+                    defaultValue={unitPrice}
                   />
-                  <p>{errors.unitPrice?.message}</p>
+                  <p>{errors.unitPriceUpdate?.message}</p>
                 </div>
 
                 <div
@@ -455,6 +472,7 @@ const GetServiceById = (props) => {
                       <div>Progress...</div>
                     )}
                   </div>
+                  <p className="text-danger">{errors.serGroup?.message}</p>
                 </div>
               </div>
               <div className="modal-footer">

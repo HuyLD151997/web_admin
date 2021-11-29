@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { NavLink } from "react-router-dom";
-
+import img from "../../img/32x32.png";
 const chart = [
   {
     name: "Biểu đồ",
@@ -23,11 +23,11 @@ const account = [
 ];
 
 const transaction = [
-  {
-    name: "Đặt lịch",
-    to: "/transaction",
-    exact: false,
-  },
+  // {
+  //   name: "Đặt lịch",
+  //   to: "/transaction",
+  //   exact: false,
+  // },
   {
     name: "Khách hàng",
     to: "/transactionCus",
@@ -96,11 +96,12 @@ class SideBar extends Component {
           style={{
             background: "#fdcb08",
             paddingBottom: "13px",
-            paddingTop: "29px",
-            paddingLeft: "50px",
+            paddingTop: "15px",
+            paddingLeft: "60px",
           }}
         >
-          Be Clean
+          <img src={img} />
+          {/* Be Clean */}
         </div>
 
         <ul className="navbar-nav rounded-0 logo font-weight-bold pl-3">

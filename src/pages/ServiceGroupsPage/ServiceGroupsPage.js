@@ -56,7 +56,7 @@ const ServiceGroupsPage = (props) => {
       await deleteServiceGroupApi(id);
       Swal.fire({
         icon: "success",
-        text: "delete status success",
+        text: "Xóa nhóm dịch vụ thành công",
         timer: 2000,
         showConfirmButton: false,
       });
@@ -77,7 +77,7 @@ const ServiceGroupsPage = (props) => {
       await updateServiceGroupApi(id, { description, type });
       Swal.fire({
         icon: "success",
-        text: "active status success",
+        text: "Cập nhật thành công",
         timer: 2000,
         showConfirmButton: false,
       });
@@ -126,7 +126,7 @@ const ServiceGroupsPage = (props) => {
       await updateServiceGroupStatusApi(id);
       Swal.fire({
         icon: "success",
-        text: "active status success",
+        text: "Kích hoạt thành công",
         timer: 2000,
         showConfirmButton: false,
       });
@@ -165,16 +165,25 @@ const ServiceGroupsPage = (props) => {
     }
   };
 
+  yup.addMethod(yup.string, "stripEmptyString", function () {
+    return this.transform((value) => (value === "" ? undefined : value));
+  });
+
   const validationSchema = yup
-    .object({
-      description: yup.string().required("Tên dịch vụ không được để trống"),
+    .object()
+    .shape({
+      description: yup
+        .string()
+        .stripEmptyString("Tên dịch vụ không được để trống")
+        .default(description),
       type: yup
         .string()
-        .required("Loại không được để trống")
+        .stripEmptyString("Loại không được để trống")
         .matches(
           /(NORMAL|OVERALL|OPTIONAL)/,
           "Chỉ được chọn một trong ba cái có sẵn"
-        ),
+        )
+        .default(type),
     })
     .required();
 
@@ -472,14 +481,14 @@ const ServiceGroupsPage = (props) => {
               <div className="modal-body">
                 <div className="form-group">
                   <label htmlFor="recipient-name" className="col-form-label">
-                    tên dịch vụ:
+                    Tên dịch vụ:
                   </label>
                   <input
                     type="text"
                     class="form-control"
                     id="recipient-name"
                     {...register("description")}
-                    // defaultValue={description}
+                    defaultValue={description}
                   />
                   <p>{errors.description?.message}</p>
                 </div>
@@ -491,12 +500,12 @@ const ServiceGroupsPage = (props) => {
                     {...register("type")}
                     defaultValue={type}
                   >
-                    <option selected> {type}</option>
+                    <option selected>&#10004;{type}</option>
                     <option value="NORMAL">NORMAL</option>
                     <option value="OVERALL">OVERALL</option>
                     <option value="OPTIONAL">OPTIONAL</option>
                   </select>
-                  {/* <p>{errors.type?.message}</p> */}
+                  <p>{errors.type?.message}</p>
                 </div>
               </div>
               <div className="modal-footer">

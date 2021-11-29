@@ -65,7 +65,7 @@ const AccountCustomerPage = (props) => {
       await updateEmployeeStatusApi(id);
       Swal.fire({
         icon: "success",
-        text: "active status success",
+        text: "Kích hoạt thành công",
         timer: 2000,
         showConfirmButton: false,
       });

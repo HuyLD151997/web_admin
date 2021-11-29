@@ -14,11 +14,11 @@ const CreateService = (props) => {
   // }, []);
   const validationSchema = yup
     .object({
-      Description: yup.string().required("Vui lòng nhập tên loại dịch vụ"),
+      Description: yup.string().required("Vui lòng nhập tên dụng cụ"),
       ImageFile: yup.mixed().required("File is required"),
       Quantity: yup
         .number()
-        .typeError("Số lượng phải là số")
+        .typeError("Số lượng không được để trống")
         .required("Số lượng không được để trống"),
     })
     .required();
@@ -40,7 +40,7 @@ const CreateService = (props) => {
       });
       Swal.fire({
         icon: "success",
-        text: "Tạo tài khoản thành công !",
+        text: "Tạo dụng cụ thành công !",
         timer: 3000,
         showConfirmButton: false,
       });
@@ -72,7 +72,7 @@ const CreateService = (props) => {
             <div className="col-12">
               <div className="col-12">
                 <div className="form-group">
-                  <label>Mô tả</label>
+                  <label>Tên dụng cụ</label>
                   <input
                     type="text"
                     className="form-control"
@@ -83,7 +83,7 @@ const CreateService = (props) => {
                 <div className="form-group">
                   <label>Số lượng</label>
                   <input
-                    type="text"
+                    type="number"
                     className="form-control"
                     {...register("Quantity")}
                   />
