@@ -37,6 +37,7 @@ const ChartPage = (props) => {
       <div className="row ml-5">
         {data ? (
           <div className="col-4 mr-5">
+            <span></span>
             <Doughnut
               data={{
                 labels: [

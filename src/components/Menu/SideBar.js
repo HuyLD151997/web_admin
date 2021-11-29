@@ -1,11 +1,22 @@
 import React, { Component } from "react";
 import { NavLink } from "react-router-dom";
 import img from "../../img/32x32.png";
+import {
+  FaChartBar,
+  FaUser,
+  FaCog,
+  FaExchangeAlt,
+  FaClipboardList,
+  FaRegCalendarAlt,
+  FaWrench,
+  FaListOl,
+} from "react-icons/fa";
 const chart = [
   {
     name: "Biểu đồ",
     to: "/chart",
     exact: false,
+    icon: <FaChartBar />,
   },
 ];
 
@@ -63,27 +74,31 @@ const menus = [
     name: "Dịch vụ",
     to: "/service-group",
     exact: false,
+    icon: <FaListOl />,
   },
 
   {
     name: "Đặt lịch",
     to: "/booking",
     exact: false,
+    icon: <FaRegCalendarAlt />,
   },
   {
     name: "Dụng cụ",
     to: "/cleaning-tool",
     exact: false,
+    icon: <FaWrench />,
   },
-  {
-    name: "Mã khuyến mãi",
-    to: "/list-code",
-    exact: false,
-  },
+  // {
+  //   name: "Mã khuyến mãi",
+  //   to: "/list-code",
+  //   exact: false,
+  // },
   {
     name: "Cài đặt",
     to: "/setting",
     exact: false,
+    icon: <FaCog />,
   },
 ];
 
@@ -108,6 +123,11 @@ class SideBar extends Component {
           <li className="nav-item ">{this.showChart(chart)}</li>
           <li className="nav-item dropdown mb-2 ">
             <span
+              style={{ fontSize: "20px", marginRight: "5px", color: "white" }}
+            >
+              <FaUser />
+            </span>
+            <span
               data-toggle="collapse"
               href="#collapseExample"
               role="button"
@@ -124,6 +144,11 @@ class SideBar extends Component {
           </li>
           <li className="nav-item dropdown mb-2 ">
             <span
+              style={{ fontSize: "20px", marginRight: "5px", color: "white" }}
+            >
+              <FaExchangeAlt />
+            </span>
+            <span
               data-toggle="collapse"
               href="#collapseExample2"
               role="button"
@@ -139,6 +164,11 @@ class SideBar extends Component {
             </div>
           </li>
           <li className="nav-item dropdown mb-1 mt-1">
+            <span
+              style={{ fontSize: "20px", marginRight: "5px", color: "white" }}
+            >
+              <FaClipboardList />
+            </span>
             <span
               data-toggle="collapse"
               href="#collapseExample3"
@@ -176,6 +206,11 @@ class SideBar extends Component {
             to={menu.to}
             key={index}
           >
+            <span
+              style={{ fontSize: "20px", marginRight: "5px", color: "white" }}
+            >
+              {menu.icon}
+            </span>
             {menu.name}
             <span className="sr-only">(current)</span>
           </NavLink>
@@ -201,6 +236,12 @@ class SideBar extends Component {
             to={chart.to}
             key={index}
           >
+            <span
+              style={{ fontSize: "20px", marginRight: "5px", color: "white" }}
+            >
+              {chart.icon}
+            </span>
+
             {chart.name}
             <span className="sr-only">(current)</span>
           </NavLink>

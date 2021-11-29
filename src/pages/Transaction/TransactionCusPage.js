@@ -108,11 +108,11 @@ const TransactionCusPage = (props) => {
       <table className="table">
         <thead className="table-light">
           <tr>
-            <th scope="col">Mã đặt lịch</th>
             <th scope="col">Khách hàng</th>
             <th scope="col">Tổng tiền</th>
             <th scope="col">Ghi chú</th>
             <th scope="col">Ngày/Giờ tạo</th>
+            <th scope="col">Mã đặt lịch</th>
             {/* <th scope="col">Trạng thái</th> */}
           </tr>
         </thead>
@@ -134,13 +134,6 @@ const TransactionCusPage = (props) => {
               .map((item, index) => (
                 <tbody>
                   <tr className="" key={index}>
-                    <td className="">
-                      {item.bookingId !== null ? (
-                        <span>{item.bookingId}</span>
-                      ) : (
-                        <span>Chưa có dữ liệu</span>
-                      )}
-                    </td>
                     <td className="">
                       {item.user.fullname !== null ? (
                         <span>{item.user.fullname}</span>
@@ -168,6 +161,13 @@ const TransactionCusPage = (props) => {
                           {moment(item.dateCreated).format("DD/MM/YYYY")}
                           &nbsp;/ {item.dateCreated.substring(11, 16)}
                         </span>
+                      ) : (
+                        <span>Chưa có dữ liệu</span>
+                      )}
+                    </td>
+                    <td className="">
+                      {item.bookingId !== null ? (
+                        <span>{item.bookingId}</span>
                       ) : (
                         <span>Chưa có dữ liệu</span>
                       )}

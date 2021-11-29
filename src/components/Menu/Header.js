@@ -7,7 +7,10 @@ class Header extends Component {
     return (
       <div>
         {/* HEADER */}
-        <nav className="navbar navbar-expand  " id="navbar-custom">
+        <nav
+          className="navbar navbar-expand mr-auto my-2 my-lg-0 "
+          id="navbar-custom"
+        >
           <button
             className="navbar-toggler d-lg-none"
             type="button"
