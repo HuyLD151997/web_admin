@@ -98,7 +98,7 @@ const TransactionCusPage = (props) => {
         <input
           className="ml-auto mr-4"
           type="text"
-          placeholder="Tìm kiếm tên khách hàng"
+          placeholder="Tìm kiếm mã đặt lịch"
           onChange={(e) => {
             setSearch(e.target.value);
           }}

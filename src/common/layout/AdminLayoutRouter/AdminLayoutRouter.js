@@ -10,13 +10,13 @@ const AdminLayoutRouter = (props) => {
     <Route
       {...remainsprops}
       render={(routeProps) => {
-        // if (!localStorage.getItem("token")) {
-        //   return (
-        //     <Redirect
-        //       to={{ pathname: "/", state: { from: routeProps.location } }}
-        //     />
-        //   );
-        // }
+        if (!localStorage.getItem("token")) {
+          return (
+            <Redirect
+              to={{ pathname: "/", state: { from: routeProps.location } }}
+            />
+          );
+        }
         return (
           <div>
             <div className="row">

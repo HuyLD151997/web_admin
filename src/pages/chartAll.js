@@ -37,7 +37,9 @@ const ChartPage = (props) => {
       <div className="row ml-5">
         {data ? (
           <div className="col-4 mr-5">
-            <span></span>
+            <span style={{ fontWeight: "bold", marginLeft: "120px" }}>
+              Đặt lịch
+            </span>
             <Doughnut
               data={{
                 labels: [
@@ -101,6 +103,9 @@ const ChartPage = (props) => {
           <div>Progress .....</div>
         )}
         <div className="col-4" style={{ marginLeft: "200px" }}>
+          <span style={{ fontWeight: "bold", marginLeft: "120px" }}>
+            Đánh giá
+          </span>
           <Doughnut
             data={{
               labels: ["1 sao", "2 sao", "3 sao", "4 sao", "5 sao"],
