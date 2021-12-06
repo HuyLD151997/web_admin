@@ -1,8 +1,8 @@
 import * as getServiceByIdConstants from "../../constants/ServiceGroup/GetServiceById";
 
 const initialState = {
-  table: [],
-  refresh: false,
+  table: null,
+  loading: false,
 };
 
 const reducer = (state = initialState, action) => {
@@ -10,6 +10,7 @@ const reducer = (state = initialState, action) => {
     case getServiceByIdConstants.GET_SERVICE_BY_ID: {
       return {
         ...state,
+        loading: true,
       };
     }
     case getServiceByIdConstants.GET_SERVICE_BY_ID_SUCCESS: {
@@ -18,11 +19,13 @@ const reducer = (state = initialState, action) => {
       return {
         ...state,
         table: data,
+        loading: false,
       };
     }
     case getServiceByIdConstants.GET_SERVICE_BY_ID_FAILED: {
       return {
         ...state,
+        loading: false,
       };
     }
     default: {

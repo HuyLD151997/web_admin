@@ -1,8 +1,12 @@
 import * as getCustomersConstants from "../../constants/Customer/GetCustomer";
 
-export const getCustomers = () => {
+export const getCustomers = (pageNo, pageSize) => {
   return {
     type: getCustomersConstants.GET_CUSTOMER,
+    payload: {
+      pageNo,
+      pageSize,
+    },
   };
 };
 export const getCustomersSuccess = (data) => {

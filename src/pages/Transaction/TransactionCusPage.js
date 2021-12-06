@@ -10,18 +10,29 @@ import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useForm } from "react-hook-form";
 import * as moment from "moment";
+import { useStateValue } from "../../common/StateProvider/StateProvider";
+import Pagination from "@mui/material/Pagination";
 
 const TransactionCusPage = (props) => {
   const [description, setDescription] = useState("");
   const [idService, setIdService] = useState("");
   const [search, setSearch] = useState("");
-
+  const [{ page, perPage, loading1 }, dispatch] = useStateValue();
+  const totalPageTransactionUser = localStorage.getItem(
+    "TotalPageTransactionUser"
+  );
   const dispatchAction = useDispatch();
   useEffect(() => {
-    dispatchAction(getTransactionUsersActions.getTransactionUsers());
-  }, []);
-  const { data } = props;
+    dispatchAction(
+      getTransactionUsersActions.getTransactionUsers(page, perPage)
+    );
+  }, [page, perPage, loading1]);
+  const { data, loading } = props;
   console.log(data);
+
+  const handleChangePage = (event, value) => {
+    dispatch({ type: "CHANGE_PAGE", newPage: value });
+  };
 
   const handleOnClickDelete = (id) => {
     handleDelete(id);
@@ -180,12 +191,18 @@ const TransactionCusPage = (props) => {
           <div>Progress .....</div>
         )}
       </table>
+      <Pagination
+        count={Math.ceil(totalPageTransactionUser / perPage)}
+        color="primary"
+        onChange={handleChangePage}
+      />
     </div>
   );
 };
 
 const mapStateToProps = (state) => ({
   data: state.getTransactionUser.table,
+  loading: state.getTransactionUser.loading,
 });
 const withConnect = connect(mapStateToProps);
 export default withRouter(withConnect(TransactionCusPage));

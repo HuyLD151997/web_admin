@@ -1,8 +1,8 @@
 import * as getRequestCleaningToolHistoryConstants from "../../constants/RequestCleaningTool/GetRequestCleaningToolHistory";
 
 const initialState = {
-  table: [],
-  refresh: false,
+  table: null,
+  loading: false,
 };
 
 const reducer = (state = initialState, action) => {
@@ -10,6 +10,7 @@ const reducer = (state = initialState, action) => {
     case getRequestCleaningToolHistoryConstants.GET_REQUEST_CLEANING_TOOL_HISTORY: {
       return {
         ...state,
+        loading: true,
       };
     }
     case getRequestCleaningToolHistoryConstants.GET_REQUEST_CLEANING_TOOL_HISTORY_SUCCESS: {
@@ -17,11 +18,13 @@ const reducer = (state = initialState, action) => {
       return {
         ...state,
         table: data,
+        loading: false,
       };
     }
     case getRequestCleaningToolHistoryConstants.GET_REQUEST_CLEANING_TOOL_HISTORY_FAILED: {
       return {
         ...state,
+        loading: false,
       };
     }
     default: {

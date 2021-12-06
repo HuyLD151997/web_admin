@@ -1,8 +1,8 @@
 import * as getEmployeesConstants from "../../constants/Employee/GetEmployees";
 
 const initialState = {
-  table: [],
-  refresh: false,
+  table: null,
+  loading: false,
 };
 
 const reducer = (state = initialState, action) => {
@@ -10,6 +10,7 @@ const reducer = (state = initialState, action) => {
     case getEmployeesConstants.GET_EMPLOYEES: {
       return {
         ...state,
+        loading: true,
       };
     }
     case getEmployeesConstants.GET_EMPLOYEES_SUCCESS: {
@@ -18,11 +19,13 @@ const reducer = (state = initialState, action) => {
       return {
         ...state,
         table: data,
+        loading: false,
       };
     }
     case getEmployeesConstants.GET_EMPLOYEES_FAILED: {
       return {
         ...state,
+        loading: false,
       };
     }
     default: {

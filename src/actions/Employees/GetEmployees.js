@@ -1,8 +1,12 @@
 import * as getEmployeesConstants from "../../constants/Employee/GetEmployees";
 
-export const getEmployees = () => {
+export const getEmployees = (pageNo, pageSize) => {
   return {
     type: getEmployeesConstants.GET_EMPLOYEES,
+    payload: {
+      pageNo,
+      pageSize,
+    },
   };
 };
 export const getEmployeesSuccess = (data) => {

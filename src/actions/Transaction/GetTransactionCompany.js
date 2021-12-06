@@ -1,8 +1,12 @@
 import * as getTransactionCompanyConstants from "../../constants/Transaction/GetTransactionCompany";
 
-export const getTransactionCompany = () => {
+export const getTransactionCompany = (pageNo, pageSize) => {
   return {
     type: getTransactionCompanyConstants.GET_TRANSACTION_COMPANY,
+    payload: {
+      pageNo,
+      pageSize,
+    },
   };
 };
 export const getTransactionCompanySuccess = (data) => {

@@ -8,6 +8,7 @@ import getWardsAndDistricsReducer2 from "./EmployeesReducer/GetWardAndDistricRed
 import getEmployeeByIdReducer from "./EmployeesReducer/GetEmployeeById";
 import getCustomerReducer from "./CustomersReducer/GetCustomerReducer";
 import getServiceGroupsReducer from "./ServiceGroupReducer/GetServiceGroupsReducer";
+import searchServiceGroupReducer from "./ServiceGroupReducer/SearchServiceGroupReducer";
 import getServiceByIdReducer from "./ServiceGroupReducer/GetServiceByIdReducer";
 import putAvatarReducer from "./EmployeesReducer/PutAvatarReducer";
 import transactionsReducer from "./TransactionsReducer/GetTransactionReducer";
@@ -18,6 +19,7 @@ import bookingDetailReducer from "./BookingsReducer/GetBookingDetailReducer";
 import bookingImageReducer from "./BookingLogReducer/GetBookingImageReducer";
 import bookingLogReducer from "./BookingLogReducer/GetBookingLogReducer";
 import cleaningToolsReducer from "./CleaningTool/GetCleaningToolReducer";
+import searchCleaningToolsReducer from "./CleaningTool/SearchCleaningToolReducer";
 import requestCleaningToolPendingReducer from "./RequestCleaningTool/GetRequestCleaningToolPendingReducer";
 import requestCleaningToolApprovedReducer from "./RequestCleaningTool/GetRequestCleaningToolApprovedReducer";
 import requestCleaningToolHistoryReducer from "./RequestCleaningTool/GetRequestCleaningToolHistoryReducer";
@@ -34,6 +36,7 @@ const rootReducers = combineReducers({
   getEmployeeById: getEmployeeByIdReducer,
   getCustomers: getCustomerReducer,
   getServiceGroups: getServiceGroupsReducer,
+  searchServiceGroup: searchServiceGroupReducer,
   getServiceById: getServiceByIdReducer,
   getTransaction: transactionsReducer,
   getTransactionUser: transactionUsersReducer,
@@ -47,6 +50,7 @@ const rootReducers = combineReducers({
   getRequestCleaningToolHistory: requestCleaningToolHistoryReducer,
   avatarStringCode: putAvatarReducer,
   cleaningTool: cleaningToolsReducer,
+  searchCleaningTool: searchCleaningToolsReducer,
   getSetting: getSettingsReducer,
   getChart: getChartsReducer,
 });

@@ -1,8 +1,8 @@
 import * as getTransactionUsersConstants from "../../constants/Transaction/GetTransactionUser";
 
 const initialState = {
-  table: [],
-  refresh: false,
+  table: null,
+  loading: false,
 };
 
 const reducer = (state = initialState, action) => {
@@ -10,6 +10,7 @@ const reducer = (state = initialState, action) => {
     case getTransactionUsersConstants.GET_TRANSACTION_USER: {
       return {
         ...state,
+        loading: true,
       };
     }
     case getTransactionUsersConstants.GET_TRANSACTION_USER_SUCCESS: {
@@ -18,11 +19,13 @@ const reducer = (state = initialState, action) => {
       return {
         ...state,
         table: data,
+        loading: false,
       };
     }
     case getTransactionUsersConstants.GET_TRANSACTION_USER_FAILED: {
       return {
         ...state,
+        loading: false,
       };
     }
     default: {

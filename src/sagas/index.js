@@ -7,6 +7,7 @@ import { sagas as getWardsAndDistricsSaga2 } from "./EmployeesSagas/GetWardAndDi
 import { sagas as getEmployByIdSaga } from "./EmployeesSagas/GetEmployByIdSaga";
 import { sagas as getCustomersSaga } from "./CustomerSagas/GetCustomersSaga";
 import { sagas as getServiceGroupsSaga } from "./ServiceGroupsSagas/GetServiceGroupsSaga";
+import { sagas as searchServiceGroupToolSaga } from "./ServiceGroupsSagas/SearchServiceGroupSaga";
 import { sagas as getServiceByIdSaga } from "./ServiceGroupsSagas/GetServiceByIdSaga";
 import { sagas as getTransactionSaga } from "./TransactionSagas/GetTransactionSaga";
 import { sagas as getTransactionUserSaga } from "./TransactionSagas/GetTransactionUserSaga";
@@ -15,6 +16,7 @@ import { sagas as getBookingSaga } from "./BookingSagas/GetBookingSaga";
 import { sagas as getBookingDetailSaga } from "./BookingSagas/GetBookingDetailSaga";
 import { sagas as putAvatarSaga } from "./EmployeesSagas/PutAvatarSaga";
 import { sagas as getCleaningToolSaga } from "./CleaningTool/GetCleaningToolSaga";
+import { sagas as searchCleaningToolSaga } from "./CleaningTool/SearchCleaningToolSaga";
 import { sagas as getBookingImageSaga } from "./BookingLogSagas/GetBookingImageSaga";
 import { sagas as getBookingLogSaga } from "./BookingLogSagas/GetBookingLogSaga";
 import { sagas as getRequestCleaningToolPendingSaga } from "./RequestCleaningToolSagas/GetRequestCleaningToolPendingSaga";
@@ -32,6 +34,7 @@ const allSaga = [
   ...getEmployByIdSaga,
   ...getCustomersSaga,
   ...getServiceGroupsSaga,
+  ...searchServiceGroupToolSaga,
   ...getServiceByIdSaga,
   ...putAvatarSaga,
   ...getTransactionSaga,
@@ -40,6 +43,7 @@ const allSaga = [
   ...getBookingSaga,
   ...getBookingDetailSaga,
   ...getCleaningToolSaga,
+  ...searchCleaningToolSaga,
   ...getBookingImageSaga,
   ...getBookingLogSaga,
   ...getRequestCleaningToolPendingSaga,

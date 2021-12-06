@@ -12,8 +12,9 @@ import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useForm } from "react-hook-form";
 import * as moment from "moment";
-import FileReaderInput from "react-file-reader-input";
-import { render } from "react-dom";
+import { useStateValue } from "../../common/StateProvider/StateProvider";
+import Pagination from "@mui/material/Pagination";
+import * as getServiceGroupSearchActions from "../../actions/ServicesGroup/SearchServiceGroup";
 
 const ServiceGroupsPage = (props) => {
   const [description, setDescription] = useState("");
@@ -23,12 +24,29 @@ const ServiceGroupsPage = (props) => {
   const [imgSelect, setImgSelect] = useState("");
   const [imgSelect2, setImgSelect2] = useState(null);
   const [search, setSearch] = useState("");
-
+  const [{ page, perPage, loading1 }, dispatch] = useStateValue();
+  const totalPageServiceGroup = localStorage.getItem("TotalPageServiceGroup");
   const dispatchAction = useDispatch();
   useEffect(() => {
-    dispatchAction(getServiceGroupsActions.getServiceGroups());
-  }, []);
-  const { data } = props;
+    dispatchAction(getServiceGroupsActions.getServiceGroups(page, perPage));
+  }, [page, perPage, loading1]);
+  const { data, loading, dataSearch } = props;
+  console.log(data);
+
+  const handleSearch = () => {
+    if (search === "") {
+      dispatchAction(
+        getServiceGroupSearchActions.searchServiceGroup(page, perPage, " ")
+      );
+    }
+    dispatchAction(
+      getServiceGroupSearchActions.searchServiceGroup(page, perPage, search)
+    );
+  };
+
+  const handleChangePage = (event, value) => {
+    dispatch({ type: "CHANGE_PAGE", newPage: value });
+  };
 
   const handleOnClickDelete = (id) => {
     handleDelete(id);
@@ -219,7 +237,7 @@ const ServiceGroupsPage = (props) => {
   const handleChangeFile = (e) => {
     if (e.target.files) {
       setImgSelect2(e.target.files[0]);
-
+      setSelectedImage([]);
       const fileArray = Array.from(e.target.files).map((file) =>
         URL.createObjectURL(file)
       );
@@ -260,15 +278,25 @@ const ServiceGroupsPage = (props) => {
         </Link>
       </div>
       <div>
-        <input
-          className="ml-auto mr-4"
-          type="text"
-          placeholder="Tìm kiếm nhóm dịch vụ"
-          onChange={(e) => {
-            setSearch(e.target.value);
-          }}
-          style={{ width: "500px", height: "35px" }}
-        />
+        <form className="input-group mb-3 border-0" style={{ width: "500px" }}>
+          <input
+            className="ml-auto form-control"
+            type="text"
+            placeholder="Tìm kiếm dịch vụ"
+            onChange={(e) => {
+              setSearch(e.target.value);
+            }}
+          />
+          <div class="input-group-append">
+            <button
+              type="button"
+              className="btn btn-outline-secondary"
+              onClick={handleSearch}
+            >
+              <i class="fa fa-search"></i>
+            </button>
+          </div>
+        </form>
         <table className="table">
           <thead className="table-light">
             <tr>
@@ -281,24 +309,310 @@ const ServiceGroupsPage = (props) => {
               <th scope="col"></th>
             </tr>
           </thead>
-          {data ? (
-            data.length > 0 ? (
-              data
-                .filter((item) => {
-                  if (search == "") {
-                    return item;
-                  } else if (
-                    item.description &&
-                    item.description
-                      .toLowerCase()
-                      .includes(search.toLowerCase())
-                  ) {
-                    return item;
-                  } else {
-                    return "";
-                  }
-                })
-                .map((item, index) => (
+          {!loading ? (
+            data ? (
+              dataSearch ? (
+                search === "" || dataSearch.total === 0 ? (
+                  data.data.map((item, index) => (
+                    <tbody>
+                      <tr className="" key={index}>
+                        <td className="col-1">
+                          {item.hasImage ? (
+                            <img
+                              src={`http://api.beclean.store/api/ServiceGroup/Image/${item.hasImage}`}
+                              style={{
+                                width: "50px",
+                                height: "50px",
+                                // borderRadius: "50%",
+                                marginRight: "5px",
+                                marginBottom: "5px",
+                              }}
+                            />
+                          ) : (
+                            <span>Chưa có</span>
+                          )}
+
+                          <i
+                            class="fa fa-edit"
+                            type="button"
+                            onClick={() => handleGetAndUpdateImg(item.hasImage)}
+                            data-toggle="modal"
+                            data-target="#exampleModal2"
+                            data-whatever="yah"
+                            style={{
+                              fontSize: "20px",
+                              margin: "auto",
+                              marginTop: "8px",
+                              position: "absolute",
+                              bottom: "7px",
+                              right: "15px",
+                            }}
+                          ></i>
+                          {/* </form> */}
+                        </td>
+                        <td className="col-2 align-middle">
+                          {item.description !== null ? (
+                            <span>{item.description}</span>
+                          ) : (
+                            <span>Chưa có dữ liệu</span>
+                          )}
+                        </td>
+                        <td className="col-1 align-middle">
+                          {item.type !== null ? (
+                            <span>{item.type}</span>
+                          ) : (
+                            <span>Chưa có dữ liệu</span>
+                          )}
+                        </td>
+                        <td className="col-2 align-middle">
+                          {item.dateCreated ? (
+                            <span>
+                              {moment(item.dateCreated).format("DD/MM/YYYY")}
+                              &nbsp;/ {item.dateCreated.substring(11, 16)}
+                            </span>
+                          ) : (
+                            <span>Chưa có dữ liệu</span>
+                          )}
+                        </td>
+                        <td className="col-2 align-middle">
+                          {item.dateUpdated ? (
+                            <span>
+                              {moment(item.dateUpdated).format("DD/MM/YYYY")}
+                              &nbsp;/ {item.dateUpdated.substring(11, 16)}
+                            </span>
+                          ) : (
+                            <span>Chưa có dữ liệu</span>
+                          )}
+                        </td>
+
+                        <td className="col-2 align-middle">
+                          {item.isDisable === false ? (
+                            ""
+                          ) : (
+                            <span className="text-danger">Tạm dừng</span>
+                          )}
+                          {item.isDisable === true ? (
+                            ""
+                          ) : (
+                            <span className="text-success border border-success rounded p-1">
+                              Hoạt động
+                            </span>
+                          )}
+                        </td>
+
+                        <td className="col-2 align-middle">
+                          {item.isDisable === false ? (
+                            ""
+                          ) : (
+                            <i
+                              class="fa fa-unlock-alt text-success"
+                              type="button"
+                              style={{ fontSize: "30px", marginTop: "15px" }}
+                              onClick={() => handleActive(item.id)}
+                            ></i>
+                          )}
+                          {item.isDisable === true ? (
+                            ""
+                          ) : (
+                            <i
+                              class="fa fa-lock text-danger"
+                              type="button"
+                              style={{
+                                fontSize: "30px",
+                                marginTop: "15px",
+                              }}
+                              onClick={() => handleConfirmDelete(item.id)}
+                            ></i>
+                          )}
+                          <i
+                            class="fa fa-edit"
+                            type="button"
+                            onClick={() =>
+                              handleGetDescription(
+                                item.description,
+                                item.id,
+                                item.type
+                              )
+                            }
+                            data-toggle="modal"
+                            data-target="#exampleModal"
+                            data-whatever="yah"
+                            style={{
+                              fontSize: "30px",
+                              margin: "auto",
+                              marginTop: "8px",
+                              marginLeft: "20px",
+                            }}
+                          ></i>
+                          <Link
+                            style={{
+                              fontSize: "30px",
+                              margin: "auto",
+                              marginLeft: "20px",
+                            }}
+                            type="button"
+                            to={`detail-service-group/${item.id}`}
+                            //style={{ paddingLeft: "55px", paddingRight: "55px" }}
+                          >
+                            <i class="fa fa-ellipsis-v text-muted"></i>
+                          </Link>
+                        </td>
+                      </tr>
+                    </tbody>
+                  ))
+                ) : search !== "" && dataSearch.total !== 0 ? (
+                  dataSearch.data.map((item, index) => (
+                    <tbody>
+                      <tr className="" key={index}>
+                        <td className="col-1">
+                          {item.hasImage ? (
+                            <img
+                              src={`http://api.beclean.store/api/ServiceGroup/Image/${item.hasImage}`}
+                              style={{
+                                width: "50px",
+                                height: "50px",
+                                // borderRadius: "50%",
+                                marginRight: "5px",
+                                marginBottom: "5px",
+                              }}
+                            />
+                          ) : (
+                            <span>Chưa có</span>
+                          )}
+
+                          <i
+                            class="fa fa-edit"
+                            type="button"
+                            onClick={() => handleGetAndUpdateImg(item.hasImage)}
+                            data-toggle="modal"
+                            data-target="#exampleModal2"
+                            data-whatever="yah"
+                            style={{
+                              fontSize: "20px",
+                              margin: "auto",
+                              marginTop: "8px",
+                              position: "absolute",
+                              bottom: "7px",
+                              right: "15px",
+                            }}
+                          ></i>
+                          {/* </form> */}
+                        </td>
+                        <td className="col-2 align-middle">
+                          {item.description !== null ? (
+                            <span>{item.description}</span>
+                          ) : (
+                            <span>Chưa có dữ liệu</span>
+                          )}
+                        </td>
+                        <td className="col-1 align-middle">
+                          {item.type !== null ? (
+                            <span>{item.type}</span>
+                          ) : (
+                            <span>Chưa có dữ liệu</span>
+                          )}
+                        </td>
+                        <td className="col-2 align-middle">
+                          {item.dateCreated ? (
+                            <span>
+                              {moment(item.dateCreated).format("DD/MM/YYYY")}
+                              &nbsp;/ {item.dateCreated.substring(11, 16)}
+                            </span>
+                          ) : (
+                            <span>Chưa có dữ liệu</span>
+                          )}
+                        </td>
+                        <td className="col-2 align-middle">
+                          {item.dateUpdated ? (
+                            <span>
+                              {moment(item.dateUpdated).format("DD/MM/YYYY")}
+                              &nbsp;/ {item.dateUpdated.substring(11, 16)}
+                            </span>
+                          ) : (
+                            <span>Chưa có dữ liệu</span>
+                          )}
+                        </td>
+
+                        <td className="col-2 align-middle">
+                          {item.isDisable === false ? (
+                            ""
+                          ) : (
+                            <span className="text-danger">Tạm dừng</span>
+                          )}
+                          {item.isDisable === true ? (
+                            ""
+                          ) : (
+                            <span className="text-success border border-success rounded p-1">
+                              Hoạt động
+                            </span>
+                          )}
+                        </td>
+
+                        <td className="col-2 align-middle">
+                          {item.isDisable === false ? (
+                            ""
+                          ) : (
+                            <i
+                              class="fa fa-unlock-alt text-success"
+                              type="button"
+                              style={{ fontSize: "30px", marginTop: "15px" }}
+                              onClick={() => handleActive(item.id)}
+                            ></i>
+                          )}
+                          {item.isDisable === true ? (
+                            ""
+                          ) : (
+                            <i
+                              class="fa fa-lock text-danger"
+                              type="button"
+                              style={{
+                                fontSize: "30px",
+                                marginTop: "15px",
+                              }}
+                              onClick={() => handleConfirmDelete(item.id)}
+                            ></i>
+                          )}
+                          <i
+                            class="fa fa-edit"
+                            type="button"
+                            onClick={() =>
+                              handleGetDescription(
+                                item.description,
+                                item.id,
+                                item.type
+                              )
+                            }
+                            data-toggle="modal"
+                            data-target="#exampleModal"
+                            data-whatever="yah"
+                            style={{
+                              fontSize: "30px",
+                              margin: "auto",
+                              marginTop: "8px",
+                              marginLeft: "20px",
+                            }}
+                          ></i>
+                          <Link
+                            style={{
+                              fontSize: "30px",
+                              margin: "auto",
+                              marginLeft: "20px",
+                            }}
+                            type="button"
+                            to={`detail-service-group/${item.id}`}
+                            //style={{ paddingLeft: "55px", paddingRight: "55px" }}
+                          >
+                            <i class="fa fa-ellipsis-v text-muted"></i>
+                          </Link>
+                        </td>
+                      </tr>
+                    </tbody>
+                  ))
+                ) : (
+                  <div>Không tìm thấy kết quả</div>
+                )
+              ) : (
+                data.data.map((item, index) => (
                   <tbody>
                     <tr className="" key={index}>
                       <td className="col-1">
@@ -445,11 +759,19 @@ const ServiceGroupsPage = (props) => {
                     </tr>
                   </tbody>
                 ))
-            ) : null
+              )
+            ) : (
+              <div>Chưa có dữ liệu</div>
+            )
           ) : (
-            <div>Progress .....</div>
+            <div>Loading .....</div>
           )}
         </table>
+        <Pagination
+          count={Math.ceil(totalPageServiceGroup / perPage)}
+          color="primary"
+          onChange={handleChangePage}
+        />
       </div>
 
       <div
@@ -592,6 +914,8 @@ const ServiceGroupsPage = (props) => {
 
 const mapStateToProps = (state) => ({
   data: state.getServiceGroups.table,
+  loading: state.getServiceGroups.loading,
+  dataSearch: state.searchServiceGroup.table,
 });
 const withConnect = connect(mapStateToProps);
 export default withRouter(withConnect(ServiceGroupsPage));

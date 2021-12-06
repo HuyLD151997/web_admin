@@ -8,17 +8,26 @@ import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useForm } from "react-hook-form";
 import * as moment from "moment";
+import { useStateValue } from "../../common/StateProvider/StateProvider";
+import Pagination from "@mui/material/Pagination";
 
 const ListBookingPage = (props) => {
   const [description, setDescription] = useState("");
   const [idService, setIdService] = useState("");
   const [search, setSearch] = useState("");
-
+  const [{ page, perPage, loading1 }, dispatch] = useStateValue();
+  const totalPageBooking = localStorage.getItem("TotalPageBooking");
   const dispatchAction = useDispatch();
   useEffect(() => {
-    dispatchAction(getListBookingAction.getBookings());
-  }, []);
-  const { data } = props;
+    dispatchAction(getListBookingAction.getBookings(page, perPage));
+  }, [page, perPage, loading1]);
+  const { data, loading } = props;
+
+  console.log(data);
+
+  const handleChangePage = (event, value) => {
+    dispatch({ type: "CHANGE_PAGE", newPage: value });
+  };
 
   const validationSchema = yup
     .object({
@@ -66,93 +75,105 @@ const ListBookingPage = (props) => {
             <th scope="col"></th>
           </tr>
         </thead>
-        {data ? (
-          data.length > 0 ? (
-            data
-              .filter((item) => {
-                if (search == "") {
-                  return item;
-                } else if (
-                  item.id &&
-                  item.id.toLowerCase().includes(search.toLowerCase())
-                ) {
-                  return item;
-                } else {
-                  return "";
-                }
-              })
-              .map((item, index) => (
-                <tbody>
-                  <tr
-                    // className={
-                    //   item.isDisable === true ? "table-danger" : "table-primary"
-                    // }
-                    key={index}
-                  >
-                    {/* <td className=" align-middle">{index + 1}</td> */}
-                    <td className="align-middle">{item.id}</td>
-                    <td className="col-2 align-middle">
-                      {item.customer !== null ? (
-                        <span>{item.customer.fullname}</span>
-                      ) : (
-                        <span>Chưa có dữ liệu</span>
-                      )}
-                    </td>
+        {!loading ? (
+          data ? (
+            data.data.length > 0 ? (
+              data.data
+                .filter((item) => {
+                  if (search == "") {
+                    return item;
+                  } else if (
+                    item.id &&
+                    item.id.toLowerCase().includes(search.toLowerCase())
+                  ) {
+                    return item;
+                  } else {
+                    return "";
+                  }
+                })
+                .map((item, index) => (
+                  <tbody>
+                    <tr
+                      // className={
+                      //   item.isDisable === true ? "table-danger" : "table-primary"
+                      // }
+                      key={index}
+                    >
+                      {/* <td className=" align-middle">{index + 1}</td> */}
+                      <td className="align-middle">{item.id}</td>
+                      <td className="col-2 align-middle">
+                        {item.customer !== null ? (
+                          <span>{item.customer.fullname}</span>
+                        ) : (
+                          <span>Chưa có dữ liệu</span>
+                        )}
+                      </td>
 
-                    <td className=" align-middle">
-                      {item.bookingStatus === null ? (
-                        <span>Chưa có dữ liệu</span>
-                      ) : (
-                        <span>{item.bookingStatus.description}</span>
-                      )}
-                    </td>
-                    <td className="col-2 align-middle">
-                      {moment(item.dateBegin).format("DD-MM-YYYY")}
-                      &nbsp;/ {item.dateBegin.substring(11, 16)}
-                    </td>
+                      <td className=" align-middle">
+                        {item.bookingStatus === null ? (
+                          <span>Chưa có dữ liệu</span>
+                        ) : (
+                          <span>{item.bookingStatus.description}</span>
+                        )}
+                      </td>
+                      <td className="col-2 align-middle">
+                        {moment(item.dateBegin).format("DD-MM-YYYY")}
+                        &nbsp;/ {item.dateBegin.substring(11, 16)}
+                      </td>
 
-                    <td className="col-4 align-middle">
-                      <Link
-                        type="button"
-                        to={`/export-booking/${item.id}`}
-                        style={{
-                          fontSize: "15px",
-                          // float: "right",
-                          // marginTop: "5px",
-                          margin: "auto",
-                          marginLeft: "50px",
-                        }}
-                      >
-                        <span className="btn btn-success"> Xuất tập tin</span>
-                      </Link>
-                      <Link
-                        type="button"
-                        to={`/booking-detail/${item.id}`}
-                        style={{
-                          fontSize: "15px",
-                          // float: "right",
-                          // marginTop: "5px",
-                          margin: "auto",
-                          marginLeft: "50px",
-                        }}
-                      >
-                        <span className="btn btn-outline-info ">Chi tiết</span>
-                      </Link>
-                    </td>
-                  </tr>
-                </tbody>
-              ))
-          ) : null
+                      <td className="col-4 align-middle">
+                        <Link
+                          type="button"
+                          to={`/export-booking/${item.id}`}
+                          style={{
+                            fontSize: "15px",
+                            // float: "right",
+                            // marginTop: "5px",
+                            margin: "auto",
+                            marginLeft: "50px",
+                          }}
+                        >
+                          <span className="btn btn-success"> Xuất tập tin</span>
+                        </Link>
+                        <Link
+                          type="button"
+                          to={`/booking-detail/${item.id}`}
+                          style={{
+                            fontSize: "15px",
+                            // float: "right",
+                            // marginTop: "5px",
+                            margin: "auto",
+                            marginLeft: "50px",
+                          }}
+                        >
+                          <span className="btn btn-outline-info ">
+                            Chi tiết
+                          </span>
+                        </Link>
+                      </td>
+                    </tr>
+                  </tbody>
+                ))
+            ) : null
+          ) : (
+            <div>Chưa có dữ liệu</div>
+          )
         ) : (
-          <div>Progress .....</div>
+          <div>Loading .....</div>
         )}
       </table>
+      <Pagination
+        count={Math.ceil(totalPageBooking / perPage)}
+        color="primary"
+        onChange={handleChangePage}
+      />
     </div>
   );
 };
 
 const mapStateToProps = (state) => ({
   data: state.getBooking.table,
+  loading: state.getBooking.loading,
 });
 const withConnect = connect(mapStateToProps);
 export default withRouter(withConnect(ListBookingPage));

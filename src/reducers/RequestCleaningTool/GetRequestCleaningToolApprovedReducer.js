@@ -1,8 +1,8 @@
 import * as getRequestCleaningToolApprovedConstants from "../../constants/RequestCleaningTool/GetRequestCleaningToolApproved";
 
 const initialState = {
-  table: [],
-  refresh: false,
+  table: null,
+  loading: false,
 };
 
 const reducer = (state = initialState, action) => {
@@ -10,6 +10,7 @@ const reducer = (state = initialState, action) => {
     case getRequestCleaningToolApprovedConstants.GET_REQUEST_CLEANING_TOOL_APPROVED: {
       return {
         ...state,
+        loading: true,
       };
     }
     case getRequestCleaningToolApprovedConstants.GET_REQUEST_CLEANING_TOOL_APPROVED_SUCCESS: {
@@ -17,11 +18,13 @@ const reducer = (state = initialState, action) => {
       return {
         ...state,
         table: data,
+        loading: false,
       };
     }
     case getRequestCleaningToolApprovedConstants.GET_REQUEST_CLEANING_TOOL_APPROVED_FAILED: {
       return {
         ...state,
+        loading: false,
       };
     }
     default: {

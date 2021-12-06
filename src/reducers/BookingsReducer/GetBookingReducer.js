@@ -1,8 +1,8 @@
 import * as getBookingsConstants from "../../constants/Booking/GetBooking";
 
 const initialState = {
-  table: [],
-  refresh: false,
+  table: null,
+  loading: false,
 };
 
 const reducer = (state = initialState, action) => {
@@ -10,6 +10,7 @@ const reducer = (state = initialState, action) => {
     case getBookingsConstants.GET_BOOKING: {
       return {
         ...state,
+        loading: true,
       };
     }
     case getBookingsConstants.GET_BOOKING_SUCCESS: {
@@ -18,11 +19,13 @@ const reducer = (state = initialState, action) => {
       return {
         ...state,
         table: data,
+        loading: false,
       };
     }
     case getBookingsConstants.GET_BOOKING_FAILED: {
       return {
         ...state,
+        loading: false,
       };
     }
     default: {

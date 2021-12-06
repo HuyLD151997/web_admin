@@ -24,6 +24,9 @@ export const GET_CUSTOMER = "http://api.beclean.store/api/Account/Customers";
 
 export const GET_SERVICE_GROUPS = "http://api.beclean.store/api/ServiceGroup";
 
+export const SEARCH_SERVICE_GROUPS =
+  "http://api.beclean.store/api/ServiceGroup/SearchingByName";
+
 export const DELETE_SERVICE_GROUPS =
   "http://api.beclean.store/api/ServiceGroup/Disable";
 
@@ -61,6 +64,8 @@ export const GET_TRANSACTION_COMPANY =
 
 export const GET_BOOKING = `${BASE_URL}/Booking/Default`;
 
+export const GET_BOOKING_DETAIL = `${BASE_URL}/Booking//BookingDetailAdmin`;
+
 export const GET_BOOKING_STATUS = `${BASE_URL}/BookingStatus`;
 
 export const GET_BOOKING_IMAGE = `${BASE_URL}/BookingLog/BookingImages`;
@@ -75,6 +80,9 @@ export const GET_AVATAR = "http://api.beclean.store/api/Account/Avatar";
 
 export const GET_CLEANING_TOOL =
   "http://api.beclean.store/api/CleaningTool/Default";
+
+export const SEARCH_CLEANING_TOOL =
+  "http://api.beclean.store/api/CleaningTool/SearchingByName";
 
 export const CREATE_CLEANING_TOOL = "http://api.beclean.store/api/CleaningTool";
 

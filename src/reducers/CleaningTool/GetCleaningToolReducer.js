@@ -1,8 +1,8 @@
 import * as getCleaningToolsConstants from "../../constants/CleaningTool/GetCleaningTool";
 
 const initialState = {
-  table: [],
-  refresh: false,
+  table: null,
+  loading: false,
 };
 
 const reducer = (state = initialState, action) => {
@@ -10,6 +10,7 @@ const reducer = (state = initialState, action) => {
     case getCleaningToolsConstants.GET_CLEANING_TOOL: {
       return {
         ...state,
+        loading: true,
       };
     }
     case getCleaningToolsConstants.GET_CLEANING_TOOL_SUCCESS: {
@@ -18,11 +19,13 @@ const reducer = (state = initialState, action) => {
       return {
         ...state,
         table: data,
+        loading: false,
       };
     }
     case getCleaningToolsConstants.GET_CLEANING_TOOL_FAILED: {
       return {
         ...state,
+        loading: false,
       };
     }
     default: {

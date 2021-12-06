@@ -11,6 +11,8 @@ import { updateServiceStatusApi } from "../../apis/Service/UpdateServiceStatus";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useForm } from "react-hook-form";
 import * as getServiceGroupsAction from "../../actions/ServicesGroup/GetServiceGroups";
+import { useStateValue } from "../../common/StateProvider/StateProvider";
+import Pagination from "@mui/material/Pagination";
 
 const GetServiceById = (props) => {
   const [serGroup, setSerGroup] = useState("");
@@ -21,13 +23,20 @@ const GetServiceById = (props) => {
   const [type, setType] = useState("");
   const [search, setSearch] = useState("");
   const { id } = useParams();
-  console.log(id);
+  const [{ page, perPage, loading1 }, dispatch] = useStateValue();
+  const totalPageService = localStorage.getItem("TotalPageService");
   const dispatchAction = useDispatch();
   useEffect(() => {
-    dispatchAction(getServiceByIdAction.getServiceById(id));
+    dispatchAction(getServiceByIdAction.getServiceById(id, page, perPage));
     dispatchAction(getServiceGroupsAction.getServiceGroups(id));
-  }, []);
-  const { data, dataSerGroup } = props;
+  }, [page, perPage, loading1]);
+  const { data, dataSerGroup, loading } = props;
+
+  console.log(data);
+
+  const handleChangePage = (event, value) => {
+    dispatch({ type: "CHANGE_PAGE", newPage: value });
+  };
 
   const handleOnClickDelete = (id) => {
     handleDelete(id);
@@ -227,24 +236,10 @@ const GetServiceById = (props) => {
               <th scope="col"></th>
             </tr>
           </thead>
-          {data ? (
-            data.length > 0 ? (
-              data
-                .filter((item) => {
-                  if (search == "") {
-                    return item;
-                  } else if (
-                    item.description &&
-                    item.description
-                      .toLowerCase()
-                      .includes(search.toLowerCase())
-                  ) {
-                    return item;
-                  } else {
-                    return "";
-                  }
-                })
-                .map((item, index) => (
+          {!loading ? (
+            data ? (
+              data.data.length > 0 ? (
+                data.data.map((item, index) => (
                   <tbody>
                     <tr key={index}>
                       <td className="col-2 align-middle">
@@ -357,11 +352,19 @@ const GetServiceById = (props) => {
                     </tr>
                   </tbody>
                 ))
-            ) : null
+              ) : null
+            ) : (
+              <div>Chưa có dữ liệu</div>
+            )
           ) : (
-            <div>Progress .....</div>
+            <div>Loading .....</div>
           )}
         </table>
+        <Pagination
+          count={Math.ceil(totalPageService / perPage)}
+          color="primary"
+          onChange={handleChangePage}
+        />
       </div>
 
       <div
@@ -498,6 +501,7 @@ const GetServiceById = (props) => {
 const mapStateToProps = (state) => ({
   data: state.getServiceById.table,
   dataSerGroup: state.getServiceGroups.table,
+  loading: state.getServiceById.loading,
 });
 const withConnect = connect(mapStateToProps);
 export default withConnect(GetServiceById);

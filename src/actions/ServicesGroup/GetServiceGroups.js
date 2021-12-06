@@ -1,8 +1,12 @@
 import * as getServiceGroupsConstants from "../../constants/ServiceGroup/GetServiceGroups";
 
-export const getServiceGroups = () => {
+export const getServiceGroups = (pageNo, pageSize) => {
   return {
     type: getServiceGroupsConstants.GET_SERVICE_GROUPS,
+    payload: {
+      pageNo,
+      pageSize,
+    },
   };
 };
 export const getServiceGroupsSuccess = (data) => {

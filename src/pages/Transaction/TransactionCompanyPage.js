@@ -10,18 +10,29 @@ import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useForm } from "react-hook-form";
 import * as moment from "moment";
+import { useStateValue } from "../../common/StateProvider/StateProvider";
+import Pagination from "@mui/material/Pagination";
 
 const TransactionCompanyPage = (props) => {
   const [description, setDescription] = useState("");
   const [idService, setIdService] = useState("");
   const [search, setSearch] = useState("");
-
+  const [{ page, perPage, loading1 }, dispatch] = useStateValue();
+  const totalPageTransactionCompany = localStorage.getItem(
+    "TotalPageTransactionCompany"
+  );
   const dispatchAction = useDispatch();
   useEffect(() => {
-    dispatchAction(getTransactionCompanyActions.getTransactionCompany());
-  }, []);
-  const { data } = props;
+    dispatchAction(
+      getTransactionCompanyActions.getTransactionCompany(page, perPage)
+    );
+  }, [page, perPage, loading1]);
+  const { data, loading } = props;
   console.log(data);
+
+  const handleChangePage = (event, value) => {
+    dispatch({ type: "CHANGE_PAGE", newPage: value });
+  };
 
   const handleOnClickDelete = (id) => {
     handleDelete(id);
@@ -118,22 +129,10 @@ const TransactionCompanyPage = (props) => {
             {/* <th scope="col">Trạng thái</th> */}
           </tr>
         </thead>
-        {data ? (
-          data.length > 0 ? (
-            data
-              .filter((item) => {
-                if (search == "") {
-                  return item;
-                } else if (
-                  item.bookingId &&
-                  item.bookingId.toLowerCase().includes(search.toLowerCase())
-                ) {
-                  return item;
-                } else {
-                  return "";
-                }
-              })
-              .map((item, index) => (
+        {!loading ? (
+          data ? (
+            data.data.length > 0 ? (
+              data.data.map((item, index) => (
                 <tbody>
                   <tr className="" key={index}>
                     <td className="col-3">
@@ -194,17 +193,26 @@ const TransactionCompanyPage = (props) => {
                   </tr>
                 </tbody>
               ))
-          ) : null
+            ) : null
+          ) : (
+            <div>Chưa có dữ liệu</div>
+          )
         ) : (
-          <div>Progress .....</div>
+          <div>Loading .....</div>
         )}
       </table>
+      <Pagination
+        count={Math.ceil(totalPageTransactionCompany / perPage)}
+        color="primary"
+        onChange={handleChangePage}
+      />
     </div>
   );
 };
 
 const mapStateToProps = (state) => ({
   data: state.getTransactionCompany.table,
+  loading: state.getTransactionCompany.loading,
 });
 const withConnect = connect(mapStateToProps);
 export default withRouter(withConnect(TransactionCompanyPage));

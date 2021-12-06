@@ -10,10 +10,13 @@ import * as getCustomersConstants from "../../constants/Customer/GetCustomer";
 function* getCustomersSaga() {
   while (true) {
     const action = yield take(getCustomersConstants.GET_CUSTOMER);
-
-    const res = yield call(getCustomersApi);
+    const { pageNo, pageSize } = action.payload;
+    const res = yield call(getCustomersApi, pageNo, pageSize);
     const { data, status } = res;
     if (status === 200 || status === 201) {
+      if (data) {
+        yield localStorage.setItem("TotalPageCustomer", data.total);
+      }
       yield put(getCustomersSuccess(data));
     } else {
       yield put(getCustomersFailed(data));

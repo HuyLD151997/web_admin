@@ -1,8 +1,12 @@
 import * as getCleaningToolConstants from "../../constants/CleaningTool/GetCleaningTool";
 
-export const getCleaningTools = () => {
+export const getCleaningTools = (pageNo, pageSize) => {
   return {
     type: getCleaningToolConstants.GET_CLEANING_TOOL,
+    payload: {
+      pageNo,
+      pageSize,
+    },
   };
 };
 export const getCleaningToolsSuccess = (data) => {

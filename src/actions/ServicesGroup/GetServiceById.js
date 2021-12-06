@@ -1,9 +1,13 @@
 import * as getServiceByIdConstants from "../../constants/ServiceGroup/GetServiceById";
 
-export const getServiceById = (id) => {
+export const getServiceById = (id, pageNo, pageSize) => {
   return {
     type: getServiceByIdConstants.GET_SERVICE_BY_ID,
-    payload: id,
+    payload: {
+      id,
+      pageNo,
+      pageSize,
+    },
   };
 };
 export const getServiceByIdSuccess = (data) => {

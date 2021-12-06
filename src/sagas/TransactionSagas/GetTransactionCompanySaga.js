@@ -12,10 +12,13 @@ function* getTransactionCompanySaga() {
     const action = yield take(
       getTransactionCompanyConstants.GET_TRANSACTION_COMPANY
     );
-
-    const res = yield call(getTransactionCompanyApi);
+    const { pageNo, pageSize } = action.payload;
+    const res = yield call(getTransactionCompanyApi, pageNo, pageSize);
     const { data, status } = res;
     if (status === 200 || status === 201) {
+      if (data) {
+        yield localStorage.setItem("TotalPageTransactionCompany", data.total);
+      }
       yield put(getTransactionCompanySuccess(data));
     } else {
       yield put(getTransactionCompanyFailed(data));

@@ -17,7 +17,27 @@ const SettingPage = (props) => {
   const [description, setDescription] = useState("");
   const [data, setData] = useState("");
   const [idSetting, setIdSetting] = useState("");
-  const [settingTime, setSettingTime] = useState([]);
+  const [desAllClean, setDesAllClean] = useState("");
+  const [desTrafficJamTime, setDesTrafficJamTime] = useState("");
+  const [desBookingTimeFrame, setDesBookingTimeFrame] = useState("");
+  const [desIntervalTimeFrame, setDesIntervalTimeFrame] = useState("");
+
+  const handleChangeDesIntervalTimeFrame = (e) => {
+    setDesIntervalTimeFrame(e.target.value);
+  };
+
+  const handleChangeDesBookingTimeFrame = (e) => {
+    setDesBookingTimeFrame(e.target.value);
+  };
+
+  const handleChangeDesTrafficJamTime = (e) => {
+    setDesTrafficJamTime(e.target.value);
+  };
+
+  const handleChangeDesAllClean = (e) => {
+    setDesAllClean(e.target.value);
+  };
+
   const dispatchAction = useDispatch();
   useEffect(() => {
     dispatchAction(getSettingsActions.getSettings());
@@ -28,7 +48,7 @@ const SettingPage = (props) => {
   if (dataSetting.length > 0) {
     for (let index = 0; index < dataSetting.length; index++) {
       const element = dataSetting[index];
-      if (element.description.includes("(giờ : phút)")) {
+      if (element.key === "TRAFFIC_JAM_TIME") {
         stringTime = JSON.parse(element.data);
       }
     }
@@ -44,14 +64,18 @@ const SettingPage = (props) => {
   const handleUpdateTime = (idSettingTime, description) => {
     //Lấy được chuỗi dạng string đã thay đổi đc giá trị cần đổi
     const StringConvertData = JSON.stringify(stringTime);
-    handleUpdateSetting(idSettingTime, description, StringConvertData);
+    if (desTrafficJamTime === "") {
+      handleUpdateSetting(idSettingTime, description, StringConvertData);
+    } else {
+      handleUpdateSetting(idSettingTime, desTrafficJamTime, StringConvertData);
+    }
   };
   // xu li area
   var stringArea = [];
   if (dataSetting.length > 0) {
     for (let index = 0; index < dataSetting.length; index++) {
       const element = dataSetting[index];
-      if (element.description.includes("Tổng vệ sinh")) {
+      if (element.key === "CLEAN_ALL") {
         stringArea = JSON.parse(element.data);
       }
     }
@@ -73,14 +97,19 @@ const SettingPage = (props) => {
   const handleUpdateArea = (idSettingTime, description) => {
     //Lấy được chuỗi dạng string đã thay đổi đc giá trị cần đổi
     const StringConvertData = JSON.stringify(stringArea);
-    handleUpdateSetting(idSettingTime, description, StringConvertData);
+    console.log(desAllClean);
+    if (desAllClean === "") {
+      handleUpdateSetting(idSettingTime, description, StringConvertData);
+    } else {
+      handleUpdateSetting(idSettingTime, desAllClean, StringConvertData);
+    }
   };
   //Xu li Hour
   var stringHour = null;
   if (dataSetting.length > 0) {
     for (let index = 0; index < dataSetting.length; index++) {
       const element = dataSetting[index];
-      if (element.description.includes("Khung giờ đặt dịch vụ")) {
+      if (element.key === "BOOKING_TIME_FRAME") {
         stringHour = JSON.parse(element.data);
       }
     }
@@ -100,9 +129,7 @@ const SettingPage = (props) => {
   if (dataSetting.length > 0) {
     for (let index = 0; index < dataSetting.length; index++) {
       const element = dataSetting[index];
-      if (
-        element.description.includes("Khung giờ không được đăng ký làm việc")
-      ) {
+      if (element.key === "INTERVAL_TIME_FRAME") {
         stringHourSignUp = JSON.parse(element.data);
       }
     }
@@ -121,13 +148,29 @@ const SettingPage = (props) => {
   const handleUpdateHour = (idSettingTime, description) => {
     //Lấy được chuỗi dạng string đã thay đổi đc giá trị cần đổi
     const StringConvertData = JSON.stringify(stringHour);
-    handleUpdateSetting(idSettingTime, description, StringConvertData);
+    if (desBookingTimeFrame === "") {
+      handleUpdateSetting(idSettingTime, description, StringConvertData);
+    } else {
+      handleUpdateSetting(
+        idSettingTime,
+        desBookingTimeFrame,
+        StringConvertData
+      );
+    }
   };
 
   const handleUpdateHourSignUp = (idSettingTime, description) => {
     //Lấy được chuỗi dạng string đã thay đổi đc giá trị cần đổi
     const StringConvertData = JSON.stringify(stringHourSignUp);
-    handleUpdateSetting(idSettingTime, description, StringConvertData);
+    if (desIntervalTimeFrame === "") {
+      handleUpdateSetting(idSettingTime, description, StringConvertData);
+    } else {
+      handleUpdateSetting(
+        idSettingTime,
+        desIntervalTimeFrame,
+        StringConvertData
+      );
+    }
   };
 
   const handleUpdateSetting = async (id, description, data) => {
@@ -140,7 +183,7 @@ const SettingPage = (props) => {
         timer: 2000,
         showConfirmButton: false,
       });
-      window.location.reload();
+      // window.location.reload();
     } catch (error) {
       Swal.fire({
         icon: "error",
@@ -250,7 +293,7 @@ const SettingPage = (props) => {
         {dataSetting ? (
           dataSetting.length > 0 ? (
             dataSetting.map((item, index) =>
-              item.description.includes("(giờ : phút)") ? (
+              item.key === "TRAFFIC_JAM_TIME" ? (
                 <form onSubmit={submitForm2} className="border-0 ">
                   <div className="input-group mb-3 col-12">
                     <input
@@ -259,8 +302,10 @@ const SettingPage = (props) => {
                       // placeholder="Recipient's username"
                       aria-label="Recipient's username"
                       aria-describedby="basic-addon2"
-                      value={item.description}
+                      defaultValue={item.description}
+                      onChange={(e) => handleChangeDesTrafficJamTime(e)}
                     />
+
                     <div className="">
                       <div className="col-1" style={{ marginTop: "15px" }}>
                         <span>Từ</span>
@@ -311,7 +356,7 @@ const SettingPage = (props) => {
                     </div>
                   </div>
                 </form>
-              ) : item.description.includes("Tổng vệ sinh") ? (
+              ) : item.key === "CLEAN_ALL" ? (
                 <form onSubmit={submitForm2} className="border-0 ">
                   <div className="input-group mb-3 col-12">
                     <input
@@ -320,7 +365,9 @@ const SettingPage = (props) => {
                       // placeholder="Recipient's username"
                       aria-label="Recipient's username"
                       aria-describedby="basic-addon2"
-                      value={item.description}
+                      // value={desAllClean}
+                      defaultValue={item.description}
+                      onChange={(e) => handleChangeDesAllClean(e)}
                     />
 
                     <div className="">
@@ -397,7 +444,7 @@ const SettingPage = (props) => {
                     </div>
                   </div>
                 </form>
-              ) : item.description.includes("Khung giờ đặt dịch vụ") ? (
+              ) : item.key === "BOOKING_TIME_FRAME" ? (
                 <form onSubmit={submitForm2} className="border-0 ">
                   <div className="input-group mb-3 col-12">
                     <input
@@ -406,7 +453,8 @@ const SettingPage = (props) => {
                       // placeholder="Recipient's username"
                       aria-label="Recipient's username"
                       aria-describedby="basic-addon2"
-                      value={item.description}
+                      defaultValue={item.description}
+                      onChange={(e) => handleChangeDesBookingTimeFrame(e)}
                     />
                     <div className="">
                       <div className="col-1" style={{ marginTop: "15px" }}>
@@ -457,9 +505,7 @@ const SettingPage = (props) => {
                     </div>
                   </div>
                 </form>
-              ) : item.description.includes(
-                  "Khung giờ không được đăng ký làm việc"
-                ) ? (
+              ) : item.key === "INTERVAL_TIME_FRAME" ? (
                 <form onSubmit={submitForm2} className="border-0 ">
                   <div className="input-group mb-3 col-12">
                     <input
@@ -468,7 +514,8 @@ const SettingPage = (props) => {
                       // placeholder="Recipient's username"
                       aria-label="Recipient's username"
                       aria-describedby="basic-addon2"
-                      value={item.description}
+                      defaultValue={item.description}
+                      onChange={(e) => handleChangeDesIntervalTimeFrame(e)}
                     />
                     <div className="">
                       <div className="col-1" style={{ marginTop: "15px" }}>

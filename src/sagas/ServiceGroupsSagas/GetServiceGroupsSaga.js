@@ -10,10 +10,13 @@ import * as getServiceGroupsConstants from "../../constants/ServiceGroup/GetServ
 function* getServiceGroupsSaga() {
   while (true) {
     const action = yield take(getServiceGroupsConstants.GET_SERVICE_GROUPS);
-
-    const res = yield call(getServiceGroupsApi);
+    const { pageNo, pageSize } = action.payload;
+    const res = yield call(getServiceGroupsApi, pageNo, pageSize);
     const { data, status } = res;
     if (status === 200 || status === 201) {
+      if (data) {
+        yield localStorage.setItem("TotalPageServiceGroup", data.total);
+      }
       yield put(getServiceGroupsSuccess(data));
     } else {
       yield put(getServiceGroupsFailed(data));

@@ -1,8 +1,8 @@
 import * as getTransactionCompanyConstants from "../../constants/Transaction/GetTransactionCompany";
 
 const initialState = {
-  table: [],
-  refresh: false,
+  table: null,
+  loading: false,
 };
 
 const reducer = (state = initialState, action) => {
@@ -10,6 +10,7 @@ const reducer = (state = initialState, action) => {
     case getTransactionCompanyConstants.GET_TRANSACTION_COMPANY: {
       return {
         ...state,
+        loading: true,
       };
     }
     case getTransactionCompanyConstants.GET_TRANSACTION_COMPANY_SUCCESS: {
@@ -18,11 +19,13 @@ const reducer = (state = initialState, action) => {
       return {
         ...state,
         table: data,
+        loading: false,
       };
     }
     case getTransactionCompanyConstants.GET_TRANSACTION_COMPANY_FAILED: {
       return {
         ...state,
+        loading: false,
       };
     }
     default: {

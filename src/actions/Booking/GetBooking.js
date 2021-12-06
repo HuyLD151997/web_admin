@@ -1,9 +1,13 @@
 import * as getBookingsConstants from "../../constants/Booking/GetBooking";
 
-export const getBookings = (id) => {
+export const getBookings = (id, pageNo, pageSize) => {
   return {
     type: getBookingsConstants.GET_BOOKING,
-    payload: id,
+    payload: {
+      id,
+      pageNo,
+      pageSize,
+    },
   };
 };
 export const getBookingsSuccess = (data) => {

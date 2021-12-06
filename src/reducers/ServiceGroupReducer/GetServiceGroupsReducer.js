@@ -1,8 +1,8 @@
 import * as getServiceGroupsConstants from "../../constants/ServiceGroup/GetServiceGroups";
 
 const initialState = {
-  table: [],
-  refresh: false,
+  table: null,
+  loading: false,
 };
 
 const reducer = (state = initialState, action) => {
@@ -10,6 +10,7 @@ const reducer = (state = initialState, action) => {
     case getServiceGroupsConstants.GET_SERVICE_GROUPS: {
       return {
         ...state,
+        loading: true,
       };
     }
     case getServiceGroupsConstants.GET_SERVICE_GROUPS_SUCCESS: {
@@ -18,11 +19,13 @@ const reducer = (state = initialState, action) => {
       return {
         ...state,
         table: data,
+        loading: false,
       };
     }
     case getServiceGroupsConstants.GET_SERVICE_GROUPS_FAILED: {
       return {
         ...state,
+        loading: false,
       };
     }
     default: {

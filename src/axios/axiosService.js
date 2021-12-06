@@ -19,8 +19,8 @@ class AxiosService {
         text: "Thời gian truy cập hết hạn, xin ĐĂNG NHẬP lại",
         timer: 3000,
       });
-      localStorage.clear();
-      window.location.href = "/";
+      // localStorage.clear();
+      // window.location.href = "/";
       return Promise.reject(error);
     }
     if (error.response.status === 400) {

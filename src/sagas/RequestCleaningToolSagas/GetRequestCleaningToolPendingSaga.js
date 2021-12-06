@@ -12,10 +12,16 @@ function* getRequestCleaningToolPendingSaga() {
     const action = yield take(
       getRequestCleaningToolPendingConstants.GET_REQUEST_CLEANING_TOOL_PENDING
     );
-
-    const res = yield call(getRequestCleaningToolPendingApi);
+    const { pageNo, pageSize } = action.payload;
+    const res = yield call(getRequestCleaningToolPendingApi, pageNo, pageSize);
     const { data, status } = res;
     if (status === 200 || status === 201) {
+      if (data) {
+        yield localStorage.setItem(
+          "TotalPageRequestCleaningToolPending",
+          data.total
+        );
+      }
       yield put(getRequestCleaningToolPendingSuccess(data));
     } else {
       yield put(getRequestCleaningToolPendingFailed(data));
