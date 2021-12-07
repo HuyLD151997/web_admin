@@ -21,9 +21,14 @@ const SettingPage = (props) => {
   const [desTrafficJamTime, setDesTrafficJamTime] = useState("");
   const [desBookingTimeFrame, setDesBookingTimeFrame] = useState("");
   const [desIntervalTimeFrame, setDesIntervalTimeFrame] = useState("");
+  const [desCredit, setDesCredit] = useState("");
 
   const handleChangeDesIntervalTimeFrame = (e) => {
     setDesIntervalTimeFrame(e.target.value);
+  };
+
+  const handleChangeDesCredit = (e) => {
+    setDesCredit(e.target.value);
   };
 
   const handleChangeDesBookingTimeFrame = (e) => {
@@ -43,6 +48,7 @@ const SettingPage = (props) => {
     dispatchAction(getSettingsActions.getSettings());
   }, []);
   const { dataSetting } = props;
+  console.log(dataSetting);
   //xu li time
   var stringTime = [];
   if (dataSetting.length > 0) {
@@ -70,6 +76,40 @@ const SettingPage = (props) => {
       handleUpdateSetting(idSettingTime, desTrafficJamTime, StringConvertData);
     }
   };
+
+  // xu li credit
+  var stringCredit = [];
+  if (dataSetting.length > 0) {
+    for (let index = 0; index < dataSetting.length; index++) {
+      const element = dataSetting[index];
+      if (element.key === "CALCULATE_CREDIT") {
+        stringCredit = JSON.parse(element.data);
+      }
+    }
+  }
+
+  const changeRatingPoint = (e) => {
+    stringCredit.ratingPoint = e.target.value;
+  };
+
+  const changeAbovePoint = (e) => {
+    stringCredit.abovePoint = e.target.value;
+  };
+
+  const changeUnderPoint = (e) => {
+    stringCredit.underPoint = e.target.value;
+  };
+
+  const handleUpdateCredit = (idSettingTime, description) => {
+    //Lấy được chuỗi dạng string đã thay đổi đc giá trị cần đổi
+    const StringConvertData = JSON.stringify(stringCredit);
+    if (desCredit === "") {
+      handleUpdateSetting(idSettingTime, description, StringConvertData);
+    } else {
+      handleUpdateSetting(idSettingTime, desCredit, StringConvertData);
+    }
+  };
+
   // xu li area
   var stringArea = [];
   if (dataSetting.length > 0) {
@@ -293,7 +333,83 @@ const SettingPage = (props) => {
         {dataSetting ? (
           dataSetting.length > 0 ? (
             dataSetting.map((item, index) =>
-              item.key === "TRAFFIC_JAM_TIME" ? (
+              item.key === "CALCULATE_CREDIT" ? (
+                <form onSubmit={submitForm2} className="border-0 ">
+                  <div className="input-group mb-3 col-12">
+                    <input
+                      type="text"
+                      className="form-control col-8"
+                      // placeholder="Recipient's username"
+                      aria-label="Recipient's username"
+                      aria-describedby="basic-addon2"
+                      // value={desAllClean}
+                      defaultValue={item.description}
+                      onChange={(e) => handleChangeDesCredit(e)}
+                    />
+
+                    <div className="col-4">
+                      <div className="col-6 ml-5" style={{ marginTop: "15px" }}>
+                        <span>Điểm đánh giá</span>
+                      </div>
+                      <div className="col-6 ml-5" style={{ marginTop: "30px" }}>
+                        <span>Above Point</span>
+                      </div>
+                      <div className="col-6 ml-5" style={{ marginTop: "30px" }}>
+                        <span>Under Point</span>
+                      </div>
+                    </div>
+
+                    <div
+                      className="col-2"
+                      style={{
+                        borderLeft: "1px solid ",
+                        marginLeft: "14px",
+                      }}
+                    >
+                      <input
+                        type="text"
+                        className="form-control"
+                        // placeholder="Recipient's username"
+                        aria-label="Recipient's username"
+                        aria-describedby="basic-addon2"
+                        defaultValue={handParse(item.data).ratingPoint}
+                        onChange={(e) => changeRatingPoint(e)}
+                      />
+
+                      <input
+                        type="text"
+                        className="form-control"
+                        placeholder="Recipient's username"
+                        aria-label="Recipient's username"
+                        aria-describedby="basic-addon2"
+                        defaultValue={handParse(item.data).abovePoint}
+                        onChange={(e) => changeAbovePoint(e)}
+                      />
+                      <input
+                        type="text"
+                        className="form-control"
+                        placeholder="Recipient's username"
+                        aria-label="Recipient's username"
+                        aria-describedby="basic-addon2"
+                        defaultValue={handParse(item.data).underPoint}
+                        onChange={(e) => changeUnderPoint(e)}
+                      />
+                    </div>
+
+                    <div className="input-group-append">
+                      <button
+                        className="btn btn-outline-secondary"
+                        type="button"
+                        onClick={() =>
+                          handleUpdateCredit(item.id, item.description)
+                        }
+                      >
+                        Cập nhật
+                      </button>
+                    </div>
+                  </div>
+                </form>
+              ) : item.key === "TRAFFIC_JAM_TIME" ? (
                 <form onSubmit={submitForm2} className="border-0 ">
                   <div className="input-group mb-3 col-12">
                     <input
@@ -449,18 +565,18 @@ const SettingPage = (props) => {
                   <div className="input-group mb-3 col-12">
                     <input
                       type="text"
-                      className="form-control"
+                      className="form-control col-8"
                       // placeholder="Recipient's username"
                       aria-label="Recipient's username"
                       aria-describedby="basic-addon2"
                       defaultValue={item.description}
                       onChange={(e) => handleChangeDesBookingTimeFrame(e)}
                     />
-                    <div className="">
-                      <div className="col-1" style={{ marginTop: "15px" }}>
+                    <div className="col-2">
+                      <div className="col-2 ml-5" style={{ marginTop: "15px" }}>
                         <span>Từ</span>
                       </div>
-                      <div className="col-1" style={{ marginTop: "30px" }}>
+                      <div className="col-2 ml-5" style={{ marginTop: "30px" }}>
                         <span>Đến</span>
                       </div>
                     </div>
@@ -468,7 +584,7 @@ const SettingPage = (props) => {
                       className="col-2"
                       style={{
                         borderLeft: "1px solid ",
-                        marginLeft: "14px",
+                        marginLeft: "144px",
                       }}
                     >
                       <input
@@ -510,18 +626,18 @@ const SettingPage = (props) => {
                   <div className="input-group mb-3 col-12">
                     <input
                       type="text"
-                      className="form-control"
+                      className="form-control col-8"
                       // placeholder="Recipient's username"
                       aria-label="Recipient's username"
                       aria-describedby="basic-addon2"
                       defaultValue={item.description}
                       onChange={(e) => handleChangeDesIntervalTimeFrame(e)}
                     />
-                    <div className="">
-                      <div className="col-1" style={{ marginTop: "15px" }}>
+                    <div className="col-2">
+                      <div className="col-2 ml-5" style={{ marginTop: "15px" }}>
                         <span>Từ</span>
                       </div>
-                      <div className="col-1" style={{ marginTop: "30px" }}>
+                      <div className="col-2 ml-5" style={{ marginTop: "30px" }}>
                         <span>Đến</span>
                       </div>
                     </div>
@@ -529,7 +645,7 @@ const SettingPage = (props) => {
                       className="col-2"
                       style={{
                         borderLeft: "1px solid ",
-                        marginLeft: "14px",
+                        marginLeft: "144px",
                       }}
                     >
                       <input

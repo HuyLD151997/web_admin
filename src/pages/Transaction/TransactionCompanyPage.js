@@ -132,67 +132,80 @@ const TransactionCompanyPage = (props) => {
         {!loading ? (
           data ? (
             data.data.length > 0 ? (
-              data.data.map((item, index) => (
-                <tbody>
-                  <tr className="" key={index}>
-                    <td className="col-3">
-                      {" "}
-                      {item.bookingId !== null ? (
-                        <span>{item.bookingId}</span>
-                      ) : (
-                        <span>Chưa có dữ liệu</span>
-                      )}
-                    </td>
-                    <td className="">
-                      {" "}
-                      {item.user.fullname !== null ? (
-                        <span>{item.user.fullname}</span>
-                      ) : (
-                        <span>Chưa có dữ liệu</span>
-                      )}
-                    </td>
-                    <td className="col-2 align-middle">
-                      {item.booking.customer.fullname !== null ? (
-                        <span>{item.booking.customer.fullname}</span>
-                      ) : (
-                        <span>Chưa có dữ liệu</span>
-                      )}
-                    </td>
-                    <td className="col-2 align-middle">
-                      {item.booking.employee.fullname !== null ? (
-                        <span>{item.booking.employee.fullname}</span>
-                      ) : (
-                        <span>Chưa có dữ liệu</span>
-                      )}
-                    </td>
-                    <td className="col-2 align-middle">
-                      {item.deposit !== null ? (
-                        <span>{item.deposit} VND</span>
-                      ) : (
-                        <span>Chưa có dữ liệu</span>
-                      )}
-                    </td>
-                    <td className="col-2">
-                      {item.description !== null ? (
-                        <span>{item.description}</span>
-                      ) : (
-                        <span>Chưa có dữ liệu</span>
-                      )}
-                    </td>
-                    <td className="">
-                      {item.dateCreated ? (
-                        <span>
-                          {moment(item.dateCreated).format("DD/MM/YYYY")}
-                          &nbsp;/ {item.dateCreated.substring(11, 16)}
-                        </span>
-                      ) : (
-                        <span>Chưa có dữ liệu</span>
-                      )}
-                    </td>
-                    <td className=""></td>
-                  </tr>
-                </tbody>
-              ))
+              data.data
+                .filter((item) => {
+                  if (search == "") {
+                    return item;
+                  } else if (
+                    item.bookingId &&
+                    item.bookingId.toLowerCase().includes(search.toLowerCase())
+                  ) {
+                    return item;
+                  } else {
+                    return "";
+                  }
+                })
+                .map((item, index) => (
+                  <tbody>
+                    <tr className="" key={index}>
+                      <td className="col-3">
+                        {" "}
+                        {item.bookingId !== null ? (
+                          <span>{item.bookingId}</span>
+                        ) : (
+                          <span>Chưa có dữ liệu</span>
+                        )}
+                      </td>
+                      <td className="">
+                        {" "}
+                        {item.user.fullname !== null ? (
+                          <span>{item.user.fullname}</span>
+                        ) : (
+                          <span>Chưa có dữ liệu</span>
+                        )}
+                      </td>
+                      <td className="col-2 align-middle">
+                        {item.booking.customer.fullname !== null ? (
+                          <span>{item.booking.customer.fullname}</span>
+                        ) : (
+                          <span>Chưa có dữ liệu</span>
+                        )}
+                      </td>
+                      <td className="col-2 align-middle">
+                        {item.booking.employee.fullname !== null ? (
+                          <span>{item.booking.employee.fullname}</span>
+                        ) : (
+                          <span>Chưa có dữ liệu</span>
+                        )}
+                      </td>
+                      <td className="col-2 align-middle">
+                        {item.deposit !== null ? (
+                          <span>{item.deposit} VND</span>
+                        ) : (
+                          <span>Chưa có dữ liệu</span>
+                        )}
+                      </td>
+                      <td className="col-2">
+                        {item.description !== null ? (
+                          <span>{item.description}</span>
+                        ) : (
+                          <span>Chưa có dữ liệu</span>
+                        )}
+                      </td>
+                      <td className="">
+                        {item.dateCreated ? (
+                          <span>
+                            {moment(item.dateCreated).format("DD/MM/YYYY")}
+                            &nbsp;/ {item.dateCreated.substring(11, 16)}
+                          </span>
+                        ) : (
+                          <span>Chưa có dữ liệu</span>
+                        )}
+                      </td>
+                      <td className=""></td>
+                    </tr>
+                  </tbody>
+                ))
             ) : null
           ) : (
             <div>Chưa có dữ liệu</div>

@@ -2,6 +2,7 @@ import React, { Component, useEffect, useState } from "react";
 import { useLocation, withRouter } from "react-router";
 import { useDispatch, connect } from "react-redux";
 import * as getChartsActions from "../actions/Chart/GetChart";
+import * as getChartTransactinonActions from "../actions/Chart/GetChartTransaction";
 import { Link } from "react-router-dom";
 import Swal from "sweetalert2";
 
@@ -15,8 +16,10 @@ const ChartPage = (props) => {
   const dispatchAction = useDispatch();
   useEffect(() => {
     dispatchAction(getChartsActions.getCharts());
+    dispatchAction(getChartTransactinonActions.getChartTransaction());
   }, []);
-  const { data } = props;
+  const { data, dataTransaction } = props;
+  console.log(dataTransaction);
   console.log(data);
   const validationSchema = yup
     .object({
@@ -31,6 +34,25 @@ const ChartPage = (props) => {
   } = useForm({
     resolver: yupResolver(validationSchema),
   });
+
+  const dateListRender = () => {
+    var dateList = [];
+    if (dataTransaction) {
+      for (let index = 0; index < dataTransaction.length; index++) {
+        dateList.push(moment(dataTransaction[index].date).format("DD/MM/YYYY"));
+      }
+    }
+    return dateList;
+  };
+  const totalListRender = () => {
+    var totalList = [];
+    if (dataTransaction) {
+      for (let index = 0; index < dataTransaction.length; index++) {
+        totalList.push(dataTransaction[index].total);
+      }
+    }
+    return totalList;
+  };
 
   return (
     <div className="container">
@@ -74,97 +96,52 @@ const ChartPage = (props) => {
                 },
               }}
             />
-            {/* <Doughnut
-            data={{
-              labels: ["Booking hủy", "Booking đang đợi", "Booking hoàn thành"],
-              datasets: [
-                {
-                  label: "Population (millions)",
-                  backgroundColor: [
-                    "#3e95cd",
-                    "#8e5ea2",
-                    "#3cba9f",
-                    // "#e8c3b9",
-                    // "#c45850",
-                  ],
-                  data: [2478, 5267, 734],
-                },
-              ],
-            }}
-            option={{
-              title: {
-                display: true,
-                text: "Predicted world population (millions) in 2050",
-              },
-            }}
-          /> */}
           </div>
         ) : (
           <div>Progress .....</div>
         )}
-        <div className="col-4" style={{ marginLeft: "200px" }}>
-          <span style={{ fontWeight: "bold", marginLeft: "120px" }}>
-            Đánh giá
-          </span>
-          <Doughnut
-            data={{
-              labels: ["1 sao", "2 sao", "3 sao", "4 sao", "5 sao"],
-              datasets: [
-                {
-                  label: "Population (millions)",
-                  backgroundColor: [
-                    "#3e95cd",
-                    "#8e5ea2",
-                    "#3cba9f",
-                    "#e8c3b9",
-                    "#c45850",
+      </div>
+      {/* {dataTransaction ? (
+        dataTransaction.length > 0 ? (
+          dataTransaction.map((item, index) => (
+            <div>
+              <Bar
+                data={{
+                  labels: [`${moment(item.date).format("DD/MM/YYYY")}`],
+                  datasets: [
+                    {
+                      label: "Doanh số trong một tuần",
+                      backgroundColor: [
+                        "#3e95cd",
+                        "#8e5ea2",
+                        "#3cba9f",
+                        "#e8c3b9",
+                        "#c45850",
+                        "#3e95cd",
+                        "#8e5ea2",
+                      ],
+                      data: [],
+                    },
                   ],
-                  data: [2478, 5267, 734, 1200, 680],
-                },
-              ],
-            }}
-            option={{
-              title: {
-                display: true,
-                text: "Predicted world population (millions) in 2050",
-              },
-            }}
-          />
-        </div>
-      </div>
+                }}
+                options={{
+                  legend: { display: false },
+                  title: {
+                    display: true,
+                    text: "Predicted world population (millions) in 2050",
+                  },
+                }}
+              />
+            </div>
+          ))
+        ) : null
+      ) : (
+        <div>Progress .....</div>
+      )} */}
       <div>
         <Bar
           data={{
-            labels: ["Mon", "Tu", "We", "Th", "Fr", "Sa", "Su"],
-            datasets: [
-              {
-                label: "Doanh số trong một tuần",
-                backgroundColor: [
-                  "#3e95cd",
-                  "#8e5ea2",
-                  "#3cba9f",
-                  "#e8c3b9",
-                  "#c45850",
-                  "#3e95cd",
-                  "#8e5ea2",
-                ],
-                data: [2478, 5267, 734, 784, 433, 530, 942],
-              },
-            ],
-          }}
-          options={{
-            legend: { display: false },
-            title: {
-              display: true,
-              text: "Predicted world population (millions) in 2050",
-            },
-          }}
-        />
-      </div>
-      <div>
-        <Bar
-          data={{
-            labels: ["Mon", "Tu", "We", "Th", "Fr", "Sa", "Su"],
+            labels: dateListRender(),
             datasets: [
               {
                 label: "Số lượng tài khoản mới trong một tuần",
@@ -177,7 +154,7 @@ const ChartPage = (props) => {
                   "#3e95cd",
                   "#8e5ea2",
                 ],
-                data: [2478, 5267, 734, 784, 433, 530, 942],
+                data: totalListRender(),
               },
             ],
           }}
@@ -196,6 +173,7 @@ const ChartPage = (props) => {
 
 const mapStateToProps = (state) => ({
   data: state.getChart.table,
+  dataTransaction: state.getChartTransaction.table,
 });
 const withConnect = connect(mapStateToProps);
 export default withRouter(withConnect(ChartPage));

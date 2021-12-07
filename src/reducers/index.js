@@ -24,7 +24,8 @@ import requestCleaningToolPendingReducer from "./RequestCleaningTool/GetRequestC
 import requestCleaningToolApprovedReducer from "./RequestCleaningTool/GetRequestCleaningToolApprovedReducer";
 import requestCleaningToolHistoryReducer from "./RequestCleaningTool/GetRequestCleaningToolHistoryReducer";
 import getSettingsReducer from "./SettingReducer/GetSettingReducer";
-import getChartsReducer from "./ChartReducer/GetTransactionReducer";
+import getChartsReducer from "./ChartReducer/GetChartReducer";
+import getChartTransactionReducer from "./ChartReducer/GetChartTransactionReducer";
 
 const rootReducers = combineReducers({
   services,
@@ -53,6 +54,7 @@ const rootReducers = combineReducers({
   searchCleaningTool: searchCleaningToolsReducer,
   getSetting: getSettingsReducer,
   getChart: getChartsReducer,
+  getChartTransaction: getChartTransactionReducer,
 });
 
 export default rootReducers;

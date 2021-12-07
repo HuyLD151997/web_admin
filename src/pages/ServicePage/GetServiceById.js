@@ -26,9 +26,10 @@ const GetServiceById = (props) => {
   const [{ page, perPage, loading1 }, dispatch] = useStateValue();
   const totalPageService = localStorage.getItem("TotalPageService");
   const dispatchAction = useDispatch();
+  console.log(id, page, perPage);
   useEffect(() => {
     dispatchAction(getServiceByIdAction.getServiceById(id, page, perPage));
-    dispatchAction(getServiceGroupsAction.getServiceGroups(id));
+    dispatchAction(getServiceGroupsAction.getServiceGroups(page, perPage));
   }, [page, perPage, loading1]);
   const { data, dataSerGroup, loading } = props;
 
@@ -136,11 +137,11 @@ const GetServiceById = (props) => {
       typeUpdate: yup
         .string()
         .stripEmptyString("Loại dịch vụ không được để trống")
-        .default(type),
-      serGroup: yup.string().required("Vui lòng chọn nhóm dịch vụ"),
+        .default(type)
+        .matches(/(AREA|QUANTITY)/, "Phải chọn AREA hoặc QUANTITY"),
+      // serGroup: yup.string().required("Vui lòng chọn nhóm dịch vụ"),
     })
     .required();
-  console.log(description);
   const {
     register,
     handleSubmit,
@@ -239,119 +240,134 @@ const GetServiceById = (props) => {
           {!loading ? (
             data ? (
               data.data.length > 0 ? (
-                data.data.map((item, index) => (
-                  <tbody>
-                    <tr key={index}>
-                      <td className="col-2 align-middle">
-                        {item.description !== null ? (
-                          <span>{item.description}</span>
-                        ) : (
-                          <span>Chưa có dữ liệu</span>
-                        )}
-                      </td>
-                      <td className="align-middle">
-                        {item.type === "AREA" ? (
-                          ""
-                        ) : (
-                          <span className="text-primary  rounded p-1">
-                            {item.type}
-                          </span>
-                        )}
-                        {item.type === "QUANTITY" ? (
-                          ""
-                        ) : (
-                          <span className="text-success  rounded p-1">
-                            {item.type}
-                          </span>
-                        )}
-                      </td>
-                      <td className="align-middle">
-                        {item.dateCreated ? (
-                          <span>
-                            {moment(item.dateCreated).format("DD/MM/YYYY")}
-                            &nbsp;/ {item.dateCreated.substring(11, 16)}
-                          </span>
-                        ) : (
-                          <span>Chưa có dữ liệu</span>
-                        )}
-                      </td>
-                      <td className="align-middle">
-                        {item.dateUpdated ? (
-                          <span>
-                            {moment(item.dateUpdated).format("DD/MM/YYYY")}
-                            &nbsp;/ {item.dateUpdated.substring(11, 16)}
-                          </span>
-                        ) : (
-                          <span>Chưa có dữ liệu</span>
-                        )}
-                      </td>
-                      <td className=" align-middle">
-                        {item.unitPrice !== null ? (
-                          <span>{item.unitPrice} VND</span>
-                        ) : (
-                          <span>Chưa có dữ liệu</span>
-                        )}
-                      </td>
-                      <td className=" align-middle">
-                        {item.isDisable === false ? (
-                          ""
-                        ) : (
-                          <span className="text-danger">Tạm dừng</span>
-                        )}
-                        {item.isDisable === true ? (
-                          ""
-                        ) : (
-                          <span className="text-success border border-success rounded p-1">
-                            Hoạt động
-                          </span>
-                        )}
-                      </td>
-                      <td className=" align-middle">
-                        {item.isDisable === false ? (
-                          ""
-                        ) : (
+                data.data
+                  .filter((item) => {
+                    if (search == "") {
+                      return item;
+                    } else if (
+                      item.description &&
+                      item.description
+                        .toLowerCase()
+                        .includes(search.toLowerCase())
+                    ) {
+                      return item;
+                    } else {
+                      return "";
+                    }
+                  })
+                  .map((item, index) => (
+                    <tbody>
+                      <tr key={index}>
+                        <td className="col-2 align-middle">
+                          {item.description !== null ? (
+                            <span>{item.description}</span>
+                          ) : (
+                            <span>Chưa có dữ liệu</span>
+                          )}
+                        </td>
+                        <td className="align-middle">
+                          {item.type === "AREA" ? (
+                            ""
+                          ) : (
+                            <span className="text-primary  rounded p-1">
+                              {item.type}
+                            </span>
+                          )}
+                          {item.type === "QUANTITY" ? (
+                            ""
+                          ) : (
+                            <span className="text-success  rounded p-1">
+                              {item.type}
+                            </span>
+                          )}
+                        </td>
+                        <td className="align-middle">
+                          {item.dateCreated ? (
+                            <span>
+                              {moment(item.dateCreated).format("DD/MM/YYYY")}
+                              &nbsp;/ {item.dateCreated.substring(11, 16)}
+                            </span>
+                          ) : (
+                            <span>Chưa có dữ liệu</span>
+                          )}
+                        </td>
+                        <td className="align-middle">
+                          {item.dateUpdated ? (
+                            <span>
+                              {moment(item.dateUpdated).format("DD/MM/YYYY")}
+                              &nbsp;/ {item.dateUpdated.substring(11, 16)}
+                            </span>
+                          ) : (
+                            <span>Chưa có dữ liệu</span>
+                          )}
+                        </td>
+                        <td className=" align-middle">
+                          {item.unitPrice !== null ? (
+                            <span>{item.unitPrice} VND</span>
+                          ) : (
+                            <span>Chưa có dữ liệu</span>
+                          )}
+                        </td>
+                        <td className=" align-middle">
+                          {item.isDisable === false ? (
+                            ""
+                          ) : (
+                            <span className="text-danger">Tạm dừng</span>
+                          )}
+                          {item.isDisable === true ? (
+                            ""
+                          ) : (
+                            <span className="text-success border border-success rounded p-1">
+                              Hoạt động
+                            </span>
+                          )}
+                        </td>
+                        <td className=" align-middle">
+                          {item.isDisable === false ? (
+                            ""
+                          ) : (
+                            <i
+                              class="fa fa-unlock-alt text-success"
+                              type="button"
+                              style={{ fontSize: "30px", marginTop: "8px" }}
+                              onClick={() => handleActive(item.id)}
+                            ></i>
+                          )}
+                          {item.isDisable === true ? (
+                            ""
+                          ) : (
+                            <i
+                              class="fa fa-lock text-danger"
+                              type="button"
+                              style={{ fontSize: "30px", marginTop: "8px" }}
+                              onClick={() => handleConfirmDelete(item.id)}
+                            ></i>
+                          )}
                           <i
-                            class="fa fa-unlock-alt text-success"
+                            class="fa fa-edit"
                             type="button"
-                            style={{ fontSize: "30px", marginTop: "8px" }}
-                            onClick={() => handleActive(item.id)}
+                            onClick={() =>
+                              handleGetDescription(
+                                item.description,
+                                item.id,
+                                item.unitPrice,
+                                item.type
+                              )
+                            }
+                            data-toggle="modal"
+                            data-target="#exampleModal"
+                            data-whatever="yah"
+                            style={{
+                              fontSize: "30px",
+                              margin: "auto",
+                              marginTop: "8px",
+                              marginLeft: "20px",
+                            }}
                           ></i>
-                        )}
-                        {item.isDisable === true ? (
-                          ""
-                        ) : (
-                          <i
-                            class="fa fa-lock text-danger"
-                            type="button"
-                            style={{ fontSize: "30px", marginTop: "8px" }}
-                            onClick={() => handleConfirmDelete(item.id)}
-                          ></i>
-                        )}
-                        <i
-                          class="fa fa-edit"
-                          type="button"
-                          onClick={() =>
-                            handleGetDescription(
-                              item.description,
-                              item.id,
-                              item.unitPrice,
-                              item.type
-                            )
-                          }
-                          data-toggle="modal"
-                          data-target="#exampleModal"
-                          data-whatever="yah"
-                          style={{
-                            fontSize: "30px",
-                            margin: "auto",
-                            marginTop: "8px",
-                            marginLeft: "20px",
-                          }}
-                        ></i>
-                      </td>
-                    </tr>
-                  </tbody>
-                ))
+                        </td>
+                      </tr>
+                    </tbody>
+                  ))
               ) : null
             ) : (
               <div>Chưa có dữ liệu</div>
@@ -417,11 +433,11 @@ const GetServiceById = (props) => {
                     {...register("typeUpdate")}
                     defaultValue={type}
                   >
-                    <option selected>&#10004;{type}</option>
+                    <option selected="">Chọn loại</option>
                     <option value="AREA">AREA</option>
                     <option value="QUANTITY">QUANTITY</option>
                   </select>
-                  {/* <p>{errors.type?.message}</p> */}
+                  <p>{errors.typeUpdate?.message}</p>
                 </div>
                 <div className="form-group">
                   <label htmlFor="recipient-name" className="col-form-label">
@@ -441,6 +457,7 @@ const GetServiceById = (props) => {
                   className="dropdown show w-100"
                   style={{ marginTop: "35px" }}
                 >
+                  <span>Vui lòng chọn nhóm dịch vụ</span>
                   <a
                     className="btn btn-secondary dropdown-toggle"
                     href="#"
@@ -458,8 +475,8 @@ const GetServiceById = (props) => {
                     aria-labelledby="dropdownMenuLink"
                   >
                     {dataSerGroup ? (
-                      dataSerGroup.length > 0 ? (
-                        dataSerGroup.map((item, index) => (
+                      dataSerGroup.data.length > 0 ? (
+                        dataSerGroup.data.map((item, index) => (
                           <a
                             className="dropdown-item"
                             key={index}
@@ -475,7 +492,7 @@ const GetServiceById = (props) => {
                       <div>Progress...</div>
                     )}
                   </div>
-                  <p className="text-danger">{errors.serGroup?.message}</p>
+                  {/* <p className="text-danger">{errors.serGroup?.message}</p> */}
                 </div>
               </div>
               <div className="modal-footer">

@@ -4,6 +4,8 @@ export const CHECK_LOGIN = "http://api.beclean.store/api/Account/Auth";
 
 export const GET_EMPLOYEES = `${BASE_URL}/Account/Employees`;
 
+export const UPDATE_EMPLOYEES_AVA = `${BASE_URL}/Account/Avatar`;
+
 export const GET_PROVINCES = "http://api.beclean.store/api/SubPackage/Province";
 
 export const GET_WARD_AND_DISTRIC =
@@ -64,7 +66,7 @@ export const GET_TRANSACTION_COMPANY =
 
 export const GET_BOOKING = `${BASE_URL}/Booking/Default`;
 
-export const GET_BOOKING_DETAIL = `${BASE_URL}/Booking//BookingDetailAdmin`;
+export const GET_BOOKING_DETAIL = `${BASE_URL}/Booking/BookingDetailAdmin`;
 
 export const GET_BOOKING_STATUS = `${BASE_URL}/BookingStatus`;
 
@@ -111,3 +113,5 @@ export const GET_SETTING = `${BASE_URL}/Setting`;
 export const UPDATE_SETTING = `${BASE_URL}/Setting`;
 
 export const CHART = `${BASE_URL}/Chart/Booking`;
+
+export const CHART_TRANSACTION = `${BASE_URL}/Chart/Transaction`;

@@ -822,7 +822,7 @@ const ServiceGroupsPage = (props) => {
                     {...register("type")}
                     defaultValue={type}
                   >
-                    <option selected>&#10004;{type}</option>
+                    <option selected>Chọn loại</option>
                     <option value="NORMAL">NORMAL</option>
                     <option value="OVERALL">OVERALL</option>
                     <option value="OPTIONAL">OPTIONAL</option>

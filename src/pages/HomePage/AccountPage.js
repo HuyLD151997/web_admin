@@ -8,9 +8,13 @@ import { deleteEmployeeApi } from "../../apis/Employees/DeleteEmployee";
 import { updateEmployeeStatusApi } from "../../apis/Employees/UpdateEmployeeStatus";
 import { useStateValue } from "../../common/StateProvider/StateProvider";
 import Pagination from "@mui/material/Pagination";
+import { updateImgEmployeeApi } from "../../apis/Employees/UpdateImgEmployee";
 
 const AccountPage = (props) => {
   const [search, setSearch] = useState("");
+  const [selectedImages, setSelectedImage] = useState([]);
+  const [imgSelect, setImgSelect] = useState("");
+  const [imgSelect2, setImgSelect2] = useState(null);
   const dispatchAction = useDispatch();
   const [{ page, perPage, loading1 }, dispatch] = useStateValue();
   const totalPageEmployee = localStorage.getItem("TotalPageEmployee");
@@ -21,6 +25,39 @@ const AccountPage = (props) => {
   console.log(data);
   const handleOnClickDelete = (id) => {
     handleDelete(id);
+  };
+
+  const handleGetAndUpdateImg = (id) => {
+    console.log(id);
+    setImgSelect(id);
+  };
+
+  const submitForm2 = (e) => {
+    handleUpdateImgEmployee(imgSelect, imgSelect2);
+    console.log(imgSelect);
+    console.log(imgSelect2);
+  };
+
+  const handleUpdateImgEmployee = async (id, File) => {
+    try {
+      console.log(id);
+      console.log(File);
+      await updateImgEmployeeApi(id, { File });
+      Swal.fire({
+        icon: "success",
+        text: "active status success",
+        timer: 2000,
+        showConfirmButton: false,
+      });
+      window.location.reload();
+    } catch (error) {
+      Swal.fire({
+        icon: "error",
+        text: "active failed ",
+        timer: 1000,
+        showConfirmButton: false,
+      });
+    }
   };
 
   const handleChangePage = (event, value) => {
@@ -87,6 +124,38 @@ const AccountPage = (props) => {
       });
     }
   };
+
+  const handleChangeFile = (e) => {
+    if (e.target.files) {
+      setImgSelect2(e.target.files[0]);
+      setSelectedImage([]);
+      const fileArray = Array.from(e.target.files).map((file) =>
+        URL.createObjectURL(file)
+      );
+      console.log(fileArray);
+      setSelectedImage((prevImages) => prevImages.concat(fileArray));
+      Array.from(e.target.files).map((file) => URL.revokeObjectURL(file));
+    }
+  };
+
+  const renderPhotos = (src) => {
+    return src.map((photo) => {
+      return (
+        <img
+          style={{
+            width: "50px",
+            height: "50px",
+            // borderRadius: "50%",
+            marginRight: "5px",
+            marginBottom: "5px",
+          }}
+          src={photo}
+          key={photo}
+        />
+      );
+    });
+  };
+
   return (
     <div className="container table-responsive-xl p-0 mt-2">
       <div className="row m-0">
@@ -109,11 +178,7 @@ const AccountPage = (props) => {
           }}
           style={{ width: "500px", height: "35px" }}
         />
-        <Pagination
-          count={Math.ceil(totalPageEmployee / perPage)}
-          color="primary"
-          onChange={handleChangePage}
-        />
+
         <table className="table align-middle mt-2">
           <thead className="table-light">
             <tr>
@@ -168,6 +233,24 @@ const AccountPage = (props) => {
                               }}
                             />
                           )}
+                          <i
+                            class="fa fa-edit"
+                            type="button"
+                            onClick={() =>
+                              handleGetAndUpdateImg(item.hasAvatar)
+                            }
+                            data-toggle="modal"
+                            data-target="#exampleModal2"
+                            data-whatever="yah"
+                            style={{
+                              fontSize: "20px",
+                              // margin: "auto",
+                              marginTop: "8px",
+                              // position: "absolute",
+                              bottom: "7px",
+                              right: "15px",
+                            }}
+                          ></i>
                         </td>
                         <td className="col-2 align-middle">
                           {item.userName !== null ? (
@@ -266,6 +349,76 @@ const AccountPage = (props) => {
             <div>Loading .....</div>
           )}
         </table>
+        <Pagination
+          count={Math.ceil(totalPageEmployee / perPage)}
+          color="primary"
+          onChange={handleChangePage}
+        />
+      </div>
+      <div
+        className="modal fade"
+        id="exampleModal2"
+        tabIndex={-1}
+        role="dialog"
+        aria-labelledby="exampleModalLabel2"
+        aria-hidden="true"
+      >
+        <div className="modal-dialog" role="document">
+          <div className="modal-content">
+            <div className="modal-header">
+              <h5 className="modal-title w-100" id="exampleModalLabel2">
+                Cập nhật hình
+              </h5>
+              <button
+                type="button"
+                className="close"
+                data-dismiss="modal"
+                aria-label="Close"
+              >
+                <span aria-hidden="true" style={{ float: "right" }}>
+                  ×
+                </span>
+              </button>
+            </div>
+            {/* onSubmit={handleSubmit(submitForm2)} */}
+            <form>
+              <div className="modal-body">
+                <div className="form-group">
+                  <input
+                    type="file"
+                    id="file"
+                    name="img-upload"
+                    onChange={handleChangeFile}
+                    accept="image/x-png,image/gif,image/jpeg"
+                  />
+
+                  <div className="label-holder">
+                    <label htmlFor="file" className="img-upload">
+                      Chọn hình
+                    </label>
+                  </div>
+                  <div className="result">{renderPhotos(selectedImages)}</div>
+                </div>
+              </div>
+              <div className="modal-footer">
+                <button
+                  type="button"
+                  className="btn btn-secondary"
+                  data-dismiss="modal"
+                >
+                  Đóng
+                </button>
+                <button
+                  type="button"
+                  className="btn btn-primary"
+                  onClick={submitForm2}
+                >
+                  Cập nhật
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
       </div>
     </div>
   );

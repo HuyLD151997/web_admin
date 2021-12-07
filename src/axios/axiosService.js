@@ -110,6 +110,17 @@ class AxiosService {
     });
   }
 
+  put6(url, body, token) {
+    const formData = new FormData();
+    formData.append("File", body.File);
+    return this.intance.put(url, formData, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+        "content-type": "multipart/form-data",
+      },
+    });
+  }
+
   put3(url, body, token) {
     console.log(body);
     const formData = new FormData();
