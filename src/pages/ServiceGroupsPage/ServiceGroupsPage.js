@@ -265,7 +265,7 @@ const ServiceGroupsPage = (props) => {
   };
 
   return (
-    <div className="container ml-2 table-responsive-xl">
+    <div className="container table-responsive-xl p-0 mt-2">
       <div className="row m-0">
         <h2>Thông tin nhóm dịch vụ</h2>
 

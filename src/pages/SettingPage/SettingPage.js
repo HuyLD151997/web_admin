@@ -326,7 +326,7 @@ const SettingPage = (props) => {
 
   console.log(valueJson.length);
   return (
-    <div className="container ml-2 table-responsive-xl p-0 mt-2">
+    <div className="container table-responsive-xl p-0 mt-2">
       <h2>Cài đặt</h2>
       {/* <button onClick={() => handCongChuoi()}></button> */}
       <div className="row m-0">

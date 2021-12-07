@@ -100,10 +100,10 @@ const CreateServiceItem = (props) => {
 
   return (
     <div>
-      <div className="container col-12">
+      <div className="container p-0 mt-2">
         <h3 className="">Thêm dịch vụ</h3>
         <div
-          className=" border border-warning col-10 ml-5"
+          className=" border border-warning ml-5"
           // style={{ width: "400px", paddingLeft: "60px", padding: "20px" }}
         >
           <form

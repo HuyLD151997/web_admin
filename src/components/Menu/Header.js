@@ -9,7 +9,7 @@ class Header extends Component {
         {/* HEADER */}
         <nav
           className="navbar navbar-expand mr-auto my-2 my-lg-0 "
-          id="navbar-custom"
+          // id="navbar-custom"
         >
           <button
             className="navbar-toggler d-lg-none"
@@ -21,7 +21,7 @@ class Header extends Component {
             aria-label="Toggle navigation"
           />
           <div className="collapse navbar-collapse" id="collapsibleNavId">
-            <ul className="navbar-nav ml-auto  mt-2 mt-lg-0">
+            <ul className="navbar-nav mt-2 mt-lg-0">
               <li className="nav-item dropdown">
                 <a
                   className="nav-link dropdown-toggle"

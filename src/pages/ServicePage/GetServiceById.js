@@ -203,7 +203,7 @@ const GetServiceById = (props) => {
     //     <div>Progress .....</div>
     //   )}
     // </div>
-    <div className="container ml-2 table-responsive-xl">
+    <div className="container table-responsive-xl p-0 mt-2">
       <div className="row m-0">
         <h2>Thông tin dịch vụ</h2>
 

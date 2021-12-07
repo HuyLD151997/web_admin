@@ -329,6 +329,14 @@ const GetBooking = (props) => {
               <div className="col-8">
                 <ul className="list-group list-group-flush">
                   <li className="list-group-item">
+                    Mã nhân viên:&nbsp;
+                    {data.employee.employeeCode ? (
+                      <span>{data.employee.employeeCode}</span>
+                    ) : (
+                      <span>Chưa có dữ liệu</span>
+                    )}
+                  </li>
+                  <li className="list-group-item">
                     Họ và tên:&nbsp;
                     {data.employee.fullname ? (
                       <span>{data.employee.fullname}</span>
@@ -356,6 +364,14 @@ const GetBooking = (props) => {
                     Giới tính:&nbsp;
                     {data.employee.gender ? (
                       <span>{data.employee.gender}</span>
+                    ) : (
+                      <span>Chưa có dữ liệu</span>
+                    )}
+                  </li>
+                  <li className="list-group-item">
+                    Mã nhân viên:&nbsp;
+                    {data.employee.employeeCredit ? (
+                      <span>{data.employee.employeeCredit}</span>
                     ) : (
                       <span>Chưa có dữ liệu</span>
                     )}

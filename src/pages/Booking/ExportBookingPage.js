@@ -9,24 +9,18 @@ import * as yup from "yup";
 
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useForm } from "react-hook-form";
-//import "react-responsive-carousel/lib/styles/carousel.min.css"; // requires a loader
-import { Carousel } from "react-responsive-carousel";
 import ReactHTMLTableToExcel from "react-html-table-to-excel";
 
 const GetBooking = (props) => {
-  const [description, setDescription] = useState("");
-
   const { id } = useParams();
-  console.log(id);
   const dispatchAction = useDispatch();
   useEffect(() => {
     dispatchAction(getBookingDetail.getBookingDetail(id));
-    dispatchAction(getBookingImage.getBookingImages(id));
+    // dispatchAction(getBookingImage.getBookingImages(id));
   }, []);
-  const { data, dataImg } = props;
+  const { data } = props;
 
   console.log(data);
-  console.log(dataImg);
 
   const validationSchema = yup
     .object({
@@ -74,19 +68,61 @@ const GetBooking = (props) => {
           {data ? (
             <tbody>
               <tr className="">
-                <td className=" align-middle">{data.customer.fullname}</td>
-                <td className=" align-middle">{data.customer.phoneNumber}</td>
-                <td className=" align-middle">{data.employee.fullname}</td>
-                <td className=" align-middle">{data.employee.email}</td>
                 <td className=" align-middle">
-                  {moment(data.dateBegin).format("DD/MM/YYYY")}
-                  &nbsp;/ {data.dateBegin.substring(11, 16)}
+                  {data.customer.fullname ? (
+                    <span>{data.customer.fullname}</span>
+                  ) : (
+                    <span>Chưa có dữ liệu</span>
+                  )}
                 </td>
                 <td className=" align-middle">
-                  {moment(data.dateEnd).format("DD/MM/YYYY")}
-                  &nbsp;/ {data.dateEnd.substring(11, 16)}
+                  {data.customer.phoneNumber ? (
+                    <span>{data.customer.phoneNumber}</span>
+                  ) : (
+                    <span>Chưa có dữ liệu</span>
+                  )}
                 </td>
-                <td className=" align-middle">{data.totalPrice} VND</td>
+                <td className=" align-middle">
+                  {data.employee !== null ? (
+                    <span>{data.employee.fullname}</span>
+                  ) : (
+                    <span>Chưa có dữ liệu</span>
+                  )}
+                </td>
+                <td className=" align-middle">
+                  {data.employee !== null ? (
+                    <span>{data.employee.email}</span>
+                  ) : (
+                    <span>Chưa có dữ liệu</span>
+                  )}
+                </td>
+                <td className=" align-middle">
+                  {data.dateBegin ? (
+                    <span>
+                      {moment(data.dateBegin).format("DD/MM/YYYY")}
+                      &nbsp;/ {data.dateBegin.substring(11, 16)}
+                    </span>
+                  ) : (
+                    <span>Chưa hoàn thành</span>
+                  )}
+                </td>
+                <td className=" align-middle">
+                  {data.dateEnd ? (
+                    <span>
+                      {moment(data.dateEnd).format("DD/MM/YYYY")}
+                      &nbsp;/ {data.dateEnd.substring(11, 16)}
+                    </span>
+                  ) : (
+                    <span>Chưa hoàn thành</span>
+                  )}
+                </td>
+                <td className=" align-middle">
+                  {data.totalPrice !== null ? (
+                    <span> {data.totalPrice} VND</span>
+                  ) : (
+                    <span> Chưa có dữ liệu</span>
+                  )}
+                </td>
               </tr>
             </tbody>
           ) : (
@@ -100,7 +136,7 @@ const GetBooking = (props) => {
 
 const mapStateToProps = (state) => ({
   data: state.getBookingDetail.table,
-  dataImg: state.getBookingImage.table,
+  // dataImg: state.getBookingImage.table,
 });
 const withConnect = connect(mapStateToProps);
 export default withConnect(GetBooking);

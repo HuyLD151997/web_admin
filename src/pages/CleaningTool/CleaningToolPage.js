@@ -234,7 +234,7 @@ const CleaningToolPage = (props) => {
     });
   };
   return (
-    <div className="container ml-3 table-responsive-xl p-0 mt-2">
+    <div className="container table-responsive-xl p-0 mt-2">
       <div className="row m-0">
         <h2>Thông tin dụng cụ</h2>
 

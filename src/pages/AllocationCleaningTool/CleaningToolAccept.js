@@ -81,7 +81,7 @@ const CleaningToolAcceptPage = (props) => {
   });
 
   return (
-    <div className="container ml-2 table-responsive-xl p-0 mt-2">
+    <div className="container table-responsive-xl p-0 mt-2">
       <div className="row m-0">
         <h2>Thông tin dụng cụ đã cấp phát</h2>
         <input

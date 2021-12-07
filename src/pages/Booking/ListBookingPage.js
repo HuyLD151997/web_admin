@@ -49,7 +49,7 @@ const ListBookingPage = (props) => {
   };
 
   return (
-    <div className="container ml-2 table-responsive-xl">
+    <div className="container table-responsive-xl p-0 mt-2">
       <div className="row">
         <h3>Danh sách đặt lịch</h3>
         <input

@@ -88,7 +88,7 @@ const AccountCustomerPage = (props) => {
     }
   };
   return (
-    <div className="container ml-2 table-responsive-xl p-0 mt-2">
+    <div className="container table-responsive-xl p-0 mt-2">
       <div className="row m-0">
         <h2>Thông tin khách hàng</h2>
         <Link

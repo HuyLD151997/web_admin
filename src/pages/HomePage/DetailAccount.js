@@ -45,7 +45,7 @@ const DetailAccount = (props) => {
       {data ? (
         data.length > 0 ? (
           data.map((item, index) => (
-            <div className="container">
+            <div className="container p-0 mt-2">
               <div className="row">
                 <div className="col-4">
                   <ul
@@ -91,6 +91,14 @@ const DetailAccount = (props) => {
                 </div>
                 <div className="col-8">
                   <ul className="list-group list-group-flush">
+                    <li className="list-group-item">
+                      Mã nhân viên:{" "}
+                      {item.userName !== null ? (
+                        <span>{item.employeeCode}</span>
+                      ) : (
+                        <span>Chưa có dữ liệu</span>
+                      )}
+                    </li>
                     <li className="list-group-item">
                       Tên tài khoản:{" "}
                       {item.userName !== null ? (
@@ -183,9 +191,9 @@ const DetailAccount = (props) => {
                       )}
                     </li>
                     <li className="list-group-item">
-                      Số dư:
-                      {item.balance !== null ? (
-                        <span>{item.balance} VND</span>
+                      Điểm nhân viên:
+                      {item.employeeCredit !== null ? (
+                        <span>{item.employeeCredit} điểm</span>
                       ) : (
                         <span>Chưa có dữ liệu</span>
                       )}

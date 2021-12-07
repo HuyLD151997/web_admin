@@ -106,7 +106,7 @@ class SideBar extends Component {
   render() {
     return (
       <div id="side-bar h-100">
-        <div
+        {/* <div
           className="logo text-secondary font-weight-bold "
           style={{
             background: "#fdcb08",
@@ -116,8 +116,8 @@ class SideBar extends Component {
           }}
         >
           <img src={img} />
-          {/* Be Clean */}
-        </div>
+          
+        </div> */}
 
         <ul className="navbar-nav rounded-0 logo font-weight-bold pl-3">
           <li className="nav-item ">{this.showChart(chart)}</li>

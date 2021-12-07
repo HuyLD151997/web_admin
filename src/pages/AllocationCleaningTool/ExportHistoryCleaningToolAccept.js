@@ -12,17 +12,31 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import { useForm } from "react-hook-form";
 import * as moment from "moment";
 import ReactHTMLTableToExcel from "react-html-table-to-excel";
+import { useStateValue } from "../../common/StateProvider/StateProvider";
+import Pagination from "@mui/material/Pagination";
 
 const RequestCleaningToolHistoryPage = (props) => {
+  const [search, setSearch] = useState("");
   const dispatchAction = useDispatch();
+  const [{ page, perPage, loading1 }, dispatch] = useStateValue();
+  const totalPageHistoryRequestCleaningTool = localStorage.getItem(
+    "TotalPageHistoryRequestCleaningTool"
+  );
   useEffect(() => {
     dispatchAction(
-      getRequestCleaningToolHistoryActions.getRequestCleaningToolHistory()
+      getRequestCleaningToolHistoryActions.getRequestCleaningToolHistory(
+        page,
+        perPage
+      )
     );
-  }, []);
-  const { data } = props;
+  }, [page, perPage, loading1]);
+  const { data, loading } = props;
 
   console.log(data);
+
+  const handleChangePage = (event, value) => {
+    dispatch({ type: "CHANGE_PAGE", newPage: value });
+  };
 
   const handleOnClickDelete = (id) => {
     handleDelete(id);
@@ -110,7 +124,7 @@ const RequestCleaningToolHistoryPage = (props) => {
   });
 
   return (
-    <div className="container ml-2 table-responsive-xl p-0 mt-2">
+    <div className="container table-responsive-xl p-0 mt-2">
       <div className="row m-0">
         <h2>Xem trước khi xuất tập tin</h2>
         <div className="ml-auto mr-3" style={{ marginLeft: "450px" }}>
@@ -125,6 +139,15 @@ const RequestCleaningToolHistoryPage = (props) => {
           />
         </div>
       </div>
+      <input
+        className="ml-auto mr-4"
+        type="text"
+        placeholder="Tìm kiếm dụng cụ"
+        onChange={(e) => {
+          setSearch(e.target.value);
+        }}
+        style={{ width: "500px", height: "35px" }}
+      />
       <table className="table align-middle mt-2" id="table-to-xls">
         <thead className="table-light">
           <tr>
@@ -136,74 +159,101 @@ const RequestCleaningToolHistoryPage = (props) => {
             <th scope="col">Trạng thái</th>
           </tr>
         </thead>
-        {data ? (
-          data.length > 0 ? (
-            data.map((item, index) => (
-              <tbody>
-                <tr className="">
-                  <td className=" align-middle">
-                    {item.cleaningTool.description}
-                  </td>
-                  <td className=" align-middle">{item.employee.fullname}</td>
-                  <td className="align-middle">
-                    {item.description === null ? (
-                      <span>Không có dữ liệu</span>
-                    ) : (
-                      <span>{item.description}</span>
-                    )}
-                  </td>
-                  <td className=" align-middle">
-                    {moment(item.dateCreated).format("DD/MM/YYYY")}
-                    &nbsp;/ {item.dateCreated.substring(11, 16)}
-                  </td>
-                  <td className=" align-middle">
-                    {moment(item.dateUpdated).format("DD/MM/YYYY")}
-                    &nbsp;/ {item.dateUpdated.substring(11, 16)}
-                  </td>
-                  <td className=" align-middle ">
-                    {(() => {
-                      switch (item.requestStatus.id) {
-                        case "REJECTED":
-                          return (
-                            <span className="text-danger border border-danger rounded p-1">
-                              <i class="fa fa-times-circle mr-1"></i>
-                              {item.requestStatus.description}
-                            </span>
-                          );
-                        case "CANCELLED":
-                          return (
-                            <span className="text-warning border border-warning rounded p-1">
-                              <i class="fa fa-times-circle mr-1"></i>
-                              {item.requestStatus.description}
-                            </span>
-                          );
-                        case "PROVIDED":
-                          return (
-                            <span className="text-success border border-success rounded p-1">
-                              <i class="fa fa-check-circle mr-1"></i>
-                              {item.requestStatus.description}
-                            </span>
-                          );
+        {!loading ? (
+          data ? (
+            data.data.length > 0 ? (
+              data.data
+                .filter((item) => {
+                  if (search == "") {
+                    return item;
+                  } else if (
+                    item.cleaningTool.description &&
+                    item.cleaningTool.description
+                      .toLowerCase()
+                      .includes(search.toLowerCase())
+                  ) {
+                    return item;
+                  } else {
+                    return "";
+                  }
+                })
+                .map((item, index) => (
+                  <tbody>
+                    <tr className="">
+                      <td className=" align-middle">
+                        {item.cleaningTool.description}
+                      </td>
+                      <td className=" align-middle">
+                        {item.employee.fullname}
+                      </td>
+                      <td className="align-middle">
+                        {item.description === null ? (
+                          <span>Không có dữ liệu</span>
+                        ) : (
+                          <span>{item.description}</span>
+                        )}
+                      </td>
+                      <td className=" align-middle">
+                        {moment(item.dateCreated).format("DD/MM/YYYY")}
+                        &nbsp;/ {item.dateCreated.substring(11, 16)}
+                      </td>
+                      <td className=" align-middle">
+                        {moment(item.dateUpdated).format("DD/MM/YYYY")}
+                        &nbsp;/ {item.dateUpdated.substring(11, 16)}
+                      </td>
+                      <td className=" align-middle ">
+                        {(() => {
+                          switch (item.requestStatus.id) {
+                            case "REJECTED":
+                              return (
+                                <span className="text-danger border border-danger rounded p-1">
+                                  <i class="fa fa-times-circle mr-1"></i>
+                                  {item.requestStatus.description}
+                                </span>
+                              );
+                            case "CANCELLED":
+                              return (
+                                <span className="text-warning border border-warning rounded p-1">
+                                  <i class="fa fa-times-circle mr-1"></i>
+                                  {item.requestStatus.description}
+                                </span>
+                              );
+                            case "PROVIDED":
+                              return (
+                                <span className="text-success border border-success rounded p-1">
+                                  <i class="fa fa-check-circle mr-1"></i>
+                                  {item.requestStatus.description}
+                                </span>
+                              );
 
-                        default:
-                          return null;
-                      }
-                    })()}
-                  </td>
-                </tr>
-              </tbody>
-            ))
-          ) : null
+                            default:
+                              return null;
+                          }
+                        })()}
+                      </td>
+                    </tr>
+                  </tbody>
+                ))
+            ) : null
+          ) : (
+            <div>Chưa có dữ liệu</div>
+          )
         ) : (
-          <div>Progress .....</div>
+          <div>Loading .....</div>
         )}
       </table>
+      <Pagination
+        count={Math.ceil(totalPageHistoryRequestCleaningTool / perPage)}
+        color="primary"
+        onChange={handleChangePage}
+      />
     </div>
   );
 };
 
 const mapStateToProps = (state) => ({
   data: state.getRequestCleaningToolHistory.table,
+  loading: state.getRequestCleaningToolHistory.loading,
 });
 const withConnect = connect(mapStateToProps);
 export default withRouter(withConnect(RequestCleaningToolHistoryPage));
