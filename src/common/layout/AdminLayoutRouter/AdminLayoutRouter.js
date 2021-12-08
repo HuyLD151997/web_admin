@@ -129,6 +129,7 @@ const AdminLayoutRouter = (props) => {
                   "& .MuiDrawer-paper": {
                     width: drawerWidth,
                     boxSizing: "border-box",
+                    backgroundColor: "#fdcb08",
                   },
                 }}
                 variant="persistent"

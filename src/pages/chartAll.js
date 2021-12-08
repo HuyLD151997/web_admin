@@ -56,18 +56,18 @@ const ChartPage = (props) => {
 
   return (
     <div className="container p-0 mt-2">
-      <div className="row ml-5">
+      <div className="row ">
+        <span
+          style={{
+            fontWeight: "bold",
+            marginLeft: "10px",
+            fontSize: "24px",
+          }}
+        >
+          Biểu đồ đặt lịch
+        </span>
         {data ? (
-          <div className="col-5 m-auto">
-            <span
-              style={{
-                fontWeight: "bold",
-                marginLeft: "120px",
-                fontSize: "24px",
-              }}
-            >
-              Biểu đồ đặt lịch
-            </span>
+          <div className="col-4 m-auto">
             <Doughnut
               data={{
                 labels: [

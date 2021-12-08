@@ -822,10 +822,26 @@ const ServiceGroupsPage = (props) => {
                     {...register("type")}
                     defaultValue={type}
                   >
-                    <option selected>Chọn loại</option>
-                    <option value="NORMAL">NORMAL</option>
+                    <option selected>{type}</option>
+                    {type === "NORMAL" ? (
+                      <>
+                        <option value="OVERALL">OVERALL</option>
+                        <option value="OPTIONAL">OPTIONAL</option>
+                      </>
+                    ) : type === "OVERALL" ? (
+                      <>
+                        <option value="NORMAL">NORMAL</option>
+                        <option value="OPTIONAL">OPTIONAL</option>
+                      </>
+                    ) : (
+                      <>
+                        <option value="NORMAL">NORMAL</option>
+                        <option value="OVERALL">OVERALL</option>
+                      </>
+                    )}
+                    {/* <option value="NORMAL">NORMAL</option>
                     <option value="OVERALL">OVERALL</option>
-                    <option value="OPTIONAL">OPTIONAL</option>
+                    <option value="OPTIONAL">OPTIONAL</option> */}
                   </select>
                   <p>{errors.type?.message}</p>
                 </div>

@@ -134,7 +134,7 @@ class SideBar extends Component {
               aria-expanded="false"
               aria-controls="collapseExample"
             >
-              Tài khoản<i class="fa fa-caret-down"></i>
+              Tài khoản<i class="fa fa-caret-down ml-1"></i>
             </span>
             <div class="collapse " id="collapseExample">
               <span className="dropdown-item" style={{ background: "#fdcb08" }}>
@@ -155,7 +155,7 @@ class SideBar extends Component {
               aria-expanded="false"
               aria-controls="collapseExample2"
             >
-              Giao dịch<i class="fa fa-caret-down"></i>
+              Giao dịch<i class="fa fa-caret-down ml-1"></i>
             </span>
             <div class="collapse " id="collapseExample2">
               <span className="dropdown-item" style={{ background: "#fdcb08" }}>
@@ -176,7 +176,7 @@ class SideBar extends Component {
               aria-expanded="false"
               aria-controls="collapseExample3"
             >
-              Cấp phát dụng cụ<i class="fa fa-caret-down"></i>
+              Cấp phát dụng cụ<i class="fa fa-caret-down ml-1"></i>
             </span>
             <div class="collapse " id="collapseExample3">
               <span className="dropdown-item" style={{ background: "#fdcb08" }}>

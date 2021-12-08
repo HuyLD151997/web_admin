@@ -109,7 +109,7 @@ const ListBookingPage = (props) => {
                         )}
                       </td>
 
-                      <td className=" align-middle">
+                      <td className="col-2 align-middle">
                         {item.bookingStatus === null ? (
                           <span>Chưa có dữ liệu</span>
                         ) : (
