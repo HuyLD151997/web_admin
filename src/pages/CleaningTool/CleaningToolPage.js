@@ -727,7 +727,7 @@ const CleaningToolPage = (props) => {
       </div>
 
       <div
-        className="modal fade"
+        className="modal fade mt-5"
         id="exampleModal"
         tabIndex={-1}
         role="dialog"
@@ -797,7 +797,7 @@ const CleaningToolPage = (props) => {
         </div>
       </div>
       <div
-        className="modal fade"
+        className="modal fade mt-5"
         id="exampleModal2"
         tabIndex={-1}
         role="dialog"

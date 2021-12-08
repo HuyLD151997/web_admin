@@ -183,7 +183,7 @@ const AccountPage = (props) => {
           <thead className="table-light">
             <tr>
               <th scope="col">Hình</th>
-              <th scope="col">Tài khoản</th>
+              <th scope="col">Tên tài khoản</th>
               <th scope="col">Họ và tên</th>
               <th scope="col">Địa chỉ</th>
               <th scope="col">Trạng thái</th>
@@ -356,7 +356,7 @@ const AccountPage = (props) => {
         />
       </div>
       <div
-        className="modal fade"
+        className="modal fade mt-5"
         id="exampleModal2"
         tabIndex={-1}
         role="dialog"

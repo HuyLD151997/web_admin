@@ -13,24 +13,42 @@ import { useForm } from "react-hook-form";
 import * as getServiceGroupsAction from "../../actions/ServicesGroup/GetServiceGroups";
 import { useStateValue } from "../../common/StateProvider/StateProvider";
 import Pagination from "@mui/material/Pagination";
+import { getServiceGroupsByIdApi } from "../../apis/ServiceGroup/GetServiceGroups";
 
 const GetServiceById = (props) => {
   const [serGroup, setSerGroup] = useState("");
-  const [idSerGroup, setIdSerGroup] = useState(-1);
+  const [idSerGroup, setIdSerGroup] = useState("");
   const [description, setDescription] = useState("");
   const [unitPrice, setUnitPrice] = useState("");
   const [idService, setIdService] = useState("");
+  const [dataServiceGroupByID, setDataServiceGroupByID] = useState(null);
   const [type, setType] = useState("");
   const [search, setSearch] = useState("");
   const { id } = useParams();
   const [{ page, perPage, loading1 }, dispatch] = useStateValue();
   const totalPageService = localStorage.getItem("TotalPageService");
   const dispatchAction = useDispatch();
-  console.log(id, page, perPage);
+
+  // console.log(id, page, perPage);
   useEffect(() => {
     dispatchAction(getServiceByIdAction.getServiceById(id, page, perPage));
     dispatchAction(getServiceGroupsAction.getServiceGroups(page, perPage));
+    if (id) {
+      (async () => {
+        try {
+          const dataServiceGroupByIDGet = await getServiceGroupsByIdApi(
+            id,
+            page,
+            perPage
+          );
+          setDataServiceGroupByID(dataServiceGroupByIDGet.data);
+        } catch (error) {
+          console.log("Không thể lấy danh sách cây");
+        }
+      })();
+    }
   }, [page, perPage, loading1]);
+
   const { data, dataSerGroup, loading } = props;
 
   console.log(data);
@@ -45,6 +63,8 @@ const GetServiceById = (props) => {
 
   const handleGetSerGroup = (id, description) => {
     console.log("description" + description);
+    console.log("id" + id);
+
     setIdSerGroup(id);
     setSerGroup(description);
   };
@@ -173,7 +193,7 @@ const GetServiceById = (props) => {
       });
     }
   };
-
+  console.log(dataServiceGroupByID);
   const handleGetDescription = (description, id, unitPrice, type) => {
     setDescription(description);
     setIdService(id);
@@ -183,6 +203,16 @@ const GetServiceById = (props) => {
 
   const submitForm = (data) => {
     var unitPriceNum = parseInt(data.unitPriceUpdate);
+
+    if (idSerGroup === "" && dataServiceGroupByID) {
+      handleUpdateServiceName(
+        idService,
+        dataServiceGroupByID.data[0].id,
+        data.descriptionUpdate,
+        unitPriceNum,
+        data.typeUpdate
+      );
+    }
     handleUpdateServiceName(
       idService,
       idSerGroup,
@@ -384,7 +414,7 @@ const GetServiceById = (props) => {
       </div>
 
       <div
-        className="modal fade"
+        className="modal fade mt-5"
         id="exampleModal"
         tabIndex={-1}
         role="dialog"
@@ -433,9 +463,12 @@ const GetServiceById = (props) => {
                     {...register("typeUpdate")}
                     defaultValue={type}
                   >
-                    <option selected="">Chọn loại</option>
-                    <option value="AREA">AREA</option>
-                    <option value="QUANTITY">QUANTITY</option>
+                    <option selected="">{type}</option>
+                    {type === "AREA" ? (
+                      <option value="QUANTITY">QUANTITY</option>
+                    ) : (
+                      <option value="AREA">AREA</option>
+                    )}
                   </select>
                   <p>{errors.typeUpdate?.message}</p>
                 </div>
@@ -468,7 +501,13 @@ const GetServiceById = (props) => {
                     aria-expanded="false"
                     style={{ paddingLeft: "95px", paddingRight: "95px" }}
                   >
-                    {serGroup === "" ? "Nhóm dịch vụ" : serGroup}
+                    {serGroup === ""
+                      ? dataServiceGroupByID
+                        ? dataServiceGroupByID.data.length > 0
+                          ? dataServiceGroupByID.data[0].description
+                          : "Nhóm dịch vụ "
+                        : null
+                      : serGroup}
                   </a>
                   <div
                     className="dropdown-menu"
