@@ -14,6 +14,7 @@ import * as moment from "moment";
 import ReactHTMLTableToExcel from "react-html-table-to-excel";
 import { useStateValue } from "../../common/StateProvider/StateProvider";
 import Pagination from "@mui/material/Pagination";
+import * as getSearchHistoryActions from "../../actions/RequestCleaningTool/SearchHistory";
 
 const RequestCleaningToolHistoryPage = (props) => {
   const [search, setSearch] = useState("");
@@ -30,12 +31,21 @@ const RequestCleaningToolHistoryPage = (props) => {
       )
     );
   }, [page, perPage, loading1]);
-  const { data, loading } = props;
+  const { data, loading, dataSearch } = props;
 
   console.log(data);
 
   const handleChangePage = (event, value) => {
     dispatch({ type: "CHANGE_PAGE", newPage: value });
+  };
+
+  const handleSearch = () => {
+    if (search === "") {
+      dispatchAction(getSearchHistoryActions.searchHistory(" ", page, perPage));
+    }
+    dispatchAction(
+      getSearchHistoryActions.searchHistory(search, page, perPage)
+    );
   };
 
   const handleOnClickDelete = (id) => {
@@ -139,15 +149,25 @@ const RequestCleaningToolHistoryPage = (props) => {
           />
         </div>
       </div>
-      <input
-        className="ml-auto mr-4"
-        type="text"
-        placeholder="Tìm kiếm dụng cụ"
-        onChange={(e) => {
-          setSearch(e.target.value);
-        }}
-        style={{ width: "500px", height: "35px" }}
-      />
+      <form className="input-group mb-3 border-0" style={{ width: "500px" }}>
+        <input
+          className="ml-auto form-control"
+          type="text"
+          placeholder="Tìm kiếm dụng cụ"
+          onChange={(e) => {
+            setSearch(e.target.value);
+          }}
+        />
+        <div class="input-group-append">
+          <button
+            type="button"
+            className="btn btn-outline-secondary"
+            onClick={handleSearch}
+          >
+            <i class="fa fa-search"></i>
+          </button>
+        </div>
+      </form>
       <table className="table align-middle mt-2" id="table-to-xls">
         <thead className="table-light">
           <tr>
@@ -161,23 +181,9 @@ const RequestCleaningToolHistoryPage = (props) => {
         </thead>
         {!loading ? (
           data ? (
-            data.data.length > 0 ? (
-              data.data
-                .filter((item) => {
-                  if (search == "") {
-                    return item;
-                  } else if (
-                    item.cleaningTool.description &&
-                    item.cleaningTool.description
-                      .toLowerCase()
-                      .includes(search.toLowerCase())
-                  ) {
-                    return item;
-                  } else {
-                    return "";
-                  }
-                })
-                .map((item, index) => (
+            dataSearch ? (
+              search === "" || dataSearch.total === 0 ? (
+                data.data.map((item, index) => (
                   <tbody>
                     <tr className="">
                       <td className=" align-middle">
@@ -234,7 +240,124 @@ const RequestCleaningToolHistoryPage = (props) => {
                     </tr>
                   </tbody>
                 ))
-            ) : null
+              ) : search !== "" && dataSearch.total !== 0 ? (
+                dataSearch.data.map((item, index) => (
+                  <tbody>
+                    <tr className="">
+                      <td className=" align-middle">
+                        {item.cleaningTool.description}
+                      </td>
+                      <td className=" align-middle">
+                        {item.employee.fullname}
+                      </td>
+                      <td className="align-middle">
+                        {item.description === null ? (
+                          <span>Không có dữ liệu</span>
+                        ) : (
+                          <span>{item.description}</span>
+                        )}
+                      </td>
+                      <td className=" align-middle">
+                        {moment(item.dateCreated).format("DD/MM/YYYY")}
+                        &nbsp;/ {item.dateCreated.substring(11, 16)}
+                      </td>
+                      <td className=" align-middle">
+                        {moment(item.dateUpdated).format("DD/MM/YYYY")}
+                        &nbsp;/ {item.dateUpdated.substring(11, 16)}
+                      </td>
+                      <td className=" align-middle ">
+                        {(() => {
+                          switch (item.requestStatus.id) {
+                            case "REJECTED":
+                              return (
+                                <span className="text-danger border border-danger rounded p-1">
+                                  <i class="fa fa-times-circle mr-1"></i>
+                                  {item.requestStatus.description}
+                                </span>
+                              );
+                            case "CANCELLED":
+                              return (
+                                <span className="text-warning border border-warning rounded p-1">
+                                  <i class="fa fa-times-circle mr-1"></i>
+                                  {item.requestStatus.description}
+                                </span>
+                              );
+                            case "PROVIDED":
+                              return (
+                                <span className="text-success border border-success rounded p-1">
+                                  <i class="fa fa-check-circle mr-1"></i>
+                                  {item.requestStatus.description}
+                                </span>
+                              );
+
+                            default:
+                              return null;
+                          }
+                        })()}
+                      </td>
+                    </tr>
+                  </tbody>
+                ))
+              ) : (
+                <div>Không tìm thấy kết quả</div>
+              )
+            ) : (
+              data.data.map((item, index) => (
+                <tbody>
+                  <tr className="">
+                    <td className=" align-middle">
+                      {item.cleaningTool.description}
+                    </td>
+                    <td className=" align-middle">{item.employee.fullname}</td>
+                    <td className="align-middle">
+                      {item.description === null ? (
+                        <span>Không có dữ liệu</span>
+                      ) : (
+                        <span>{item.description}</span>
+                      )}
+                    </td>
+                    <td className=" align-middle">
+                      {moment(item.dateCreated).format("DD/MM/YYYY")}
+                      &nbsp;/ {item.dateCreated.substring(11, 16)}
+                    </td>
+                    <td className=" align-middle">
+                      {moment(item.dateUpdated).format("DD/MM/YYYY")}
+                      &nbsp;/ {item.dateUpdated.substring(11, 16)}
+                    </td>
+                    <td className=" align-middle ">
+                      {(() => {
+                        switch (item.requestStatus.id) {
+                          case "REJECTED":
+                            return (
+                              <span className="text-danger border border-danger rounded p-1">
+                                <i class="fa fa-times-circle mr-1"></i>
+                                {item.requestStatus.description}
+                              </span>
+                            );
+                          case "CANCELLED":
+                            return (
+                              <span className="text-warning border border-warning rounded p-1">
+                                <i class="fa fa-times-circle mr-1"></i>
+                                {item.requestStatus.description}
+                              </span>
+                            );
+                          case "PROVIDED":
+                            return (
+                              <span className="text-success border border-success rounded p-1">
+                                <i class="fa fa-check-circle mr-1"></i>
+                                {item.requestStatus.description}
+                              </span>
+                            );
+
+                          default:
+                            return null;
+                        }
+                      })()}
+                    </td>
+                  </tr>
+                </tbody>
+              ))
+            )
           ) : (
             <div>Chưa có dữ liệu</div>
           )
@@ -254,6 +377,7 @@ const RequestCleaningToolHistoryPage = (props) => {
 const mapStateToProps = (state) => ({
   data: state.getRequestCleaningToolHistory.table,
   loading: state.getRequestCleaningToolHistory.loading,
+  dataSearch: state.searchHistory.table,
 });
 const withConnect = connect(mapStateToProps);
 export default withRouter(withConnect(RequestCleaningToolHistoryPage));

@@ -10,6 +10,7 @@ import ReactHTMLTableToExcel from "react-html-table-to-excel";
 import * as moment from "moment";
 import { useStateValue } from "../../common/StateProvider/StateProvider";
 import Pagination from "@mui/material/Pagination";
+import * as getSearchCustomerActions from "../../actions/Customer/SearchCustomer";
 
 const AccountCustomerPage = (props) => {
   const [search, setSearch] = useState("");
@@ -19,10 +20,21 @@ const AccountCustomerPage = (props) => {
   useEffect(() => {
     dispatchAction(getCustomersActions.getCustomers(page, perPage));
   }, [page, perPage, loading1]);
-  const { data, loading } = props;
+  const { data, loading, dataSearch } = props;
 
   const handleChangePage = (event, value) => {
     dispatch({ type: "CHANGE_PAGE", newPage: value });
+  };
+
+  const handleSearch = () => {
+    if (search === "") {
+      dispatchAction(
+        getSearchCustomerActions.searchCustomer(" ", page, perPage)
+      );
+    }
+    dispatchAction(
+      getSearchCustomerActions.searchCustomer(search, page, perPage)
+    );
   };
 
   const handleOnClickDelete = (id) => {
@@ -88,19 +100,29 @@ const AccountCustomerPage = (props) => {
           />
         </div>
       </div>
-      <input
-        className="ml-auto"
-        type="text"
-        placeholder="Tìm kiếm tài khoản"
-        onChange={(e) => {
-          setSearch(e.target.value);
-        }}
-        style={{ width: "500px", height: "35px" }}
-      />
+      <form className="input-group mb-3 border-0" style={{ width: "500px" }}>
+        <input
+          className="ml-auto form-control"
+          type="text"
+          placeholder="Tìm kiếm tên tài khoản"
+          onChange={(e) => {
+            setSearch(e.target.value);
+          }}
+        />
+        <div class="input-group-append">
+          <button
+            type="button"
+            className="btn btn-outline-secondary"
+            onClick={handleSearch}
+          >
+            <i class="fa fa-search"></i>
+          </button>
+        </div>
+      </form>
       <table className="table align-middle mt-2 ml-1" id="table-to-xls">
         <thead className="table-light">
           <tr>
-            <th scope="col">Tài khoản</th>
+            <th scope="col">Tên tài khoản</th>
             <th scope="col">Họ và tên</th>
             <th scope="col">Địa chỉ</th>
             <th scope="col">Số dư</th>
@@ -112,21 +134,9 @@ const AccountCustomerPage = (props) => {
         </thead>
         {!loading ? (
           data ? (
-            data.data.length > 0 ? (
-              data.data
-                .filter((item) => {
-                  if (search == "") {
-                    return item;
-                  } else if (
-                    item.userName &&
-                    item.userName.toLowerCase().includes(search.toLowerCase())
-                  ) {
-                    return item;
-                  } else {
-                    return "";
-                  }
-                })
-                .map((item, index) => (
+            dataSearch ? (
+              search === "" || dataSearch.total === 0 ? (
+                data.data.map((item, index) => (
                   <tbody>
                     <tr className="align-middle" key={index}>
                       <td className="col-2 align-middle">
@@ -207,7 +217,174 @@ const AccountCustomerPage = (props) => {
                     </tr>
                   </tbody>
                 ))
-            ) : null
+              ) : search !== "" && dataSearch.total !== 0 ? (
+                dataSearch.data.map((item, index) => (
+                  <tbody>
+                    <tr className="align-middle" key={index}>
+                      <td className="col-2 align-middle">
+                        {item.userName !== null ? (
+                          <span>{item.userName}</span>
+                        ) : (
+                          <span>Chưa có dữ liệu</span>
+                        )}
+                      </td>
+                      <td className="col-2 align-middle">
+                        {item.fullname !== null ? (
+                          <span>{item.fullname}</span>
+                        ) : (
+                          <span>Chưa có dữ liệu</span>
+                        )}
+                      </td>
+                      <td className="col-4 align-middle">
+                        {item.address !== null ? (
+                          <span>{item.address}</span>
+                        ) : (
+                          <span>Chưa có dữ liệu</span>
+                        )}
+                        {item.ward !== null ? (
+                          <span>, &nbsp;{item.ward.description}</span>
+                        ) : (
+                          <span></span>
+                        )}
+                        {item.district !== null ? (
+                          <span>, &nbsp;{item.district.description}</span>
+                        ) : (
+                          <span></span>
+                        )}
+                        {item.province !== null ? (
+                          <span>, &nbsp;{item.province.description}</span>
+                        ) : (
+                          <span></span>
+                        )}
+                        .
+                      </td>
+                      <td className="col-2 align-middle">
+                        {item.balance !== null ? (
+                          <span>{item.balance} VND</span>
+                        ) : (
+                          <span>Chưa có dữ liệu</span>
+                        )}
+                      </td>
+                      <td className="align-middle">
+                        {item.gender !== null ? (
+                          <span>{item.gender}</span>
+                        ) : (
+                          <span>Chưa có dữ liệu</span>
+                        )}
+                      </td>
+                      <td className="align-middle">
+                        {item.email !== null ? (
+                          <span>{item.email}</span>
+                        ) : (
+                          <span>Chưa có dữ liệu</span>
+                        )}
+                      </td>
+                      <td className="align-middle">
+                        {item.phoneNumber !== null ? (
+                          <span>{item.phoneNumber}</span>
+                        ) : (
+                          <span>Chưa có dữ liệu</span>
+                        )}
+                      </td>
+                      <td className="col-4 align-middle">
+                        {item.dateCreated ? (
+                          <span>
+                            {moment(item.dateCreated).format("DD/MM/YYYY")}
+                            &nbsp;/ {item.dateCreated.substring(11, 16)}
+                          </span>
+                        ) : (
+                          <span>Chưa có dữ liệu</span>
+                        )}
+                      </td>
+                    </tr>
+                  </tbody>
+                ))
+              ) : (
+                <div>Không tìm thấy kết quả</div>
+              )
+            ) : (
+              data.data.map((item, index) => (
+                <tbody>
+                  <tr className="align-middle" key={index}>
+                    <td className="col-2 align-middle">
+                      {item.userName !== null ? (
+                        <span>{item.userName}</span>
+                      ) : (
+                        <span>Chưa có dữ liệu</span>
+                      )}
+                    </td>
+                    <td className="col-2 align-middle">
+                      {item.fullname !== null ? (
+                        <span>{item.fullname}</span>
+                      ) : (
+                        <span>Chưa có dữ liệu</span>
+                      )}
+                    </td>
+                    <td className="col-4 align-middle">
+                      {item.address !== null ? (
+                        <span>{item.address}</span>
+                      ) : (
+                        <span>Chưa có dữ liệu</span>
+                      )}
+                      {item.ward !== null ? (
+                        <span>, &nbsp;{item.ward.description}</span>
+                      ) : (
+                        <span></span>
+                      )}
+                      {item.district !== null ? (
+                        <span>, &nbsp;{item.district.description}</span>
+                      ) : (
+                        <span></span>
+                      )}
+                      {item.province !== null ? (
+                        <span>, &nbsp;{item.province.description}</span>
+                      ) : (
+                        <span></span>
+                      )}
+                      .
+                    </td>
+                    <td className="col-2 align-middle">
+                      {item.balance !== null ? (
+                        <span>{item.balance} VND</span>
+                      ) : (
+                        <span>Chưa có dữ liệu</span>
+                      )}
+                    </td>
+                    <td className="align-middle">
+                      {item.gender !== null ? (
+                        <span>{item.gender}</span>
+                      ) : (
+                        <span>Chưa có dữ liệu</span>
+                      )}
+                    </td>
+                    <td className="align-middle">
+                      {item.email !== null ? (
+                        <span>{item.email}</span>
+                      ) : (
+                        <span>Chưa có dữ liệu</span>
+                      )}
+                    </td>
+                    <td className="align-middle">
+                      {item.phoneNumber !== null ? (
+                        <span>{item.phoneNumber}</span>
+                      ) : (
+                        <span>Chưa có dữ liệu</span>
+                      )}
+                    </td>
+                    <td className="col-4 align-middle">
+                      {item.dateCreated ? (
+                        <span>
+                          {moment(item.dateCreated).format("DD/MM/YYYY")}
+                          &nbsp;/ {item.dateCreated.substring(11, 16)}
+                        </span>
+                      ) : (
+                        <span>Chưa có dữ liệu</span>
+                      )}
+                    </td>
+                  </tr>
+                </tbody>
+              ))
+            )
           ) : (
             <div>Chưa có dữ liệu</div>
           )
@@ -227,6 +404,7 @@ const AccountCustomerPage = (props) => {
 const mapStateToProps = (state) => ({
   data: state.getCustomers.table,
   loading: state.getCustomers.loading,
+  dataSearch: state.searchCustomer.table,
 });
 const withConnect = connect(mapStateToProps);
 export default withRouter(withConnect(AccountCustomerPage));

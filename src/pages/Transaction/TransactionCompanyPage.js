@@ -151,7 +151,14 @@ const TransactionCompanyPage = (props) => {
                       <td className="col-3">
                         {" "}
                         {item.bookingId !== null ? (
-                          <span>{item.bookingId}</span>
+                          <span
+                            style={{
+                              textTransform: "uppercase",
+                              fontWeight: "bold",
+                            }}
+                          >
+                            {item.bookingId}
+                          </span>
                         ) : (
                           <span>Chưa có dữ liệu</span>
                         )}

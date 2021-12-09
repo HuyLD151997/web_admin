@@ -56,7 +56,13 @@ const GetBooking = (props) => {
               Nhật ký làm việc
             </Link>
           </div>
-          <h5>Mã đặt lịch: {data.id}</h5>
+          <h5
+            style={{
+              textTransform: "uppercase",
+            }}
+          >
+            Mã đặt lịch: {data.id}
+          </h5>
           <div className="row">
             <div className="col-6">
               <ul className="list-group list-group-flush">
@@ -369,7 +375,7 @@ const GetBooking = (props) => {
                     )}
                   </li>
                   <li className="list-group-item">
-                    Mã nhân viên:&nbsp;
+                    Điểm nhân viên:&nbsp;
                     {data.employee.employeeCredit ? (
                       <span>{data.employee.employeeCredit}</span>
                     ) : (

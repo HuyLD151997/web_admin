@@ -14,6 +14,7 @@ import * as getServiceGroupsAction from "../../actions/ServicesGroup/GetServiceG
 import { useStateValue } from "../../common/StateProvider/StateProvider";
 import Pagination from "@mui/material/Pagination";
 import { getServiceGroupsByIdApi } from "../../apis/ServiceGroup/GetServiceGroups";
+import * as getServiceSearchActions from "../../actions/ServicesGroup/SearchService";
 
 const GetServiceById = (props) => {
   const [serGroup, setSerGroup] = useState("");
@@ -49,9 +50,20 @@ const GetServiceById = (props) => {
     }
   }, [page, perPage, loading1]);
 
-  const { data, dataSerGroup, loading } = props;
+  const { data, dataSerGroup, loading, dataSearch } = props;
 
   console.log(data);
+
+  const handleSearch = () => {
+    if (search === "") {
+      dispatchAction(
+        getServiceSearchActions.searchService(id, " ", page, perPage)
+      );
+    }
+    dispatchAction(
+      getServiceSearchActions.searchService(id, search, page, perPage)
+    );
+  };
 
   const handleChangePage = (event, value) => {
     dispatch({ type: "CHANGE_PAGE", newPage: value });
@@ -246,7 +258,26 @@ const GetServiceById = (props) => {
         </NavLink>
       </div>
       <div>
-        <input
+        <form className="input-group mb-3 border-0" style={{ width: "500px" }}>
+          <input
+            className="ml-auto form-control"
+            type="text"
+            placeholder="Tìm kiếm dịch vụ"
+            onChange={(e) => {
+              setSearch(e.target.value);
+            }}
+          />
+          <div class="input-group-append">
+            <button
+              type="button"
+              className="btn btn-outline-secondary"
+              onClick={handleSearch}
+            >
+              <i class="fa fa-search"></i>
+            </button>
+          </div>
+        </form>
+        {/* <input
           className="ml-auto mr-4"
           type="text"
           placeholder="Tìm kiếm dịch vụ"
@@ -254,7 +285,7 @@ const GetServiceById = (props) => {
             setSearch(e.target.value);
           }}
           style={{ width: "500px", height: "35px" }}
-        />
+        /> */}
         <table className="table">
           <thead className="table-light">
             <tr>
@@ -269,23 +300,9 @@ const GetServiceById = (props) => {
           </thead>
           {!loading ? (
             data ? (
-              data.data.length > 0 ? (
-                data.data
-                  .filter((item) => {
-                    if (search == "") {
-                      return item;
-                    } else if (
-                      item.description &&
-                      item.description
-                        .toLowerCase()
-                        .includes(search.toLowerCase())
-                    ) {
-                      return item;
-                    } else {
-                      return "";
-                    }
-                  })
-                  .map((item, index) => (
+              dataSearch ? (
+                search === "" || dataSearch.total === 0 ? (
+                  data.data.map((item, index) => (
                     <tbody>
                       <tr key={index}>
                         <td className="col-2 align-middle">
@@ -398,7 +415,238 @@ const GetServiceById = (props) => {
                       </tr>
                     </tbody>
                   ))
-              ) : null
+                ) : search !== "" && dataSearch.total !== 0 ? (
+                  dataSearch.data.map((item, index) => (
+                    <tbody>
+                      <tr key={index}>
+                        <td className="col-2 align-middle">
+                          {item.description !== null ? (
+                            <span>{item.description}</span>
+                          ) : (
+                            <span>Chưa có dữ liệu</span>
+                          )}
+                        </td>
+                        <td className="align-middle">
+                          {item.type === "AREA" ? (
+                            ""
+                          ) : (
+                            <span className="text-primary  rounded p-1">
+                              {item.type}
+                            </span>
+                          )}
+                          {item.type === "QUANTITY" ? (
+                            ""
+                          ) : (
+                            <span className="text-success  rounded p-1">
+                              {item.type}
+                            </span>
+                          )}
+                        </td>
+                        <td className="align-middle">
+                          {item.dateCreated ? (
+                            <span>
+                              {moment(item.dateCreated).format("DD/MM/YYYY")}
+                              &nbsp;/ {item.dateCreated.substring(11, 16)}
+                            </span>
+                          ) : (
+                            <span>Chưa có dữ liệu</span>
+                          )}
+                        </td>
+                        <td className="align-middle">
+                          {item.dateUpdated ? (
+                            <span>
+                              {moment(item.dateUpdated).format("DD/MM/YYYY")}
+                              &nbsp;/ {item.dateUpdated.substring(11, 16)}
+                            </span>
+                          ) : (
+                            <span>Chưa có dữ liệu</span>
+                          )}
+                        </td>
+                        <td className=" align-middle">
+                          {item.unitPrice !== null ? (
+                            <span>{item.unitPrice} VND</span>
+                          ) : (
+                            <span>Chưa có dữ liệu</span>
+                          )}
+                        </td>
+                        <td className=" align-middle">
+                          {item.isDisable === false ? (
+                            ""
+                          ) : (
+                            <span className="text-danger">Tạm dừng</span>
+                          )}
+                          {item.isDisable === true ? (
+                            ""
+                          ) : (
+                            <span className="text-success border border-success rounded p-1">
+                              Hoạt động
+                            </span>
+                          )}
+                        </td>
+                        <td className=" align-middle">
+                          {item.isDisable === false ? (
+                            ""
+                          ) : (
+                            <i
+                              class="fa fa-unlock-alt text-success"
+                              type="button"
+                              style={{ fontSize: "30px", marginTop: "8px" }}
+                              onClick={() => handleActive(item.id)}
+                            ></i>
+                          )}
+                          {item.isDisable === true ? (
+                            ""
+                          ) : (
+                            <i
+                              class="fa fa-lock text-danger"
+                              type="button"
+                              style={{ fontSize: "30px", marginTop: "8px" }}
+                              onClick={() => handleConfirmDelete(item.id)}
+                            ></i>
+                          )}
+                          <i
+                            class="fa fa-edit"
+                            type="button"
+                            onClick={() =>
+                              handleGetDescription(
+                                item.description,
+                                item.id,
+                                item.unitPrice,
+                                item.type
+                              )
+                            }
+                            data-toggle="modal"
+                            data-target="#exampleModal"
+                            data-whatever="yah"
+                            style={{
+                              fontSize: "30px",
+                              margin: "auto",
+                              marginTop: "8px",
+                              marginLeft: "20px",
+                            }}
+                          ></i>
+                        </td>
+                      </tr>
+                    </tbody>
+                  ))
+                ) : (
+                  <div>Không tìm thấy kết quả</div>
+                )
+              ) : (
+                data.data.map((item, index) => (
+                  <tbody>
+                    <tr key={index}>
+                      <td className="col-2 align-middle">
+                        {item.description !== null ? (
+                          <span>{item.description}</span>
+                        ) : (
+                          <span>Chưa có dữ liệu</span>
+                        )}
+                      </td>
+                      <td className="align-middle">
+                        {item.type === "AREA" ? (
+                          ""
+                        ) : (
+                          <span className="text-primary  rounded p-1">
+                            {item.type}
+                          </span>
+                        )}
+                        {item.type === "QUANTITY" ? (
+                          ""
+                        ) : (
+                          <span className="text-success  rounded p-1">
+                            {item.type}
+                          </span>
+                        )}
+                      </td>
+                      <td className="align-middle">
+                        {item.dateCreated ? (
+                          <span>
+                            {moment(item.dateCreated).format("DD/MM/YYYY")}
+                            &nbsp;/ {item.dateCreated.substring(11, 16)}
+                          </span>
+                        ) : (
+                          <span>Chưa có dữ liệu</span>
+                        )}
+                      </td>
+                      <td className="align-middle">
+                        {item.dateUpdated ? (
+                          <span>
+                            {moment(item.dateUpdated).format("DD/MM/YYYY")}
+                            &nbsp;/ {item.dateUpdated.substring(11, 16)}
+                          </span>
+                        ) : (
+                          <span>Chưa có dữ liệu</span>
+                        )}
+                      </td>
+                      <td className=" align-middle">
+                        {item.unitPrice !== null ? (
+                          <span>{item.unitPrice} VND</span>
+                        ) : (
+                          <span>Chưa có dữ liệu</span>
+                        )}
+                      </td>
+                      <td className=" align-middle">
+                        {item.isDisable === false ? (
+                          ""
+                        ) : (
+                          <span className="text-danger">Tạm dừng</span>
+                        )}
+                        {item.isDisable === true ? (
+                          ""
+                        ) : (
+                          <span className="text-success border border-success rounded p-1">
+                            Hoạt động
+                          </span>
+                        )}
+                      </td>
+                      <td className=" align-middle">
+                        {item.isDisable === false ? (
+                          ""
+                        ) : (
+                          <i
+                            class="fa fa-unlock-alt text-success"
+                            type="button"
+                            style={{ fontSize: "30px", marginTop: "8px" }}
+                            onClick={() => handleActive(item.id)}
+                          ></i>
+                        )}
+                        {item.isDisable === true ? (
+                          ""
+                        ) : (
+                          <i
+                            class="fa fa-lock text-danger"
+                            type="button"
+                            style={{ fontSize: "30px", marginTop: "8px" }}
+                            onClick={() => handleConfirmDelete(item.id)}
+                          ></i>
+                        )}
+                        <i
+                          class="fa fa-edit"
+                          type="button"
+                          onClick={() =>
+                            handleGetDescription(
+                              item.description,
+                              item.id,
+                              item.unitPrice,
+                              item.type
+                            )
+                          }
+                          data-toggle="modal"
+                          data-target="#exampleModal"
+                          data-whatever="yah"
+                          style={{
+                            fontSize: "30px",
+                            margin: "auto",
+                            marginTop: "8px",
+                            marginLeft: "20px",
+                          }}
+                        ></i>
+                      </td>
+                    </tr>
+                  </tbody>
+                ))
+              )
             ) : (
               <div>Chưa có dữ liệu</div>
             )
@@ -558,6 +806,7 @@ const mapStateToProps = (state) => ({
   data: state.getServiceById.table,
   dataSerGroup: state.getServiceGroups.table,
   loading: state.getServiceById.loading,
+  dataSearch: state.searchService.table,
 });
 const withConnect = connect(mapStateToProps);
 export default withConnect(GetServiceById);

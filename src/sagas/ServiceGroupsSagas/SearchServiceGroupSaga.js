@@ -11,7 +11,6 @@ function* searchServiceGroupToolSaga() {
   while (true) {
     const action = yield take(searchServiceGroupConstants.SEARCH_SERVICE_GROUP);
     const { pageNo, pageSize, dataS } = action.payload;
-
     const res = yield call(searchServiceGroupApi, pageNo, pageSize, dataS);
     const { data, status } = res;
     if (status === 200 || status === 201) {

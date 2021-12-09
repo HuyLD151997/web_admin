@@ -2,13 +2,16 @@ import { combineReducers } from "redux";
 import services from "./services";
 import authenticateReducer from "./authentication/authentication";
 import getEmployeesReducer from "./EmployeesReducer/GetEmployeesReducer";
+import searchEmployeeReducer from "./EmployeesReducer/SearchEmployeeReducer";
 import getProvincesReducer from "./EmployeesReducer/GetProvinceReducers";
 import getWardsAndDistricsReducer from "./EmployeesReducer/GetWardAndDistricReducer";
 import getWardsAndDistricsReducer2 from "./EmployeesReducer/GetWardAndDistricReducer2";
 import getEmployeeByIdReducer from "./EmployeesReducer/GetEmployeeById";
 import getCustomerReducer from "./CustomersReducer/GetCustomerReducer";
+import searchCustomerReducer from "./CustomersReducer/SearchPendingReducer";
 import getServiceGroupsReducer from "./ServiceGroupReducer/GetServiceGroupsReducer";
 import searchServiceGroupReducer from "./ServiceGroupReducer/SearchServiceGroupReducer";
+import searchServiceReducer from "./ServiceGroupReducer/SearchServiceReducer";
 import getServiceByIdReducer from "./ServiceGroupReducer/GetServiceByIdReducer";
 import putAvatarReducer from "./EmployeesReducer/PutAvatarReducer";
 import transactionsReducer from "./TransactionsReducer/GetTransactionReducer";
@@ -23,6 +26,9 @@ import searchCleaningToolsReducer from "./CleaningTool/SearchCleaningToolReducer
 import requestCleaningToolPendingReducer from "./RequestCleaningTool/GetRequestCleaningToolPendingReducer";
 import requestCleaningToolApprovedReducer from "./RequestCleaningTool/GetRequestCleaningToolApprovedReducer";
 import requestCleaningToolHistoryReducer from "./RequestCleaningTool/GetRequestCleaningToolHistoryReducer";
+import searchPendingReducer from "./RequestCleaningTool/SearchPendingReducer";
+import searchApprovedReducer from "./RequestCleaningTool/SearchApprovedReducer";
+import searchHistoryReducer from "./RequestCleaningTool/SearchHistoryReducer";
 import getSettingsReducer from "./SettingReducer/GetSettingReducer";
 import getChartsReducer from "./ChartReducer/GetChartReducer";
 import getChartTransactionReducer from "./ChartReducer/GetChartTransactionReducer";
@@ -31,13 +37,16 @@ const rootReducers = combineReducers({
   services,
   auth: authenticateReducer,
   getEmployees: getEmployeesReducer,
+  searchEmployee: searchEmployeeReducer,
   getProvince: getProvincesReducer,
   getWardsAndDistrics: getWardsAndDistricsReducer,
   getWardsAndDistrics2: getWardsAndDistricsReducer2,
   getEmployeeById: getEmployeeByIdReducer,
   getCustomers: getCustomerReducer,
+  searchCustomer: searchCustomerReducer,
   getServiceGroups: getServiceGroupsReducer,
   searchServiceGroup: searchServiceGroupReducer,
+  searchService: searchServiceReducer,
   getServiceById: getServiceByIdReducer,
   getTransaction: transactionsReducer,
   getTransactionUser: transactionUsersReducer,
@@ -49,6 +58,9 @@ const rootReducers = combineReducers({
   getRequestCleaningToolPending: requestCleaningToolPendingReducer,
   getRequestCleaningToolApproved: requestCleaningToolApprovedReducer,
   getRequestCleaningToolHistory: requestCleaningToolHistoryReducer,
+  searchPending: searchPendingReducer,
+  searchApproved: searchApprovedReducer,
+  searchHistory: searchHistoryReducer,
   avatarStringCode: putAvatarReducer,
   cleaningTool: cleaningToolsReducer,
   searchCleaningTool: searchCleaningToolsReducer,

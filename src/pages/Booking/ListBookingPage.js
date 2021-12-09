@@ -100,7 +100,15 @@ const ListBookingPage = (props) => {
                       key={index}
                     >
                       {/* <td className=" align-middle">{index + 1}</td> */}
-                      <td className="align-middle">{item.id}</td>
+                      <td
+                        className="col-3 align-middle"
+                        style={{
+                          textTransform: "uppercase",
+                          fontWeight: "bold",
+                        }}
+                      >
+                        {item.id}
+                      </td>
                       <td className="col-2 align-middle">
                         {item.customer !== null ? (
                           <span>{item.customer.fullname}</span>
@@ -130,7 +138,7 @@ const ListBookingPage = (props) => {
                             // float: "right",
                             // marginTop: "5px",
                             margin: "auto",
-                            marginLeft: "50px",
+                            // marginLeft: "50px",
                           }}
                         >
                           <span className="btn btn-success"> Xuất tập tin</span>
@@ -143,7 +151,7 @@ const ListBookingPage = (props) => {
                             // float: "right",
                             // marginTop: "5px",
                             margin: "auto",
-                            marginLeft: "50px",
+                            marginLeft: "20px",
                           }}
                         >
                           <span className="btn btn-outline-info ">
