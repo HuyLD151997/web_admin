@@ -8,7 +8,7 @@ import CreateGroupPage from "./../pages/ServiceGroupsPage/CreateGroupPage";
 import NotFoundPage from "./../pages/NotFoundPage/NotFoundPage";
 import DetailAccountPage from "./../pages/HomePage/DetailAccount";
 import GetServiceById from "./../pages/ServicePage/index";
-import CreateServiceItem from "./../pages/ServicePage/CreateServicePage";
+import CreateServiceItem from "./../pages/ServicePage/indexCreate";
 import Transaction from "./../pages/Transaction/TransactionPage";
 import TransactionCus from "./../pages/Transaction/indexTranUser";
 import TransactionCompany from "./../pages/Transaction/indexTranCompany";

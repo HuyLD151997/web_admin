@@ -35,6 +35,7 @@ const GetServiceById = (props) => {
     dispatchAction(getServiceByIdAction.getServiceById(id, page, perPage));
     dispatchAction(getServiceGroupsAction.getServiceGroups(page, perPage));
     if (id) {
+      console.log(id);
       (async () => {
         try {
           const dataServiceGroupByIDGet = await getServiceGroupsByIdApi(
@@ -43,8 +44,9 @@ const GetServiceById = (props) => {
             perPage
           );
           setDataServiceGroupByID(dataServiceGroupByIDGet.data);
+          console.log(dataServiceGroupByIDGet.data);
         } catch (error) {
-          console.log("Không thể lấy danh sách cây");
+          console.log("Không thể lấy danh sách");
         }
       })();
     }
@@ -753,7 +755,7 @@ const GetServiceById = (props) => {
                       ? dataServiceGroupByID
                         ? dataServiceGroupByID.data.length > 0
                           ? dataServiceGroupByID.data[0].description
-                          : "Nhóm dịch vụ "
+                          : "Nhóm dịch vụ"
                         : null
                       : serGroup}
                   </a>
@@ -774,7 +776,9 @@ const GetServiceById = (props) => {
                             {item.description}
                           </a>
                         ))
-                      ) : null
+                      ) : (
+                        <div>Not Data...</div>
+                      )
                     ) : (
                       <div>Progress...</div>
                     )}

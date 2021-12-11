@@ -8,6 +8,7 @@ export const getServiceGroupsApi = (pageIndex, pageSize) => {
   );
 };
 export const getServiceGroupsByIdApi = (id, pageIndex, pageSize) => {
+  console.log(id);
   return axiosService.get(
     `${API_LINK.GET_SERVICE_GROUPS}?id=${id}&pageIndex=${pageIndex}&pageSize=${pageSize}`,
     token

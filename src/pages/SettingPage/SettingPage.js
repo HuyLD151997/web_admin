@@ -223,7 +223,7 @@ const SettingPage = (props) => {
         timer: 2000,
         showConfirmButton: false,
       });
-      // window.location.reload();
+      window.location.reload();
     } catch (error) {
       Swal.fire({
         icon: "error",

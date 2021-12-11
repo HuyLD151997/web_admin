@@ -60,7 +60,7 @@ const ChartPage = (props) => {
         <span
           style={{
             fontWeight: "bold",
-            marginLeft: "10px",
+            // marginLeft: "10px",
             fontSize: "24px",
           }}
         >

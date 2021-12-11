@@ -340,6 +340,7 @@ const CreateAccount = (props) => {
                   <div
                     className="dropdown-menu"
                     aria-labelledby="dropdownMenuLink"
+                    style={{}}
                   >
                     {data ? (
                       data.length > 0 ? (

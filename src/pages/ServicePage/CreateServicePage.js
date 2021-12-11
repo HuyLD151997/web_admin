@@ -7,17 +7,19 @@ import Swal from "sweetalert2";
 import { createServiceApi } from "../../apis/Service/CreateService";
 import { NavLink, Link, useParams } from "react-router-dom";
 import * as getServiceGroupsAction from "../../actions/ServicesGroup/GetServiceGroups";
+import { useStateValue } from "../../common/StateProvider/StateProvider";
 
 const CreateServiceItem = (props) => {
   const [serGroup, setSerGroup] = useState("");
-  const [idSerGroup, setIdSerGroup] = useState(-1);
+  const [idSerGroup, setIdSerGroup] = useState("");
+  const [{ page, perPage, loading1 }, dispatch] = useStateValue();
   const { id } = useParams();
   const dispatchAction = useDispatch();
 
   useEffect(() => {
-    dispatchAction(getServiceGroupsAction.getServiceGroups(id));
-  }, []);
-  const { data } = props;
+    dispatchAction(getServiceGroupsAction.getServiceGroups(page, perPage));
+  }, [page, perPage, loading1]);
+  const { data, loading } = props;
   const handleGetSerGroup = (id, description) => {
     console.log("description" + description);
     setIdSerGroup(id);
@@ -34,11 +36,10 @@ const CreateServiceItem = (props) => {
         .number()
         .typeError("Vui lòng nhập là giá tiền")
         .required("Vui lòng nhập giá tiền"),
-      Type: yup
+      type: yup
         .string()
         .required("Phải chọn một trong hai cái có sẵn")
         .matches(/(AREA|QUANTITY)/, "Chỉ được chọn một trong hai cái có sẵn"),
-      nhom: yup.string().required("Vui lòng chọn nhóm dịch vụ"),
     })
     .required();
 
@@ -89,13 +90,22 @@ const CreateServiceItem = (props) => {
     // console.log(typeof data.phoneNumber.toString());
     var priceNumber = parseInt(data.unitPrice);
 
-    handleCreateService(
-      priceNumber,
-      id,
-      data.description,
-      data.estiamtedMinutes,
-      data.type
-    );
+    if (idSerGroup !== "") {
+      handleCreateService(
+        priceNumber,
+        idSerGroup,
+        data.description,
+        data.estiamtedMinutes,
+        data.type
+      );
+    } else {
+      Swal.fire({
+        icon: "error",
+        text: "Dich vu khong duoc de trong",
+        timer: 2000,
+        showConfirmButton: false,
+      });
+    }
   };
 
   return (
@@ -143,7 +153,7 @@ const CreateServiceItem = (props) => {
                     <option value="AREA">AREA</option>
                     <option value="QUANTITY">QUANTITY</option>
                   </select>
-                  <p className="text-danger">{errors.Type?.message}</p>
+                  <p className="text-danger">{errors.type?.message}</p>
                 </div>
                 <div className="dropdown show" style={{ marginTop: "35px" }}>
                   <a
@@ -163,8 +173,8 @@ const CreateServiceItem = (props) => {
                     aria-labelledby="dropdownMenuLink"
                   >
                     {data ? (
-                      data.length > 0 ? (
-                        data.map((item, index) => (
+                      data.data.length > 0 ? (
+                        data.data.map((item, index) => (
                           <a
                             className="dropdown-item"
                             key={index}
@@ -180,7 +190,6 @@ const CreateServiceItem = (props) => {
                       <div>Progress...</div>
                     )}
                   </div>
-                  <p className="text-danger">{errors.nhom?.message}</p>
                 </div>
                 <div className="form-group">
                   <label>Giá cả</label>
@@ -212,6 +221,7 @@ const CreateServiceItem = (props) => {
 };
 const mapStateToProps = (state) => ({
   data: state.getServiceGroups.table,
+  loading: state.getServiceById.loading,
 });
 const withConnect = connect(mapStateToProps);
 export default withConnect(CreateServiceItem);
