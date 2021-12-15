@@ -107,7 +107,11 @@ const ListBookingPage = (props) => {
                           fontWeight: "bold",
                         }}
                       >
-                        {item.id}
+                        {item.id !== null ? (
+                          <span>{item.id}</span>
+                        ) : (
+                          <span>Chưa có dữ liệu</span>
+                        )}
                       </td>
                       <td className="col-2 align-middle">
                         {item.customer !== null ? (

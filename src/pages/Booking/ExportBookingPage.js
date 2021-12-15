@@ -56,6 +56,7 @@ const GetBooking = (props) => {
         <table className="table align-middle mt-2" id="table-to-xls">
           <thead className="table-light">
             <tr>
+              <th scope="col">Mã đặt lịch</th>
               <th scope="col">Khách hàng</th>
               <th scope="col">Số điện thoại</th>
               <th scope="col">Nhân viên</th>
@@ -68,6 +69,20 @@ const GetBooking = (props) => {
           {data ? (
             <tbody>
               <tr className="">
+                <td className="col-2 align-middle">
+                  {data.id ? (
+                    <span
+                      style={{
+                        textTransform: "uppercase",
+                        fontWeight: "bold",
+                      }}
+                    >
+                      {data.id}
+                    </span>
+                  ) : (
+                    <span>Chưa có dữ liệu</span>
+                  )}
+                </td>
                 <td className=" align-middle">
                   {data.customer.fullname ? (
                     <span>{data.customer.fullname}</span>

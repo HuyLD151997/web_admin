@@ -59,9 +59,14 @@ const GetBooking = (props) => {
           <h5
             style={{
               textTransform: "uppercase",
+              fontWeight: "bold",
             }}
           >
-            Mã đặt lịch: {data.id}
+            {data.id !== null ? (
+              <span> Mã đặt lịch: {data.id}</span>
+            ) : (
+              <span> Chưa có dữ liệu</span>
+            )}
           </h5>
           <div className="row">
             <div className="col-6">
