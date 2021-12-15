@@ -91,14 +91,19 @@ const DetailAccount = (props) => {
                 </div>
                 <div className="col-8">
                   <ul className="list-group list-group-flush">
-                    <li className="list-group-item">
+                    {item.employeeCode !== null ? (
+                      <li className="list-group-item">
+                        Mã nhân viên: <span>{item.employeeCode}</span>
+                      </li>
+                    ) : null}
+                    {/* <li className="list-group-item">
                       Mã nhân viên:{" "}
                       {item.userName !== null ? (
                         <span>{item.employeeCode}</span>
                       ) : (
                         <span>Chưa có dữ liệu</span>
                       )}
-                    </li>
+                    </li> */}
                     <li className="list-group-item">
                       Tên tài khoản:{" "}
                       {item.userName !== null ? (
@@ -190,14 +195,20 @@ const DetailAccount = (props) => {
                         <span>Chưa có dữ liệu</span>
                       )}
                     </li>
-                    <li className="list-group-item">
+                    {item.employeeCredit !== null ? (
+                      <li className="list-group-item">
+                        Điểm nhân viên:
+                        <span>{item.employeeCredit} điểm</span>
+                      </li>
+                    ) : null}
+                    {/* <li className="list-group-item">
                       Điểm nhân viên:
                       {item.employeeCredit !== null ? (
                         <span>{item.employeeCredit} điểm</span>
                       ) : (
                         <span>Chưa có dữ liệu</span>
                       )}
-                    </li>
+                    </li> */}
                   </ul>
                 </div>
               </div>
