@@ -738,7 +738,7 @@ const CleaningToolPage = (props) => {
           <div className="modal-content">
             <div className="modal-header">
               <h5 className="modal-title w-100" id="exampleModalLabel">
-                Cập nhật dịch vụ tên
+                Cập nhật dụng cụ
               </h5>
               <button
                 type="button"

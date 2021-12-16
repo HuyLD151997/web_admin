@@ -170,7 +170,7 @@ const RequestCleaningToolHistoryPage = (props) => {
               <th scope="col">Hình</th>
               <th scope="col">Dụng cụ</th>
               <th scope="col">Nhân viên</th>
-              {/* <th scope="col">Lý do xin cấp phát</th> */}
+              <th scope="col">Lý do xin cấp phát</th>
               <th scope="col">Ngày/Giờ yêu cầu</th>
               <th scope="col">Ngày/Giờ cấp phát</th>
               <th scope="col">Trạng thái</th>
@@ -431,13 +431,13 @@ const RequestCleaningToolHistoryPage = (props) => {
                           <span>Chưa có dữ liệu</span>
                         )}
                       </td>
-                      {/* <td className="align-middle">
+                      <td className="align-middle">
                         {item.description === null ? (
                           <span>Không có dữ liệu</span>
                         ) : (
                           <span>{item.description}</span>
                         )}
-                      </td> */}
+                      </td>
                       <td className=" align-middle">
                         {item.dateCreated ? (
                           <span>

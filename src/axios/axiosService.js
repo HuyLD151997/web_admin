@@ -99,6 +99,22 @@ class AxiosService {
     });
   }
 
+  // put1(url, body, token) {
+  //   console.log(body);
+  //   return this.intance.put(
+  //     url,
+  //     {
+  //       body: JSON.stringify({
+  //         message: body.message,
+  //         isUpdateSuccess: body.isUpdateSuccess,
+  //       }),
+  //     },
+  //     {
+  //       headers: { Authorization: `Bearer ${token}` },
+  //     }
+  //   );
+  // }
+
   put2(url, body, token) {
     const formData = new FormData();
     formData.append("File", body.File);

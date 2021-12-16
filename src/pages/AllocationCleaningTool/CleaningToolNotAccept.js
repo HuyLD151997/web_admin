@@ -17,6 +17,7 @@ import * as getSearchPendingActions from "../../actions/RequestCleaningTool/Sear
 const CleaningToolNotAcceptPage = (props) => {
   const [idRequest, setIdRequest] = useState("");
   const [search, setSearch] = useState("");
+  const [dataGets, setDataGets] = useState(null);
   const dispatchAction = useDispatch();
   const [{ page, perPage, loading1 }, dispatch] = useStateValue();
   const totalPageRequestCleaningToolPending = localStorage.getItem(
@@ -54,20 +55,31 @@ const CleaningToolNotAcceptPage = (props) => {
 
   const handleAccept = async (id) => {
     try {
-      console.log(id);
-      await acceptRequestApi(id);
-      Swal.fire({
-        icon: "success",
-        text: "Chấp nhận thành công",
-        timer: 2000,
-        showConfirmButton: false,
-      });
-      window.location.reload();
+      const dataGet = await acceptRequestApi(id);
+
+      if (dataGet.data !== null) {
+        if (dataGet.data.isUpdateSuccess === true) {
+          Swal.fire({
+            icon: "success",
+            text: dataGet.data.message,
+            timer: 2000,
+            showConfirmButton: false,
+          });
+          window.location.reload();
+        } else {
+          Swal.fire({
+            icon: "error",
+            text: dataGet.data.message,
+            timer: 2000,
+            showConfirmButton: false,
+          });
+        }
+      }
     } catch (error) {
       Swal.fire({
         icon: "error",
-        text: "active failed ",
-        timer: 1000,
+        text: "active failed",
+        timer: 2000,
         showConfirmButton: false,
       });
     }
@@ -75,7 +87,7 @@ const CleaningToolNotAcceptPage = (props) => {
 
   const validationSchema = yup
     .object({
-      // description: yup.string().required("Lý do không được để trống"),
+      reason: yup.string().required("Lý do không được để trống"),
     })
     .required();
 
@@ -91,14 +103,15 @@ const CleaningToolNotAcceptPage = (props) => {
     setIdRequest(id);
   };
 
-  const submitForm = () => {
-    handleRejectedRequest(idRequest);
+  const submitForm = (data) => {
+    console.log(data);
+    handleRejectedRequest(idRequest, data.reason);
   };
 
-  const handleRejectedRequest = async (id) => {
+  const handleRejectedRequest = async (id, reason) => {
     try {
-      console.log(data);
-      await rejectedRequestApi(id);
+      console.log(reason);
+      await rejectedRequestApi(id, reason);
       Swal.fire({
         icon: "success",
         text: "Từ chối thành công",
@@ -466,7 +479,9 @@ const CleaningToolNotAcceptPage = (props) => {
                         <i
                           class="fa fa-check-circle mr-2 btn btn-outline-primary"
                           type="submit"
-                          onClick={() => handleOnClickAccept(item.id)}
+                          onClick={() =>
+                            handleOnClickAccept(item.id, item.isUpdateSuccess)
+                          }
                           style={{
                             fontSize: "18px",
                             margin: "auto",
@@ -524,15 +539,15 @@ const CleaningToolNotAcceptPage = (props) => {
               <div className="modal-body">
                 <div className="form-group">
                   <label htmlFor="recipient-name" className="col-form-label">
-                    Không được cấp phát
+                    Lý do từ chối cấp phát
                   </label>
-                  {/* <input
+                  <input
                     type="text"
                     class="form-control"
                     id="recipient-name"
-                    {...register("description")}
+                    {...register("reason")}
                   />
-                  <p>{errors.description?.message}</p> */}
+                  <p>{errors.reason?.message}</p>
                 </div>
               </div>
               <div className="modal-footer">

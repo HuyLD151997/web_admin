@@ -89,15 +89,42 @@ const SettingPage = (props) => {
   }
 
   const changeRatingPoint = (e) => {
-    stringCredit.ratingPoint = e.target.value;
+    if (e.target.value >= 0) {
+      stringCredit.ratingPoint = e.target.value;
+    } else {
+      Swal.fire({
+        icon: "warning",
+        text: "Lớn hơn hoặc bằng 0",
+        timer: 2000,
+        showConfirmButton: false,
+      });
+    }
   };
 
   const changeAbovePoint = (e) => {
-    stringCredit.abovePoint = e.target.value;
+    if (e.target.value > 0) {
+      stringCredit.abovePoint = e.target.value;
+    } else {
+      Swal.fire({
+        icon: "warning",
+        text: "Lớn hơn 0",
+        timer: 2000,
+        showConfirmButton: false,
+      });
+    }
   };
 
   const changeUnderPoint = (e) => {
-    stringCredit.underPoint = e.target.value;
+    if (e.target.value < 0) {
+      stringCredit.underPoint = e.target.value;
+    } else {
+      Swal.fire({
+        icon: "warning",
+        text: "Nhỏ hơn 0",
+        timer: 2000,
+        showConfirmButton: false,
+      });
+    }
   };
 
   const handleUpdateCredit = (idSettingTime, description) => {
@@ -338,7 +365,7 @@ const SettingPage = (props) => {
                   <div className="input-group mb-3 col-12">
                     <input
                       type="text"
-                      className="form-control col-8"
+                      className="form-control "
                       // placeholder="Recipient's username"
                       aria-label="Recipient's username"
                       aria-describedby="basic-addon2"
@@ -347,14 +374,17 @@ const SettingPage = (props) => {
                       onChange={(e) => handleChangeDesCredit(e)}
                     />
 
-                    <div className="col-4">
-                      <div className="col-6 ml-5" style={{ marginTop: "15px" }}>
+                    <div className="col-3 mt-3" style={{ marginLeft: "355px" }}>
+                      <div
+                        className="col-6 ml-5 "
+                        style={{ marginTop: "15px" }}
+                      >
                         <span>Điểm đánh giá</span>
                       </div>
-                      <div className="col-6 ml-5" style={{ marginTop: "30px" }}>
+                      <div className="col-6 ml-5" style={{ marginTop: "40px" }}>
                         <span>Above Point</span>
                       </div>
-                      <div className="col-6 ml-5" style={{ marginTop: "30px" }}>
+                      <div className="col-6 ml-5" style={{ marginTop: "60px" }}>
                         <span>Under Point</span>
                       </div>
                     </div>
@@ -367,8 +397,10 @@ const SettingPage = (props) => {
                       }}
                     >
                       <input
-                        type="text"
-                        className="form-control"
+                        type="number"
+                        min="0"
+                        className="form-control mt-4"
+                        required
                         // placeholder="Recipient's username"
                         aria-label="Recipient's username"
                         aria-describedby="basic-addon2"
@@ -377,8 +409,8 @@ const SettingPage = (props) => {
                       />
 
                       <input
-                        type="text"
-                        className="form-control"
+                        type="number"
+                        className="form-control mt-5"
                         placeholder="Recipient's username"
                         aria-label="Recipient's username"
                         aria-describedby="basic-addon2"
@@ -386,8 +418,8 @@ const SettingPage = (props) => {
                         onChange={(e) => changeAbovePoint(e)}
                       />
                       <input
-                        type="text"
-                        className="form-control"
+                        type="number"
+                        className="form-control mt-5"
                         placeholder="Recipient's username"
                         aria-label="Recipient's username"
                         aria-describedby="basic-addon2"
@@ -509,8 +541,8 @@ const SettingPage = (props) => {
                         }}
                       >
                         <input
-                          type="text"
-                          className="form-control"
+                          type="number"
+                          className="form-control mt-2"
                           // placeholder="Recipient's username"
                           aria-label="Recipient's username"
                           aria-describedby="basic-addon2"
@@ -519,8 +551,8 @@ const SettingPage = (props) => {
                         />
 
                         <input
-                          type="text"
-                          className="form-control"
+                          type="number"
+                          className="form-control mt-3"
                           placeholder="Recipient's username"
                           aria-label="Recipient's username"
                           aria-describedby="basic-addon2"
@@ -528,8 +560,8 @@ const SettingPage = (props) => {
                           onChange={(e) => changeAreaTo(e, index)}
                         />
                         <input
-                          type="text"
-                          className="form-control"
+                          type="number"
+                          className="form-control mt-3"
                           placeholder="Recipient's username"
                           aria-label="Recipient's username"
                           aria-describedby="basic-addon2"
@@ -537,8 +569,8 @@ const SettingPage = (props) => {
                           onChange={(e) => changePrice(e, index)}
                         />
                         <input
-                          type="text"
-                          className="form-control"
+                          type="number"
+                          className="form-control mt-3"
                           placeholder="Recipient's username"
                           aria-label="Recipient's username"
                           aria-describedby="basic-addon2"
@@ -562,7 +594,7 @@ const SettingPage = (props) => {
                 </form>
               ) : item.key === "BOOKING_TIME_FRAME" ? (
                 <form onSubmit={submitForm2} className="border-0 ">
-                  <div className="input-group mb-3 col-12">
+                  <div className="input-group mb-3 ml-3">
                     <input
                       type="text"
                       className="form-control col-8"
@@ -572,7 +604,7 @@ const SettingPage = (props) => {
                       defaultValue={item.description}
                       onChange={(e) => handleChangeDesBookingTimeFrame(e)}
                     />
-                    <div className="col-2">
+                    <div className="" style={{ marginLeft: "265px" }}>
                       <div className="col-2 ml-5" style={{ marginTop: "15px" }}>
                         <span>Từ</span>
                       </div>
@@ -588,8 +620,8 @@ const SettingPage = (props) => {
                       }}
                     >
                       <input
-                        type="text"
-                        className="form-control"
+                        type="number"
+                        className="form-control mt-1"
                         // placeholder="Recipient's username"
                         aria-label="Recipient's username"
                         aria-describedby="basic-addon2"
@@ -598,8 +630,8 @@ const SettingPage = (props) => {
                       />
 
                       <input
-                        type="text"
-                        className="form-control"
+                        type="number"
+                        className="form-control mt-2"
                         placeholder="Recipient's username"
                         aria-label="Recipient's username"
                         aria-describedby="basic-addon2"
@@ -626,14 +658,14 @@ const SettingPage = (props) => {
                   <div className="input-group mb-3 col-12">
                     <input
                       type="text"
-                      className="form-control col-8"
+                      className="form-control "
                       // placeholder="Recipient's username"
                       aria-label="Recipient's username"
                       aria-describedby="basic-addon2"
                       defaultValue={item.description}
                       onChange={(e) => handleChangeDesIntervalTimeFrame(e)}
                     />
-                    <div className="col-2">
+                    <div className="" style={{ marginLeft: "280px" }}>
                       <div className="col-2 ml-5" style={{ marginTop: "15px" }}>
                         <span>Từ</span>
                       </div>
@@ -649,8 +681,8 @@ const SettingPage = (props) => {
                       }}
                     >
                       <input
-                        type="text"
-                        className="form-control"
+                        type="number"
+                        className="form-control mt-1"
                         // placeholder="Recipient's username"
                         aria-label="Recipient's username"
                         aria-describedby="basic-addon2"
@@ -659,8 +691,8 @@ const SettingPage = (props) => {
                       />
 
                       <input
-                        type="text"
-                        className="form-control"
+                        type="number"
+                        className="form-control mt-2"
                         aria-label="Recipient's username"
                         aria-describedby="basic-addon2"
                         defaultValue={handParse(item.data).end}
@@ -692,8 +724,9 @@ const SettingPage = (props) => {
                     value={item.description}
                   />
                   <input
-                    type="text"
-                    className="form-control"
+                    type="number"
+                    min="0"
+                    className="form-control mt-2"
                     placeholder="Recipient's username"
                     aria-label="Recipient's username"
                     aria-describedby="basic-addon2"
@@ -770,7 +803,7 @@ const SettingPage = (props) => {
                     Dữ liệu:
                   </label>
                   <input
-                    type="text"
+                    type="number"
                     class="form-control"
                     id="recipient-name"
                     {...register("data")}

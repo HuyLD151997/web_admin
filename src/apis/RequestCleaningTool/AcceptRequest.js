@@ -5,5 +5,6 @@ const token = localStorage.getItem("token");
 
 export const acceptRequestApi = (id) => {
   console.log(id);
+
   return axiosService.put(`${API_LINK.APPROVED_REQUEST}/${id}`, "", token);
 };

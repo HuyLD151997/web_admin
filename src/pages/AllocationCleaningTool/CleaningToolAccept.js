@@ -50,14 +50,14 @@ const CleaningToolAcceptPage = (props) => {
     setIdRequest(id);
   };
 
-  const submitForm = () => {
-    handleRejectedRequest(idRequest);
+  const submitForm = (data) => {
+    handleRejectedRequest(idRequest, data.reason);
     console.log(idRequest);
   };
 
-  const handleRejectedRequest = async (id) => {
+  const handleRejectedRequest = async (id, reason) => {
     try {
-      await rejectedRequestApi(id);
+      await rejectedRequestApi(id, reason);
       console.log(id);
       Swal.fire({
         icon: "success",
@@ -108,12 +108,13 @@ const CleaningToolAcceptPage = (props) => {
 
   const validationSchema = yup
     .object({
-      description: yup.string().required("Tên dịch vụ không được để trống"),
-      quantity: yup
-        .number()
-        .typeError("Số lượng phải là số")
-        .required("Số lượng không được để trống"),
-      AvatarFile: yup.mixed().required("File is required"),
+      // description: yup.string().required("Tên dịch vụ không được để trống"),
+      // quantity: yup
+      //   .number()
+      //   .typeError("Số lượng phải là số")
+      //   .required("Số lượng không được để trống"),
+      // AvatarFile: yup.mixed().required("File is required"),
+      reason: yup.string().required("Không được để trống"),
     })
     .required();
 
@@ -532,19 +533,19 @@ const CleaningToolAcceptPage = (props) => {
                 </span>
               </button>
             </div>
-            <form>
+            <form onSubmit={handleSubmit(submitForm)}>
               <div className="modal-body">
                 <div className="form-group">
                   <label htmlFor="recipient-name" className="col-form-label">
-                    Không được cấp phát
+                    Lý do từ chối cấp phát
                   </label>
-                  {/* <input
+                  <input
                     type="text"
                     class="form-control"
                     id="recipient-name"
-                    {...register("description")}
+                    {...register("reason")}
                   />
-                  <p>{errors.description?.message}</p> */}
+                  <p>{errors.reason?.message}</p>
                 </div>
               </div>
               <div className="modal-footer">
@@ -555,7 +556,7 @@ const CleaningToolAcceptPage = (props) => {
                 >
                   Đóng
                 </button>
-                <button onClick={submitForm} className="btn btn-primary">
+                <button type="submit" className="btn btn-primary">
                   Đồng ý
                 </button>
               </div>

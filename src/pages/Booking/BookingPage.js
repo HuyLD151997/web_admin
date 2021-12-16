@@ -56,7 +56,7 @@ const GetBooking = (props) => {
               Nhật ký làm việc
             </Link>
           </div>
-          <h5
+          {/* <h5
             style={{
               textTransform: "uppercase",
               fontWeight: "bold",
@@ -67,14 +67,22 @@ const GetBooking = (props) => {
             ) : (
               <span> Chưa có dữ liệu</span>
             )}
-          </h5>
+          </h5> */}
           <div className="row">
             <div className="col-6">
               <ul className="list-group list-group-flush">
                 <li className="list-group-item">
-                  Diện tích dọn dẹp:
-                  {data.totalCleaningArea !== null ? (
-                    <span> {data.totalCleaningArea}</span>
+                  Mã đặt lịch:
+                  {data.id !== null ? (
+                    <span
+                      style={{
+                        textTransform: "uppercase",
+                        fontWeight: "bold",
+                      }}
+                    >
+                      {" "}
+                      {data.id}
+                    </span>
                   ) : (
                     <span> Chưa có dữ liệu</span>
                   )}
