@@ -411,7 +411,6 @@ const SettingPage = (props) => {
                       <input
                         type="number"
                         className="form-control mt-5"
-                        placeholder="Recipient's username"
                         aria-label="Recipient's username"
                         aria-describedby="basic-addon2"
                         defaultValue={handParse(item.data).abovePoint}
@@ -420,7 +419,6 @@ const SettingPage = (props) => {
                       <input
                         type="number"
                         className="form-control mt-5"
-                        placeholder="Recipient's username"
                         aria-label="Recipient's username"
                         aria-describedby="basic-addon2"
                         defaultValue={handParse(item.data).underPoint}
@@ -483,7 +481,6 @@ const SettingPage = (props) => {
                         <input
                           type="text"
                           className="form-control"
-                          placeholder="Recipient's username"
                           aria-label="Recipient's username"
                           aria-describedby="basic-addon2"
                           defaultValue={itemTime.timeTo}
@@ -553,7 +550,6 @@ const SettingPage = (props) => {
                         <input
                           type="number"
                           className="form-control mt-3"
-                          placeholder="Recipient's username"
                           aria-label="Recipient's username"
                           aria-describedby="basic-addon2"
                           defaultValue={itemArea.areaTo}
@@ -562,7 +558,6 @@ const SettingPage = (props) => {
                         <input
                           type="number"
                           className="form-control mt-3"
-                          placeholder="Recipient's username"
                           aria-label="Recipient's username"
                           aria-describedby="basic-addon2"
                           defaultValue={itemArea.price}
@@ -571,7 +566,6 @@ const SettingPage = (props) => {
                         <input
                           type="number"
                           className="form-control mt-3"
-                          placeholder="Recipient's username"
                           aria-label="Recipient's username"
                           aria-describedby="basic-addon2"
                           defaultValue={itemArea.estimateTime}
@@ -632,7 +626,6 @@ const SettingPage = (props) => {
                       <input
                         type="number"
                         className="form-control mt-2"
-                        placeholder="Recipient's username"
                         aria-label="Recipient's username"
                         aria-describedby="basic-addon2"
                         defaultValue={handParse(item.data).maxHour}
@@ -718,7 +711,6 @@ const SettingPage = (props) => {
                   <input
                     type="text"
                     className="form-control"
-                    placeholder="Recipient's username"
                     aria-label="Recipient's username"
                     aria-describedby="basic-addon2"
                     value={item.description}
@@ -727,7 +719,6 @@ const SettingPage = (props) => {
                     type="number"
                     min="0"
                     className="form-control mt-2"
-                    placeholder="Recipient's username"
                     aria-label="Recipient's username"
                     aria-describedby="basic-addon2"
                     value={item.data}
