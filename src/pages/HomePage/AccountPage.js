@@ -185,7 +185,7 @@ const AccountPage = (props) => {
           <input
             className="ml-auto form-control"
             type="text"
-            placeholder="Tìm kiếm dịch vụ"
+            placeholder="Tìm kiếm nhân viên"
             onChange={(e) => {
               setSearch(e.target.value);
             }}

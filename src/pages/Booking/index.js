@@ -6,7 +6,7 @@ const GetBookingPageContainer = () => {
   const initialState = {
     loading1: false,
     page: 1,
-    perPage: 5,
+    perPage: 7,
   };
   const reducer = (state, action) => {
     switch (action.type) {
