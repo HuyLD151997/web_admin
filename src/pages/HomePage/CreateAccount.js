@@ -244,7 +244,7 @@ const CreateAccount = (props) => {
                 <div className="form-group">
                   <label>Mật khẩu</label>
                   <input
-                    type="text"
+                    type="password"
                     className="form-control"
                     {...register("password")}
                   />
@@ -253,7 +253,7 @@ const CreateAccount = (props) => {
                 <div className="form-group">
                   <label>Nhập lại mật khẩu</label>
                   <input
-                    type="text"
+                    type="password"
                     className="form-control"
                     {...register("cpassword")}
                   />
@@ -340,7 +340,7 @@ const CreateAccount = (props) => {
                   <div
                     className="dropdown-menu"
                     aria-labelledby="dropdownMenuLink"
-                    style={{}}
+                    style={{ marginTop: "100px" }}
                   >
                     {data ? (
                       data.length > 0 ? (
@@ -351,6 +351,7 @@ const CreateAccount = (props) => {
                             onClick={() =>
                               handleGetWardAndDistric(item.id, item.description)
                             }
+                            style={{ marginTop: "10px" }}
                           >
                             {item.description}
                           </a>
@@ -377,6 +378,7 @@ const CreateAccount = (props) => {
                   <div
                     className="dropdown-menu"
                     aria-labelledby="dropdownMenuLink"
+                    style={{ marginTop: "100px" }}
                   >
                     {dataWardAndDistrict ? (
                       dataWardAndDistrict.length > 0 ? (
@@ -417,6 +419,7 @@ const CreateAccount = (props) => {
                   <div
                     className="dropdown-menu"
                     aria-labelledby="dropdownMenuLink"
+                    style={{ marginTop: "100px" }}
                   >
                     {dataWardAndDistrict2 && ward ? (
                       dataWardAndDistrict2.length > 0 ? (
