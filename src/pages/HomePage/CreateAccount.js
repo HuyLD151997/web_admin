@@ -158,7 +158,7 @@ const CreateAccount = (props) => {
       console.log(er);
       Swal.fire({
         icon: "error",
-        text: er.response.data,
+        text: "active fail",
         timer: 2000,
         showConfirmButton: false,
       });

@@ -122,7 +122,7 @@ const ChartPage = (props) => {
             labels: dateListRender(),
             datasets: [
               {
-                label: "Số lượng giao dịch trong một tuần",
+                label: "Doanh thu trong ngày",
                 backgroundColor: [
                   "#3e95cd",
                   "#8e5ea2",
@@ -140,7 +140,7 @@ const ChartPage = (props) => {
             legend: { display: false },
             title: {
               display: true,
-              text: "Số lượng tài khoản mới trong một tuần",
+              text: "Doanh thu trong ngày",
             },
           }}
         />
