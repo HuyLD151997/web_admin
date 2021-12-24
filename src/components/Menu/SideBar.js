@@ -89,6 +89,12 @@ const menus = [
     exact: false,
     icon: <FaWrench />,
   },
+  {
+    name: "Quản lý công việc",
+    to: "/emp-jobs",
+    exact: false,
+    icon: <FaWrench />,
+  },
   // {
   //   name: "Mã khuyến mãi",
   //   to: "/list-code",

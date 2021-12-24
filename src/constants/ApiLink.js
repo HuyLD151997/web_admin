@@ -1,5 +1,7 @@
 export const BASE_URL = "http://api.beclean.store/api";
 
+export const MAP_KEY = "AIzaSyBjnyL2BSaV2tCT8PGFZZmKkZQXqCDBSPs";
+
 export const CHECK_LOGIN = "http://api.beclean.store/api/Account/Auth";
 
 export const GET_EMPLOYEES = `${BASE_URL}/Account/Employees`;

@@ -25,6 +25,7 @@ import ExportHistoryAllocationCleaningToolAccept from "./../pages/AllocationClea
 import Setting from "./../pages/SettingPage/SettingPage";
 import Chart from "./../pages/chartAll";
 import ListCode from "./../pages/Promo/ListCodePage";
+import EmpJobs from "./../pages/ManageJobs/empJobs";
 
 export const ROUTES = [
   {
@@ -36,6 +37,12 @@ export const ROUTES = [
 ];
 
 export const ADMIN_ROUTES = [
+  {
+    path: "/emp-jobs",
+    name: "EmpJobs",
+    exact: true,
+    component: EmpJobs,
+  },
   {
     path: "/list-code",
     name: "ListCode",
