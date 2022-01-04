@@ -18,7 +18,11 @@ import transactionsReducer from "./TransactionsReducer/GetTransactionReducer";
 import transactionUsersReducer from "./TransactionsReducer/GetTransactionUserReducer";
 import transactionCompanyReducer from "./TransactionsReducer/GetTransactionCompanyReducer";
 import bookingsReducer from "./BookingsReducer/GetBookingReducer";
+import newBookingsReducer from "./BookingsReducer/GetNewBookingReducer";
+import getBookingInWorkingReducer from "./BookingsReducer/GetBookingInWorkingReducer";
+import bookingDoneReducer from "./BookingsReducer/GetBookingDoneReducer";
 import bookingDetailReducer from "./BookingsReducer/GetBookingDetailReducer";
+import newBookingDetailReducer from "./BookingsReducer/GetNewBookingDetailReducer";
 import bookingImageReducer from "./BookingLogReducer/GetBookingImageReducer";
 import bookingLogReducer from "./BookingLogReducer/GetBookingLogReducer";
 import cleaningToolsReducer from "./CleaningTool/GetCleaningToolReducer";
@@ -32,10 +36,12 @@ import searchHistoryReducer from "./RequestCleaningTool/SearchHistoryReducer";
 import getSettingsReducer from "./SettingReducer/GetSettingReducer";
 import getChartsReducer from "./ChartReducer/GetChartReducer";
 import getChartTransactionReducer from "./ChartReducer/GetChartTransactionReducer";
+import searchBookingInWorkingReducer from "./BookingsReducer/SearchBookingInWorkingReducer";
 
 const rootReducers = combineReducers({
   services,
   auth: authenticateReducer,
+  searchBookingInWorking: searchBookingInWorkingReducer,
   getEmployees: getEmployeesReducer,
   searchEmployee: searchEmployeeReducer,
   getProvince: getProvincesReducer,
@@ -52,7 +58,11 @@ const rootReducers = combineReducers({
   getTransactionUser: transactionUsersReducer,
   getTransactionCompany: transactionCompanyReducer,
   getBooking: bookingsReducer,
+  getNewBooking: newBookingsReducer,
+  getBookingInWorking: getBookingInWorkingReducer,
+  getBookingDone: bookingDoneReducer,
   getBookingDetail: bookingDetailReducer,
+  getNewBookingDetail: newBookingDetailReducer,
   getBookingImage: bookingImageReducer,
   getBookingLog: bookingLogReducer,
   getRequestCleaningToolPending: requestCleaningToolPendingReducer,

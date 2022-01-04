@@ -6,6 +6,7 @@ import { Link } from "react-router-dom";
 import Swal from "sweetalert2";
 import { deleteCleaningToolApi } from "../../apis/CleaningTool/DeleteCleaningTool";
 import { updateCleaningToolApi } from "../../apis/CleaningTool/UpdateCleaningTool";
+import { updateQuantityCleaningToolApi } from "../../apis/CleaningTool/UpdateQuantityCleaningTool";
 import { updateCleaningToolStatusApi } from "../../apis/CleaningTool/UpdateCleaningToolStatus";
 import { updateCleaningToolImgApi } from "../../apis/CleaningTool/UpdateCleaningToolImg";
 import * as yup from "yup";
@@ -180,6 +181,10 @@ const CleaningToolPage = (props) => {
         .string()
         .stripEmptyString("Số lượng không được để trống")
         .default(quantity.toString()),
+      quantity2: yup
+        .string()
+        .stripEmptyString("Số lượng không được để trống")
+        .default(quantity.toString()),
     })
     .required();
 
@@ -198,9 +203,50 @@ const CleaningToolPage = (props) => {
     setQuantity(quantity);
   };
 
+  const handleGetDescription2 = (id) => {
+    setIdService(id);
+  };
+
   const submitForm = (dataSubmit) => {
     var quantity = parseInt(dataSubmit.quantity);
     handleUpdateServiceName(idService, dataSubmit.description, quantity);
+  };
+
+  const submitForm3 = (dataSubmit) => {
+    var quantity = parseInt(dataSubmit.quantity2);
+    console.log(idService);
+    console.log(quantity);
+    if (quantity > 0) {
+      handleUpdateQuantity(idService, quantity);
+    } else {
+      Swal.fire({
+        icon: "error",
+        text: "Số lượng phải lớn hơn 0",
+        timer: 2000,
+        showConfirmButton: false,
+      });
+    }
+  };
+
+  const handleUpdateQuantity = async (id, quantity) => {
+    try {
+      console.log(id);
+      await updateQuantityCleaningToolApi(id, quantity);
+      Swal.fire({
+        icon: "success",
+        text: "active status success",
+        timer: 2000,
+        showConfirmButton: false,
+      });
+      window.location.reload();
+    } catch (error) {
+      Swal.fire({
+        icon: "error",
+        text: "active failed ",
+        timer: 1000,
+        showConfirmButton: false,
+      });
+    }
   };
 
   const handleChangeFile = (e) => {
@@ -336,7 +382,25 @@ const CleaningToolPage = (props) => {
                         </td>
                         <td className="align-middle">
                           {item.quantity !== null ? (
-                            <span>{item.quantity}</span>
+                            <div>
+                              <span>{item.quantity}</span>
+                              <i
+                                class="fa fa-plus-circle"
+                                type="button"
+                                onClick={() => handleGetDescription2(item.id)}
+                                data-toggle="modal"
+                                data-target="#exampleModal4"
+                                data-whatever="yah"
+                                style={{
+                                  fontSize: "20px",
+                                  // margin: "auto",
+                                  //marginTop: "8px",
+                                  // position: "absolute",
+                                  // bottom: "7px",
+                                  // right: "15px",
+                                }}
+                              ></i>
+                            </div>
                           ) : (
                             <span>Chưa có dữ liệu</span>
                           )}
@@ -478,7 +542,25 @@ const CleaningToolPage = (props) => {
                         </td>
                         <td className="align-middle">
                           {item.quantity !== null ? (
-                            <span>{item.quantity}</span>
+                            <span>
+                              {item.quantity}
+                              <i
+                                class="fa fa-plus-circle"
+                                type="button"
+                                onClick={() => handleGetDescription2(item.id)}
+                                data-toggle="modal"
+                                data-target="#exampleModal4"
+                                data-whatever="yah"
+                                style={{
+                                  fontSize: "20px",
+                                  // margin: "auto",
+                                  //marginTop: "8px",
+                                  // position: "absolute",
+                                  // bottom: "7px",
+                                  // right: "15px",
+                                }}
+                              ></i>
+                            </span>
                           ) : (
                             <span>Chưa có dữ liệu</span>
                           )}
@@ -623,7 +705,25 @@ const CleaningToolPage = (props) => {
                       </td>
                       <td className="align-middle">
                         {item.quantity !== null ? (
-                          <span>{item.quantity}</span>
+                          <span>
+                            {item.quantity}
+                            <i
+                              class="fa fa-plus-circle"
+                              type="button"
+                              onClick={() => handleGetDescription2(item.id)}
+                              data-toggle="modal"
+                              data-target="#exampleModal4"
+                              data-whatever="yah"
+                              style={{
+                                fontSize: "20px",
+                                // margin: "auto",
+                                //marginTop: "8px",
+                                // position: "absolute",
+                                // bottom: "7px",
+                                // right: "15px",
+                              }}
+                            ></i>
+                          </span>
                         ) : (
                           <span>Chưa có dữ liệu</span>
                         )}
@@ -855,6 +955,62 @@ const CleaningToolPage = (props) => {
                   onClick={submitForm2}
                 >
                   Cập nhật
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+      <div
+        className="modal fade mt-5"
+        id="exampleModal4"
+        tabIndex={-1}
+        role="dialog"
+        aria-labelledby="exampleModalLabel4"
+        aria-hidden="true"
+      >
+        <div className="modal-dialog" role="document">
+          <div className="modal-content">
+            <div className="modal-header">
+              <h5 className="modal-title w-100" id="exampleModalLabel4">
+                Thêm số lượng dụng cụ
+              </h5>
+              <button
+                type="button"
+                className="close"
+                data-dismiss="modal"
+                aria-label="Close"
+              >
+                <span aria-hidden="true" style={{ float: "right" }}>
+                  ×
+                </span>
+              </button>
+            </div>
+            <form onSubmit={handleSubmit(submitForm3)}>
+              <div className="modal-body">
+                <div className="form-group">
+                  <label htmlFor="recipient-name" className="col-form-label">
+                    Số lượng:
+                  </label>
+                  <input
+                    type="number"
+                    class="form-control"
+                    id="recipient-name"
+                    {...register("quantity2")}
+                  />
+                  <p>{errors.quantity2?.message}</p>
+                </div>
+              </div>
+              <div className="modal-footer">
+                <button
+                  type="button"
+                  className="btn btn-secondary"
+                  data-dismiss="modal"
+                >
+                  Đóng
+                </button>
+                <button type="submit" className="btn btn-primary">
+                  Thêm
                 </button>
               </div>
             </form>

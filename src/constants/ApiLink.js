@@ -68,6 +68,16 @@ export const GET_TRANSACTION_COMPANY =
 
 export const GET_BOOKING = `${BASE_URL}/Booking/Default`;
 
+export const GET_BOOKING_NEW = `${BASE_URL}/Booking/BookingNew`;
+
+export const GET_BOOKING_DONE = `${BASE_URL}/Booking/BookingFinished`;
+
+export const GET_BOOKING_IN_WORKING = `${BASE_URL}/Booking/BookingInWorking`;
+
+export const GET_BOOKING_DETAIL_NEW_BOOKING = `${BASE_URL}/Booking/DetailWithRecomendEmployee`;
+
+export const COORDINATOR_EMP = `${BASE_URL}/Booking/AssigningEmployee`;
+
 export const GET_BOOKING_DETAIL = `${BASE_URL}/Booking/BookingDetailAdmin`;
 
 export const GET_BOOKING_STATUS = `${BASE_URL}/BookingStatus`;
@@ -95,6 +105,8 @@ export const DELETE_CLEANING_TOOL = `${BASE_URL}/CleaningTool/Disable`;
 export const UPDATE_CLEANING_TOOL_STATUS = `${BASE_URL}/CleaningTool/Enable`;
 
 export const UPDATE_CLEANING_TOOL = `${BASE_URL}/CleaningTool`;
+
+export const UPDATE_QUANTITY_CLEANING_TOOL = `${BASE_URL}/CleaningTool/Adding`;
 
 export const UPDATE_CLEANING_TOOL_IMG = `${BASE_URL}/CleaningTool/Image`;
 

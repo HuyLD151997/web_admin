@@ -16,7 +16,11 @@ import { sagas as getTransactionSaga } from "./TransactionSagas/GetTransactionSa
 import { sagas as getTransactionUserSaga } from "./TransactionSagas/GetTransactionUserSaga";
 import { sagas as getTransactionCompanySaga } from "./TransactionSagas/GetTransactionCompanySaga";
 import { sagas as getBookingSaga } from "./BookingSagas/GetBookingSaga";
+import { sagas as getBookingDoneSaga } from "./BookingSagas/GetBookingDoneSaga";
+import { sagas as getBookingInWorkingSaga } from "./BookingSagas/GetBookingInWorkingSaga";
+import { sagas as getNewBookingSaga } from "./BookingSagas/GetNewBookingSaga";
 import { sagas as getBookingDetailSaga } from "./BookingSagas/GetBookingDetailSaga";
+import { sagas as getNewBookingDetailSaga } from "./BookingSagas/GetNewBookingDetailSaga";
 import { sagas as putAvatarSaga } from "./EmployeesSagas/PutAvatarSaga";
 import { sagas as getCleaningToolSaga } from "./CleaningTool/GetCleaningToolSaga";
 import { sagas as searchCleaningToolSaga } from "./CleaningTool/SearchCleaningToolSaga";
@@ -31,9 +35,11 @@ import { sagas as searchHistoryToolSaga } from "./RequestCleaningToolSagas/Searc
 import { sagas as getSettingSaga } from "./SettingSagas/GetSettingSaga";
 import { sagas as getChartSaga } from "./ChartSagas/GetChartSaga";
 import { sagas as getChartTransactionSaga } from "./ChartSagas/GetChartTransactionSaga";
+import { sagas as searchBookingInWorkingSaga } from "./BookingSagas/SearchBookingInWorkingSaga";
 
 const allSaga = [
   ...authenticateSagas,
+  ...searchBookingInWorkingSaga,
   ...getEmployeesSagas,
   ...searchEmployeeToolSaga,
   ...getProvincesSagas,
@@ -51,6 +57,10 @@ const allSaga = [
   ...getTransactionUserSaga,
   ...getTransactionCompanySaga,
   ...getBookingSaga,
+  ...getBookingInWorkingSaga,
+  ...getBookingDoneSaga,
+  ...getNewBookingSaga,
+  ...getNewBookingDetailSaga,
   ...getBookingDetailSaga,
   ...getCleaningToolSaga,
   ...searchCleaningToolSaga,

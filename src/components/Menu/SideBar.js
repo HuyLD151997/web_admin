@@ -33,6 +33,33 @@ const account = [
   },
 ];
 
+const booking = [
+  {
+    name: "Điều phối",
+    to: "/wait-booking",
+    exact: false,
+    icon: <FaListOl />,
+  },
+  {
+    name: "Đang thực hiện",
+    to: "/emp-jobs",
+    exact: false,
+    icon: <FaWrench />,
+  },
+  {
+    name: "Đặt lịch đã hoàn thành",
+    to: "/booking-done",
+    exact: false,
+    icon: <FaRegCalendarAlt />,
+  },
+  {
+    name: "Đặt lịch",
+    to: "/booking",
+    exact: false,
+    icon: <FaRegCalendarAlt />,
+  },
+];
+
 const transaction = [
   // {
   //   name: "Đặt lịch",
@@ -78,23 +105,12 @@ const menus = [
   },
 
   {
-    name: "Đặt lịch",
-    to: "/booking",
-    exact: false,
-    icon: <FaRegCalendarAlt />,
-  },
-  {
     name: "Dụng cụ",
     to: "/cleaning-tool",
     exact: false,
     icon: <FaWrench />,
   },
-  {
-    name: "Quản lý công việc",
-    to: "/emp-jobs",
-    exact: false,
-    icon: <FaWrench />,
-  },
+
   // {
   //   name: "Mã khuyến mãi",
   //   to: "/list-code",
@@ -145,6 +161,27 @@ class SideBar extends Component {
             <div class="collapse " id="collapseExample">
               <span className="dropdown-item" style={{ background: "#fdcb08" }}>
                 {this.showAccount(account)}
+              </span>
+            </div>
+          </li>
+          <li className="nav-item dropdown mb-2 ">
+            <span
+              style={{ fontSize: "20px", marginRight: "5px", color: "white" }}
+            >
+              <FaUser />
+            </span>
+            <span
+              data-toggle="collapse"
+              href="#collapseExample4"
+              role="button"
+              aria-expanded="false"
+              aria-controls="collapseExample4"
+            >
+              Đặt lich<i class="fa fa-caret-down ml-1"></i>
+            </span>
+            <div class="collapse " id="collapseExample4">
+              <span className="dropdown-item" style={{ background: "#fdcb08" }}>
+                {this.showBooking(booking)}
               </span>
             </div>
           </li>
@@ -274,6 +311,31 @@ class SideBar extends Component {
             key={index}
           >
             {account.name}
+            <span className="sr-only">(current)</span>
+          </NavLink>
+        );
+      });
+    }
+    return result;
+  };
+
+  showBooking = (booking) => {
+    var result = null;
+    if (booking.length > 0) {
+      result = booking.map((booking, index) => {
+        return (
+          <NavLink
+            activeStyle={{
+              backgroundColor: "#FF9900",
+              color: "white",
+              paddingLeft: "20px",
+            }}
+            className="nav-link"
+            exact={booking.exact}
+            to={booking.to}
+            key={index}
+          >
+            {booking.name}
             <span className="sr-only">(current)</span>
           </NavLink>
         );

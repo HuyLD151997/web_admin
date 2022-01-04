@@ -15,6 +15,7 @@ import TransactionCompany from "./../pages/Transaction/indexTranCompany";
 import Booking from "./../pages/Booking/BookingPage";
 import ExportBooking from "./../pages/Booking/indexExport";
 import ListBooking from "./../pages/Booking/index";
+import ListBookingDone from "./../pages/Booking/indexBookingDone";
 import BookingLog from "./../pages/Booking/BookingLogPage";
 import CleaningTool from "./../pages/CleaningTool/index";
 import CreateCleaningTool from "./../pages/CleaningTool/CreateCleaningToolPage";
@@ -25,7 +26,9 @@ import ExportHistoryAllocationCleaningToolAccept from "./../pages/AllocationClea
 import Setting from "./../pages/SettingPage/SettingPage";
 import Chart from "./../pages/chartAll";
 import ListCode from "./../pages/Promo/ListCodePage";
-import EmpJobs from "./../pages/ManageJobs/empJobs";
+import EmpJobs from "./../pages/ManageJobs/index";
+import WaitBooking from "./../pages/Coordinator/index";
+import CoordinatorEmp from "./../pages/Coordinator/coordinatorEmp";
 
 export const ROUTES = [
   {
@@ -37,6 +40,18 @@ export const ROUTES = [
 ];
 
 export const ADMIN_ROUTES = [
+  {
+    path: "/coordinator-emp/:id",
+    name: "CoordinatorEmp",
+    exact: true,
+    component: CoordinatorEmp,
+  },
+  {
+    path: "/wait-booking",
+    name: "WaitBooking",
+    exact: true,
+    component: WaitBooking,
+  },
   {
     path: "/emp-jobs",
     name: "EmpJobs",
@@ -162,6 +177,12 @@ export const ADMIN_ROUTES = [
     name: "Đặt lịch",
     exact: true,
     component: ListBooking,
+  },
+  {
+    path: "/booking-done",
+    name: "Đặt lịch hoàn thành",
+    exact: true,
+    component: ListBookingDone,
   },
   {
     path: "/export-booking/:id",
